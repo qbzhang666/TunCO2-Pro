@@ -1,0 +1,170 @@
+{
+  "name": "TunCO2 v1 default case (pbix slicers)",
+  "factor_set": "v1",
+  "stage": "design",
+  "tunnel_length_m": 1000.0,
+  "geometry": {
+    "inner_diameter_m": 6.6,
+    "lining_thickness_m": 0.3,
+    "tbm_diameter_m": 7.28,
+    "ring_width_m": 1.5,
+    "segments_per_ring": 6,
+    "key_angle_deg": 22.5
+  },
+  "concrete": {
+    "ecf_mode": "user_points",
+    "nefd_basis": "default",
+    "strength_mpa": 45.0,
+    "db_locations": [
+      "AUSTRALIA",
+      "UK"
+    ],
+    "db_types": null,
+    "user_points": [
+      [
+        30.0,
+        300.0
+      ],
+      [
+        40.0,
+        400.0
+      ],
+      [
+        50.0,
+        500.0
+      ]
+    ],
+    "fixed_ecf": 400.0,
+    "density_kg_m3": 2500.0
+  },
+  "steel": {
+    "factor_name": "Steel rebar",
+    "user_ecf": 1.99,
+    "reinforcement_ratio_pct": 1.73,
+    "density_kg_m3": 7800.0
+  },
+  "invert": {
+    "include": true,
+    "by": "theta",
+    "theta_deg": 86.0,
+    "chord_m": 3.6,
+    "ecf_kg_m3": null
+  },
+  "items": {
+    "include_grout": true,
+    "grout_ecf_kg_m3": 200.0,
+    "include_fitout": true,
+    "fitout_quantity_per_m": 2.869,
+    "fitout_ecf": 1.3,
+    "include_rail_road": true,
+    "rail_road_quantity_per_m": 1.0,
+    "rail_road_ecf": 1.2
+  },
+  "transport": {
+    "lining": [
+      {
+        "mode": "Road, articulated truck",
+        "distance_km": 60.0
+      }
+    ],
+    "grout": [
+      {
+        "mode": "Road, articulated truck",
+        "distance_km": 60.0
+      }
+    ],
+    "backfill": [
+      {
+        "mode": "Road, articulated truck",
+        "distance_km": 60.0
+      }
+    ],
+    "fitout": [
+      {
+        "mode": "Road, articulated truck",
+        "distance_km": 60.0
+      }
+    ],
+    "rail_road": [
+      {
+        "mode": "Road, articulated truck",
+        "distance_km": 60.0
+      }
+    ],
+    "tbm": [
+      {
+        "mode": "Road, articulated truck",
+        "distance_km": 40.0
+      },
+      {
+        "mode": "Road, average laden",
+        "distance_km": 30.0
+      }
+    ]
+  },
+  "tbm": {
+    "loads": {
+      "thrust_model": "analytical",
+      "torque_model": "analytical",
+      "tbm_type_torque": "Open TBM",
+      "tbm_type_thrust": "EPB TBM",
+      "soil_type": "Sandy Soil",
+      "alpha_t": 35.0,
+      "alpha_f": 500.0,
+      "user_thrust_mn": 20.0,
+      "user_torque_mnm": 20.0,
+      "K0": 0.6,
+      "gamma": 25.0,
+      "H": 32.0,
+      "f": 0.3,
+      "f_deltap": 1.0,
+      "opening": 0.7,
+      "kq": 0.3,
+      "tau": 21.0,
+      "W": 0.8,
+      "Db": 0.2,
+      "Lb": 0.32,
+      "fc_cut": 0.3,
+      "Nb": 4.0,
+      "Rb": 0.1,
+      "K": 0.37,
+      "pq": 0.0,
+      "hatch": 0.3,
+      "H_w": 20.0,
+      "pc": 300.0,
+      "L": 9.0,
+      "G": 35000.0,
+      "ns": 4.0,
+      "Ws": 0.0,
+      "mus": 0.25,
+      "mua": 0.15,
+      "Wa": 0.0,
+      "c": 30.0,
+      "rpm": 3.53,
+      "lc": 20.0,
+      "advance_mm_min": 50.0
+    },
+    "grid_factor_key": "grid.vic",
+    "mass_model": "user",
+    "user_mass_t": 1100.0,
+    "ecf_kg_per_kg": 1.85,
+    "amortisation_length_m": 3400.0,
+    "spoil_distance_km": 100.0,
+    "spoil_mode": "Road, articulated truck",
+    "spoil_density_t_m3": null,
+    "user_defined_a5_kg_per_m": 40.0
+  },
+  "strategies": {
+    "scm_percent": 50.0,
+    "ecf_reduction_per_scm_percent": 4.7,
+    "reduced_strength_mode": "ecf",
+    "reduced_strength_mpa": 40.0,
+    "reduced_ecf": 400.0,
+    "reduced_thickness_m": 0.25,
+    "reduced_reinforcement_pct": 0.45,
+    "reduced_steel_ecf": 2.42,
+    "reduced_grid_factor": 0.47
+  },
+  "factor_overrides": null,
+  "_note": "Saved slicer values from TunCO2 v1 Tunnel Emission.pbix, with the v1 factor set. Run with --v1 to reproduce v1 arithmetic. No saved value in v1 (defaults assumed): rail_road_quantity_per_m, invert theta (86 from slicer 'TC'), advance rate v (50 from slicer 'nu'), Ws, Wa, pq, TBM mass: Mass_Type slicer = 'User Define'; 1100 t taken from the unnamed parameter slicer (verify)."
+}

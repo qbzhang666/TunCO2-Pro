@@ -1,0 +1,745 @@
+TableName,Expression
+Database,"let
+    Source = Excel.Workbook(File.Contents(""<local path>\Database.xlsx""), null, true),
+    Sheet1_Sheet = Source{[Item=""Sheet1"",Kind=""Sheet""]}[Data],
+    #""Promoted Headers"" = Table.PromoteHeaders(Sheet1_Sheet, [PromoteAllScalars=true]),
+    #""Changed Type"" = Table.TransformColumnTypes(#""Promoted Headers"",{{""No."", Int64.Type}, {""Location"", type text}, {""database"", type text}, {""Type"", type text}, {""Substitute Content"", Int64.Type}, {""Compressive Strength"", Int64.Type}, {""Carbon Emission Factor"", type number}}),
+    #""Renamed Columns"" = Table.RenameColumns(#""Changed Type"",{{""database"", ""Database""}})
+in
+    #""Renamed Columns"""
+Sheet1,"let
+    Source = Excel.Workbook(File.Contents(""<local path>\Database.xlsx""), null, true),
+    Sheet1_Sheet = Source{[Item=""Sheet1"",Kind=""Sheet""]}[Data],
+    #""Promoted Headers"" = Table.PromoteHeaders(Sheet1_Sheet, [PromoteAllScalars=true]),
+    #""Changed Type"" = Table.TransformColumnTypes(#""Promoted Headers"",{{""No."", Int64.Type}, {""Location"", type text}, {""database"", type text}, {""Type"", type text}, {""Substitute Content"", Int64.Type}, {""Compressive Strength"", Int64.Type}, {""Carbon Emission Factor"", type number}}),
+    #""Renamed Columns"" = Table.RenameColumns(#""Changed Type"",{{""database"", ""Database""}, {""Substitute Content"", ""Substitution Content (%)""}, {""Type"", ""Substitution Type""}})
+in
+    #""Renamed Columns"""
+EFCc,"let
+    Source = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText(""i45WckksSUxKLE5VitWJVgotTi1ScElNy8wD8mMB"", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type nullable text) meta [Serialized.Text = true]) in type table [#""列 1"" = _t]),
+    #""Changed Type"" = Table.TransformColumnTypes(Source,{{""列 1"", type text}}),
+    #""Renamed Columns"" = Table.RenameColumns(#""Changed Type"",{{""列 1"", ""1""}})
+in
+    #""Renamed Columns"""
+Steel ECF,"let
+    Source = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText(""ZYsxCoAwEAS/cqTOQwQbwTJYnLoG4TCynvp9RRAEu11mJqXQOmBC9MooZ6GNogeoGaGLKVTFhcUMo2zOffCdave8o4d/8s+f5p6IUiv11CXLarr4nzdwlmMe8ArdBQ=="", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type nullable text) meta [Serialized.Text = true]) in type table [#""列 1"" = _t]),
+    #""Changed Type"" = Table.TransformColumnTypes(Source,{{""列 1"", type text}}),
+    #""Renamed Columns"" = Table.RenameColumns(#""Changed Type"",{{""列 1"", ""Table""}})
+in
+    #""Renamed Columns"""
+ThetaChord,"let
+    Source = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText(""i45WCslILUlUitWJVnLOyC9KUYqNBQA="", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type nullable text) meta [Serialized.Text = true]) in type table [#""列 1"" = _t]),
+    #""Changed Type"" = Table.TransformColumnTypes(Source,{{""列 1"", type text}}),
+    #""Renamed Columns"" = Table.RenameColumns(#""Changed Type"",{{""列 1"", ""ToC""}})
+in
+    #""Renamed Columns"""
+Steel ECF_Choose,"let
+    Source = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText(""i45WckksSUxKLE5VitWJVgotTi1ScElNy8wD8mMB"", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type nullable text) meta [Serialized.Text = true]) in type table [#""Steel EFC"" = _t]),
+    #""Changed Type"" = Table.TransformColumnTypes(Source,{{""Steel EFC"", type text}}),
+    #""Renamed Columns"" = Table.RenameColumns(#""Changed Type"",{{""Steel EFC"", ""Steel ECF""}})
+in
+    #""Renamed Columns"""
+Concrete ECF_Choose,"let
+    Source = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText(""i45WckksSUxKLE5VitWJVgotTi1ScElNy8wD8mMB"", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type nullable text) meta [Serialized.Text = true]) in type table [#""Concrete ECF"" = _t]),
+    #""Changed Type"" = Table.TransformColumnTypes(Source,{{""Concrete ECF"", type text}})
+in
+    #""Changed Type"""
+Carbon Emission Calculation,"let
+    Source = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText(""i44FAA=="", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type nullable text) meta [Serialized.Text = true]) in type table [#""列 1"" = _t]),
+    #""Changed Type"" = Table.TransformColumnTypes(Source,{{""列 1"", type text}}),
+    #""Renamed Columns"" = Table.RenameColumns(#""Changed Type"",{{""列 1"", ""Shown in chart""}}),
+    #""Removed Columns"" = Table.RemoveColumns(#""Renamed Columns"",{""Shown in chart""})
+in
+    #""Removed Columns"""
+Shown in pie chart,"let
+    Source = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText(""i45WcsssyS8tUYrViVZyL4KxPPPKUotKFJwSk7PTMnNywGI+mXmZeekKzvl5yUWpJanIYsElqakQRUH5iSn6QYmZQF4sAA=="", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type nullable text) meta [Serialized.Text = true]) in type table [#""列 1"" = _t]),
+    #""Changed Type"" = Table.TransformColumnTypes(Source,{{""列 1"", type text}}),
+    #""Renamed Columns"" = Table.RenameColumns(#""Changed Type"",{{""列 1"", ""Shown""}})
+in
+    #""Renamed Columns"""
+Sheet1 (2),"let
+    Source = Excel.Workbook(File.Contents(""<local path>\Workbook1.xlsx""), null, true),
+    Sheet1_Sheet = Source{[Item=""Sheet1"",Kind=""Sheet""]}[Data],
+    #""Changed Type"" = Table.TransformColumnTypes(Sheet1_Sheet,{{""Column1"", Int64.Type}})
+in
+    #""Changed Type"""
+D_i,"let
+    Source = List.Numbers(0,10000,0.01),
+    #""Converted to Table"" = Table.FromList(Source, Splitter.SplitByNothing(), null, null, ExtraValues.Error),
+    #""Renamed Columns"" = Table.RenameColumns(#""Converted to Table"",{{""Column1"", ""D_i""}})
+in
+    #""Renamed Columns"""
+t,"let
+    Source = List.Numbers(0,10000,0.01),
+    #""Converted to Table"" = Table.FromList(Source, Splitter.SplitByNothing(), null, null, ExtraValues.Error),
+    #""Renamed Columns"" = Table.RenameColumns(#""Converted to Table"",{{""Column1"", ""t""}})
+in
+    #""Renamed Columns"""
+Chord,"let
+    Source = List.Numbers(0,10000,0.01),
+    #""Converted to Table"" = Table.FromList(Source, Splitter.SplitByNothing(), null, null, ExtraValues.Error),
+    #""Renamed Columns"" = Table.RenameColumns(#""Converted to Table"",{{""Column1"", ""Chord""}})
+in
+    #""Renamed Columns"""
+Dtbm,"let
+    Source = List.Numbers(0,10000,0.01),
+    #""Converted to Table"" = Table.FromList(Source, Splitter.SplitByNothing(), null, null, ExtraValues.Error),
+    #""Renamed Columns"" = Table.RenameColumns(#""Converted to Table"",{{""Column1"", ""D_tbm""}})
+in
+    #""Renamed Columns"""
+Fitout Volume,"let
+    Source = List.Numbers(0,10000,0.01),
+    #""Converted to Table"" = Table.FromList(Source, Splitter.SplitByNothing(), null, null, ExtraValues.Error),
+    #""Renamed Columns"" = Table.RenameColumns(#""Converted to Table"",{{""Column1"", ""Fitout Volume""}})
+in
+    #""Renamed Columns"""
+Rail/Road Volume,"let
+    Source = List.Numbers(0,10000,0.01),
+    #""Converted to Table"" = Table.FromList(Source, Splitter.SplitByNothing(), null, null, ExtraValues.Error),
+    #""Renamed Columns"" = Table.RenameColumns(#""Converted to Table"",{{""Column1"", ""Rail/Road Volume""}})
+in
+    #""Renamed Columns"""
+Lining_A4,"let
+    Source = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText(""i45WMlSKjQUA"", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type nullable text) meta [Serialized.Text = true]) in type table [#""1"" = _t]),
+    #""Changed Type"" = Table.TransformColumnTypes(Source,{{""1"", Int64.Type}})
+in
+    #""Changed Type"""
+Lining_Distance1,"let
+    Source = List.Numbers(0,100000,0.01),
+    #""Converted to Table"" = Table.FromList(Source, Splitter.SplitByNothing(), null, null, ExtraValues.Error),
+    #""Renamed Columns"" = Table.RenameColumns(#""Converted to Table"",{{""Column1"", ""Distance1""}})
+in
+    #""Renamed Columns"""
+Lining_A4_Method2,"let
+    Source = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText(""bc89DsIwDAXgq1idK8S/WLkCjKWDSUyxCA5yk0rcntJQ2iGTpe+94bmqipNHWwJ2pNgQOLQkFynqckxu0bl38kHPhMM9sqYWspvVOxTYLHYQZhY0mkdSD6t9Jvuih/UhE2Vxu/xhv6YE4yUgCym0d35Nfo3uAQZVmXTcXIL1T2oDm0lYAqlgYC/ock+h9v3oMJBNA2aZcsN/rT8="", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type nullable text) meta [Serialized.Text = true]) in type table [#""列 1"" = _t]),
+    #""Changed Type"" = Table.TransformColumnTypes(Source,{{""列 1"", type text}}),
+    #""Renamed Columns"" = Table.RenameColumns(#""Changed Type"",{{""列 1"", ""Methods1""}}),
+    #""Added Custom"" = Table.AddColumn(#""Renamed Columns"", ""Methods2"", each [Methods1]),
+    #""Added Custom1"" = Table.AddColumn(#""Added Custom"", ""Methods3"", each [Methods1]),
+    #""Removed Columns"" = Table.RemoveColumns(#""Added Custom1"",{""Methods2"", ""Methods3""}),
+    #""Renamed Columns1"" = Table.RenameColumns(#""Removed Columns"",{{""Methods1"", ""Methods2""}})
+in
+    #""Renamed Columns1"""
+Lining_A4_Method1,"let
+    Source = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText(""bc89DsIwDAXgq1idK8S/WLkCjKWDSUyxCA5yk0rcntJQ2iGTpe+94bmqipNHWwJ2pNgQOLQkFynqckxu0bl38kHPhMM9sqYWspvVOxTYLHYQZhY0mkdSD6t9Jvuih/UhE2Vxu/xhv6YE4yUgCym0d35Nfo3uAQZVmXTcXIL1T2oDm0lYAqlgYC/ock+h9v3oMJBNA2aZcsN/rT8="", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type nullable text) meta [Serialized.Text = true]) in type table [#""列 1"" = _t]),
+    #""Changed Type"" = Table.TransformColumnTypes(Source,{{""列 1"", type text}}),
+    #""Renamed Columns"" = Table.RenameColumns(#""Changed Type"",{{""列 1"", ""Methods1""}}),
+    #""Added Custom"" = Table.AddColumn(#""Renamed Columns"", ""Methods2"", each [Methods1]),
+    #""Added Custom1"" = Table.AddColumn(#""Added Custom"", ""Methods3"", each [Methods1]),
+    #""Removed Columns"" = Table.RemoveColumns(#""Added Custom1"",{""Methods2"", ""Methods3""}),
+    #""Renamed Columns1"" = Table.RenameColumns(#""Removed Columns"",{{""Methods1"", ""Methods1""}})
+in
+    #""Renamed Columns1"""
+Lining_A4_Method3,"let
+    Source = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText(""bc89DsIwDAXgq1idK8S/WLkCjKWDSUyxCA5yk0rcntJQ2iGTpe+94bmqipNHWwJ2pNgQOLQkFynqckxu0bl38kHPhMM9sqYWspvVOxTYLHYQZhY0mkdSD6t9Jvuih/UhE2Vxu/xhv6YE4yUgCym0d35Nfo3uAQZVmXTcXIL1T2oDm0lYAqlgYC/ock+h9v3oMJBNA2aZcsN/rT8="", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type nullable text) meta [Serialized.Text = true]) in type table [#""列 1"" = _t]),
+    #""Changed Type"" = Table.TransformColumnTypes(Source,{{""列 1"", type text}}),
+    #""Renamed Columns"" = Table.RenameColumns(#""Changed Type"",{{""列 1"", ""Methods1""}}),
+    #""Added Custom"" = Table.AddColumn(#""Renamed Columns"", ""Methods2"", each [Methods1]),
+    #""Added Custom1"" = Table.AddColumn(#""Added Custom"", ""Methods3"", each [Methods1]),
+    #""Removed Columns"" = Table.RemoveColumns(#""Added Custom1"",{""Methods2"", ""Methods3""}),
+    #""Renamed Columns1"" = Table.RenameColumns(#""Removed Columns"",{{""Methods1"", ""Methods3""}})
+in
+    #""Renamed Columns1"""
+Lining_Distance2,"let
+    Source = List.Numbers(0,100000,0.01),
+    #""Converted to Table"" = Table.FromList(Source, Splitter.SplitByNothing(), null, null, ExtraValues.Error),
+    #""Renamed Columns"" = Table.RenameColumns(#""Converted to Table"",{{""Column1"", ""Distance2""}})
+in
+    #""Renamed Columns"""
+Lining_Distance3,"let
+    Source = List.Numbers(0,100000,0.01),
+    #""Converted to Table"" = Table.FromList(Source, Splitter.SplitByNothing(), null, null, ExtraValues.Error),
+    #""Renamed Columns"" = Table.RenameColumns(#""Converted to Table"",{{""Column1"", ""Distance3""}})
+in
+    #""Renamed Columns"""
+Fitout_Distance1,"let
+    Source = List.Numbers(0,100000,0.01),
+    #""Converted to Table"" = Table.FromList(Source, Splitter.SplitByNothing(), null, null, ExtraValues.Error),
+    #""Renamed Columns"" = Table.RenameColumns(#""Converted to Table"",{{""Column1"", ""Distance1""}})
+in
+    #""Renamed Columns"""
+Fitout_Distance2,"let
+    Source = List.Numbers(0,100000,0.01),
+    #""Converted to Table"" = Table.FromList(Source, Splitter.SplitByNothing(), null, null, ExtraValues.Error),
+    #""Renamed Columns"" = Table.RenameColumns(#""Converted to Table"",{{""Column1"", ""Distance2""}})
+in
+    #""Renamed Columns"""
+Fitout_Distance3,"let
+    Source = List.Numbers(0,100000,0.01),
+    #""Converted to Table"" = Table.FromList(Source, Splitter.SplitByNothing(), null, null, ExtraValues.Error),
+    #""Renamed Columns"" = Table.RenameColumns(#""Converted to Table"",{{""Column1"", ""Distance3""}})
+in
+    #""Renamed Columns"""
+Fitout_A4_Method2,"let
+    Source = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText(""bc89DsIwDAXgq1idK8S/WLkCjKWDSUyxCA5yk0rcntJQ2iGTpe+94bmqipNHWwJ2pNgQOLQkFynqckxu0bl38kHPhMM9sqYWspvVOxTYLHYQZhY0mkdSD6t9Jvuih/UhE2Vxu/xhv6YE4yUgCym0d35Nfo3uAQZVmXTcXIL1T2oDm0lYAqlgYC/ock+h9v3oMJBNA2aZcsN/rT8="", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type nullable text) meta [Serialized.Text = true]) in type table [#""列 1"" = _t]),
+    #""Changed Type"" = Table.TransformColumnTypes(Source,{{""列 1"", type text}}),
+    #""Renamed Columns"" = Table.RenameColumns(#""Changed Type"",{{""列 1"", ""Methods1""}}),
+    #""Added Custom"" = Table.AddColumn(#""Renamed Columns"", ""Methods2"", each [Methods1]),
+    #""Added Custom1"" = Table.AddColumn(#""Added Custom"", ""Methods3"", each [Methods1]),
+    #""Removed Columns"" = Table.RemoveColumns(#""Added Custom1"",{""Methods2"", ""Methods3""}),
+    #""Renamed Columns1"" = Table.RenameColumns(#""Removed Columns"",{{""Methods1"", ""Methods2""}})
+in
+    #""Renamed Columns1"""
+Fitout_A4_Method1,"let
+    Source = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText(""bc89DsIwDAXgq1idK8S/WLkCjKWDSUyxCA5yk0rcntJQ2iGTpe+94bmqipNHWwJ2pNgQOLQkFynqckxu0bl38kHPhMM9sqYWspvVOxTYLHYQZhY0mkdSD6t9Jvuih/UhE2Vxu/xhv6YE4yUgCym0d35Nfo3uAQZVmXTcXIL1T2oDm0lYAqlgYC/ock+h9v3oMJBNA2aZcsN/rT8="", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type nullable text) meta [Serialized.Text = true]) in type table [#""列 1"" = _t]),
+    #""Changed Type"" = Table.TransformColumnTypes(Source,{{""列 1"", type text}}),
+    #""Renamed Columns"" = Table.RenameColumns(#""Changed Type"",{{""列 1"", ""Methods1""}}),
+    #""Added Custom"" = Table.AddColumn(#""Renamed Columns"", ""Methods2"", each [Methods1]),
+    #""Added Custom1"" = Table.AddColumn(#""Added Custom"", ""Methods3"", each [Methods1]),
+    #""Removed Columns"" = Table.RemoveColumns(#""Added Custom1"",{""Methods2"", ""Methods3""}),
+    #""Renamed Columns1"" = Table.RenameColumns(#""Removed Columns"",{{""Methods1"", ""Methods1""}})
+in
+    #""Renamed Columns1"""
+Fitout_A4_Method3,"let
+    Source = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText(""bc89DsIwDAXgq1idK8S/WLkCjKWDSUyxCA5yk0rcntJQ2iGTpe+94bmqipNHWwJ2pNgQOLQkFynqckxu0bl38kHPhMM9sqYWspvVOxTYLHYQZhY0mkdSD6t9Jvuih/UhE2Vxu/xhv6YE4yUgCym0d35Nfo3uAQZVmXTcXIL1T2oDm0lYAqlgYC/ock+h9v3oMJBNA2aZcsN/rT8="", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type nullable text) meta [Serialized.Text = true]) in type table [#""列 1"" = _t]),
+    #""Changed Type"" = Table.TransformColumnTypes(Source,{{""列 1"", type text}}),
+    #""Renamed Columns"" = Table.RenameColumns(#""Changed Type"",{{""列 1"", ""Methods1""}}),
+    #""Added Custom"" = Table.AddColumn(#""Renamed Columns"", ""Methods2"", each [Methods1]),
+    #""Added Custom1"" = Table.AddColumn(#""Added Custom"", ""Methods3"", each [Methods1]),
+    #""Removed Columns"" = Table.RemoveColumns(#""Added Custom1"",{""Methods2"", ""Methods3""}),
+    #""Renamed Columns1"" = Table.RenameColumns(#""Removed Columns"",{{""Methods1"", ""Methods3""}})
+in
+    #""Renamed Columns1"""
+Rail/Road_Distance1,"let
+    Source = List.Numbers(0,100000,0.01),
+    #""Converted to Table"" = Table.FromList(Source, Splitter.SplitByNothing(), null, null, ExtraValues.Error),
+    #""Renamed Columns"" = Table.RenameColumns(#""Converted to Table"",{{""Column1"", ""Distance1""}})
+in
+    #""Renamed Columns"""
+Rail/Road_Distance2,"let
+    Source = List.Numbers(0,100000,0.01),
+    #""Converted to Table"" = Table.FromList(Source, Splitter.SplitByNothing(), null, null, ExtraValues.Error),
+    #""Renamed Columns"" = Table.RenameColumns(#""Converted to Table"",{{""Column1"", ""Distance2""}})
+in
+    #""Renamed Columns"""
+Rail/Road_Distance3,"let
+    Source = List.Numbers(0,100000,0.01),
+    #""Converted to Table"" = Table.FromList(Source, Splitter.SplitByNothing(), null, null, ExtraValues.Error),
+    #""Renamed Columns"" = Table.RenameColumns(#""Converted to Table"",{{""Column1"", ""Distance3""}})
+in
+    #""Renamed Columns"""
+Rail/Road_A4_Method2,"let
+    Source = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText(""bc89DsIwDAXgq1idK8S/WLkCjKWDSUyxCA5yk0rcntJQ2iGTpe+94bmqipNHWwJ2pNgQOLQkFynqckxu0bl38kHPhMM9sqYWspvVOxTYLHYQZhY0mkdSD6t9Jvuih/UhE2Vxu/xhv6YE4yUgCym0d35Nfo3uAQZVmXTcXIL1T2oDm0lYAqlgYC/ock+h9v3oMJBNA2aZcsN/rT8="", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type nullable text) meta [Serialized.Text = true]) in type table [#""列 1"" = _t]),
+    #""Changed Type"" = Table.TransformColumnTypes(Source,{{""列 1"", type text}}),
+    #""Renamed Columns"" = Table.RenameColumns(#""Changed Type"",{{""列 1"", ""Methods1""}}),
+    #""Added Custom"" = Table.AddColumn(#""Renamed Columns"", ""Methods2"", each [Methods1]),
+    #""Added Custom1"" = Table.AddColumn(#""Added Custom"", ""Methods3"", each [Methods1]),
+    #""Removed Columns"" = Table.RemoveColumns(#""Added Custom1"",{""Methods2"", ""Methods3""}),
+    #""Renamed Columns1"" = Table.RenameColumns(#""Removed Columns"",{{""Methods1"", ""Methods2""}})
+in
+    #""Renamed Columns1"""
+Rail/Road_A4_Method1,"let
+    Source = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText(""bc89DsIwDAXgq1idK8S/WLkCjKWDSUyxCA5yk0rcntJQ2iGTpe+94bmqipNHWwJ2pNgQOLQkFynqckxu0bl38kHPhMM9sqYWspvVOxTYLHYQZhY0mkdSD6t9Jvuih/UhE2Vxu/xhv6YE4yUgCym0d35Nfo3uAQZVmXTcXIL1T2oDm0lYAqlgYC/ock+h9v3oMJBNA2aZcsN/rT8="", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type nullable text) meta [Serialized.Text = true]) in type table [#""列 1"" = _t]),
+    #""Changed Type"" = Table.TransformColumnTypes(Source,{{""列 1"", type text}}),
+    #""Renamed Columns"" = Table.RenameColumns(#""Changed Type"",{{""列 1"", ""Methods1""}}),
+    #""Added Custom"" = Table.AddColumn(#""Renamed Columns"", ""Methods2"", each [Methods1]),
+    #""Added Custom1"" = Table.AddColumn(#""Added Custom"", ""Methods3"", each [Methods1]),
+    #""Removed Columns"" = Table.RemoveColumns(#""Added Custom1"",{""Methods2"", ""Methods3""}),
+    #""Renamed Columns1"" = Table.RenameColumns(#""Removed Columns"",{{""Methods1"", ""Methods1""}})
+in
+    #""Renamed Columns1"""
+Rail/Road_A4_Method3,"let
+    Source = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText(""bc89DsIwDAXgq1idK8S/WLkCjKWDSUyxCA5yk0rcntJQ2iGTpe+94bmqipNHWwJ2pNgQOLQkFynqckxu0bl38kHPhMM9sqYWspvVOxTYLHYQZhY0mkdSD6t9Jvuih/UhE2Vxu/xhv6YE4yUgCym0d35Nfo3uAQZVmXTcXIL1T2oDm0lYAqlgYC/ock+h9v3oMJBNA2aZcsN/rT8="", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type nullable text) meta [Serialized.Text = true]) in type table [#""列 1"" = _t]),
+    #""Changed Type"" = Table.TransformColumnTypes(Source,{{""列 1"", type text}}),
+    #""Renamed Columns"" = Table.RenameColumns(#""Changed Type"",{{""列 1"", ""Methods1""}}),
+    #""Added Custom"" = Table.AddColumn(#""Renamed Columns"", ""Methods2"", each [Methods1]),
+    #""Added Custom1"" = Table.AddColumn(#""Added Custom"", ""Methods3"", each [Methods1]),
+    #""Removed Columns"" = Table.RemoveColumns(#""Added Custom1"",{""Methods2"", ""Methods3""}),
+    #""Renamed Columns1"" = Table.RenameColumns(#""Removed Columns"",{{""Methods1"", ""Methods3""}})
+in
+    #""Renamed Columns1"""
+Backfill_Distance1,"let
+    Source = List.Numbers(0,100000,0.01),
+    #""Converted to Table"" = Table.FromList(Source, Splitter.SplitByNothing(), null, null, ExtraValues.Error),
+    #""Renamed Columns"" = Table.RenameColumns(#""Converted to Table"",{{""Column1"", ""Distance1""}})
+in
+    #""Renamed Columns"""
+Backfill_Distance2,"let
+    Source = List.Numbers(0,100000,0.01),
+    #""Converted to Table"" = Table.FromList(Source, Splitter.SplitByNothing(), null, null, ExtraValues.Error),
+    #""Renamed Columns"" = Table.RenameColumns(#""Converted to Table"",{{""Column1"", ""Distance2""}})
+in
+    #""Renamed Columns"""
+Backfill_Distance3,"let
+    Source = List.Numbers(0,100000,0.01),
+    #""Converted to Table"" = Table.FromList(Source, Splitter.SplitByNothing(), null, null, ExtraValues.Error),
+    #""Renamed Columns"" = Table.RenameColumns(#""Converted to Table"",{{""Column1"", ""Distance3""}})
+in
+    #""Renamed Columns"""
+Backfill_A4_Method2,"let
+    Source = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText(""bc89DsIwDAXgq1idK8S/WLkCjKWDSUyxCA5yk0rcntJQ2iGTpe+94bmqipNHWwJ2pNgQOLQkFynqckxu0bl38kHPhMM9sqYWspvVOxTYLHYQZhY0mkdSD6t9Jvuih/UhE2Vxu/xhv6YE4yUgCym0d35Nfo3uAQZVmXTcXIL1T2oDm0lYAqlgYC/ock+h9v3oMJBNA2aZcsN/rT8="", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type nullable text) meta [Serialized.Text = true]) in type table [#""列 1"" = _t]),
+    #""Changed Type"" = Table.TransformColumnTypes(Source,{{""列 1"", type text}}),
+    #""Renamed Columns"" = Table.RenameColumns(#""Changed Type"",{{""列 1"", ""Methods1""}}),
+    #""Added Custom"" = Table.AddColumn(#""Renamed Columns"", ""Methods2"", each [Methods1]),
+    #""Added Custom1"" = Table.AddColumn(#""Added Custom"", ""Methods3"", each [Methods1]),
+    #""Removed Columns"" = Table.RemoveColumns(#""Added Custom1"",{""Methods2"", ""Methods3""}),
+    #""Renamed Columns1"" = Table.RenameColumns(#""Removed Columns"",{{""Methods1"", ""Methods2""}})
+in
+    #""Renamed Columns1"""
+Backfill_A4_Method1,"let
+    Source = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText(""bc89DsIwDAXgq1idK8S/WLkCjKWDSUyxCA5yk0rcntJQ2iGTpe+94bmqipNHWwJ2pNgQOLQkFynqckxu0bl38kHPhMM9sqYWspvVOxTYLHYQZhY0mkdSD6t9Jvuih/UhE2Vxu/xhv6YE4yUgCym0d35Nfo3uAQZVmXTcXIL1T2oDm0lYAqlgYC/ock+h9v3oMJBNA2aZcsN/rT8="", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type nullable text) meta [Serialized.Text = true]) in type table [#""列 1"" = _t]),
+    #""Changed Type"" = Table.TransformColumnTypes(Source,{{""列 1"", type text}}),
+    #""Renamed Columns"" = Table.RenameColumns(#""Changed Type"",{{""列 1"", ""Methods1""}}),
+    #""Added Custom"" = Table.AddColumn(#""Renamed Columns"", ""Methods2"", each [Methods1]),
+    #""Added Custom1"" = Table.AddColumn(#""Added Custom"", ""Methods3"", each [Methods1]),
+    #""Removed Columns"" = Table.RemoveColumns(#""Added Custom1"",{""Methods2"", ""Methods3""}),
+    #""Renamed Columns1"" = Table.RenameColumns(#""Removed Columns"",{{""Methods1"", ""Methods1""}})
+in
+    #""Renamed Columns1"""
+Backfill_A4_Method3,"let
+    Source = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText(""bc89DsIwDAXgq1idK8S/WLkCjKWDSUyxCA5yk0rcntJQ2iGTpe+94bmqipNHWwJ2pNgQOLQkFynqckxu0bl38kHPhMM9sqYWspvVOxTYLHYQZhY0mkdSD6t9Jvuih/UhE2Vxu/xhv6YE4yUgCym0d35Nfo3uAQZVmXTcXIL1T2oDm0lYAqlgYC/ock+h9v3oMJBNA2aZcsN/rT8="", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type nullable text) meta [Serialized.Text = true]) in type table [#""列 1"" = _t]),
+    #""Changed Type"" = Table.TransformColumnTypes(Source,{{""列 1"", type text}}),
+    #""Renamed Columns"" = Table.RenameColumns(#""Changed Type"",{{""列 1"", ""Methods1""}}),
+    #""Added Custom"" = Table.AddColumn(#""Renamed Columns"", ""Methods2"", each [Methods1]),
+    #""Added Custom1"" = Table.AddColumn(#""Added Custom"", ""Methods3"", each [Methods1]),
+    #""Removed Columns"" = Table.RemoveColumns(#""Added Custom1"",{""Methods2"", ""Methods3""}),
+    #""Renamed Columns1"" = Table.RenameColumns(#""Removed Columns"",{{""Methods1"", ""Methods3""}})
+in
+    #""Renamed Columns1"""
+Grout_Distance1,"let
+    Source = List.Numbers(0,100000,0.01),
+    #""Converted to Table"" = Table.FromList(Source, Splitter.SplitByNothing(), null, null, ExtraValues.Error),
+    #""Renamed Columns"" = Table.RenameColumns(#""Converted to Table"",{{""Column1"", ""Distance1""}})
+in
+    #""Renamed Columns"""
+Grout_Distance2,"let
+    Source = List.Numbers(0,100000,0.01),
+    #""Converted to Table"" = Table.FromList(Source, Splitter.SplitByNothing(), null, null, ExtraValues.Error),
+    #""Renamed Columns"" = Table.RenameColumns(#""Converted to Table"",{{""Column1"", ""Distance2""}})
+in
+    #""Renamed Columns"""
+Grout_Distance3,"let
+    Source = List.Numbers(0,100000,0.01),
+    #""Converted to Table"" = Table.FromList(Source, Splitter.SplitByNothing(), null, null, ExtraValues.Error),
+    #""Renamed Columns"" = Table.RenameColumns(#""Converted to Table"",{{""Column1"", ""Distance3""}})
+in
+    #""Renamed Columns"""
+Grout_A4_Method2,"let
+    Source = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText(""bc89DsIwDAXgq1idK8S/WLkCjKWDSUyxCA5yk0rcntJQ2iGTpe+94bmqipNHWwJ2pNgQOLQkFynqckxu0bl38kHPhMM9sqYWspvVOxTYLHYQZhY0mkdSD6t9Jvuih/UhE2Vxu/xhv6YE4yUgCym0d35Nfo3uAQZVmXTcXIL1T2oDm0lYAqlgYC/ock+h9v3oMJBNA2aZcsN/rT8="", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type nullable text) meta [Serialized.Text = true]) in type table [#""列 1"" = _t]),
+    #""Changed Type"" = Table.TransformColumnTypes(Source,{{""列 1"", type text}}),
+    #""Renamed Columns"" = Table.RenameColumns(#""Changed Type"",{{""列 1"", ""Methods1""}}),
+    #""Added Custom"" = Table.AddColumn(#""Renamed Columns"", ""Methods2"", each [Methods1]),
+    #""Added Custom1"" = Table.AddColumn(#""Added Custom"", ""Methods3"", each [Methods1]),
+    #""Removed Columns"" = Table.RemoveColumns(#""Added Custom1"",{""Methods2"", ""Methods3""}),
+    #""Renamed Columns1"" = Table.RenameColumns(#""Removed Columns"",{{""Methods1"", ""Methods2""}})
+in
+    #""Renamed Columns1"""
+Grout_A4_Method1,"let
+    Source = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText(""bc89DsIwDAXgq1idK8S/WLkCjKWDSUyxCA5yk0rcntJQ2iGTpe+94bmqipNHWwJ2pNgQOLQkFynqckxu0bl38kHPhMM9sqYWspvVOxTYLHYQZhY0mkdSD6t9Jvuih/UhE2Vxu/xhv6YE4yUgCym0d35Nfo3uAQZVmXTcXIL1T2oDm0lYAqlgYC/ock+h9v3oMJBNA2aZcsN/rT8="", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type nullable text) meta [Serialized.Text = true]) in type table [#""列 1"" = _t]),
+    #""Changed Type"" = Table.TransformColumnTypes(Source,{{""列 1"", type text}}),
+    #""Renamed Columns"" = Table.RenameColumns(#""Changed Type"",{{""列 1"", ""Methods1""}}),
+    #""Added Custom"" = Table.AddColumn(#""Renamed Columns"", ""Methods2"", each [Methods1]),
+    #""Added Custom1"" = Table.AddColumn(#""Added Custom"", ""Methods3"", each [Methods1]),
+    #""Removed Columns"" = Table.RemoveColumns(#""Added Custom1"",{""Methods2"", ""Methods3""}),
+    #""Renamed Columns1"" = Table.RenameColumns(#""Removed Columns"",{{""Methods1"", ""Methods1""}})
+in
+    #""Renamed Columns1"""
+Grout_A4_Method3,"let
+    Source = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText(""bc89DsIwDAXgq1idK8S/WLkCjKWDSUyxCA5yk0rcntJQ2iGTpe+94bmqipNHWwJ2pNgQOLQkFynqckxu0bl38kHPhMM9sqYWspvVOxTYLHYQZhY0mkdSD6t9Jvuih/UhE2Vxu/xhv6YE4yUgCym0d35Nfo3uAQZVmXTcXIL1T2oDm0lYAqlgYC/ock+h9v3oMJBNA2aZcsN/rT8="", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type nullable text) meta [Serialized.Text = true]) in type table [#""列 1"" = _t]),
+    #""Changed Type"" = Table.TransformColumnTypes(Source,{{""列 1"", type text}}),
+    #""Renamed Columns"" = Table.RenameColumns(#""Changed Type"",{{""列 1"", ""Methods1""}}),
+    #""Added Custom"" = Table.AddColumn(#""Renamed Columns"", ""Methods2"", each [Methods1]),
+    #""Added Custom1"" = Table.AddColumn(#""Added Custom"", ""Methods3"", each [Methods1]),
+    #""Removed Columns"" = Table.RemoveColumns(#""Added Custom1"",{""Methods2"", ""Methods3""}),
+    #""Renamed Columns1"" = Table.RenameColumns(#""Removed Columns"",{{""Methods1"", ""Methods3""}})
+in
+    #""Renamed Columns1"""
+Fitout_A4,"let
+    Source = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText(""i45WMlSKjQUA"", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type nullable text) meta [Serialized.Text = true]) in type table [#""1"" = _t]),
+    #""Changed Type"" = Table.TransformColumnTypes(Source,{{""1"", Int64.Type}})
+in
+    #""Changed Type"""
+Grout_A4,"let
+    Source = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText(""i45WMlSKjQUA"", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type nullable text) meta [Serialized.Text = true]) in type table [#""1"" = _t]),
+    #""Changed Type"" = Table.TransformColumnTypes(Source,{{""1"", Int64.Type}})
+in
+    #""Changed Type"""
+Rail/Road_A4,"let
+    Source = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText(""i45WMlSKjQUA"", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type nullable text) meta [Serialized.Text = true]) in type table [#""1"" = _t]),
+    #""Changed Type"" = Table.TransformColumnTypes(Source,{{""1"", Int64.Type}})
+in
+    #""Changed Type"""
+Backfill_A4,"let
+    Source = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText(""i45WMlSKjQUA"", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type nullable text) meta [Serialized.Text = true]) in type table [#""1"" = _t]),
+    #""Changed Type"" = Table.TransformColumnTypes(Source,{{""1"", Int64.Type}})
+in
+    #""Changed Type"""
+Type_TBM,"let
+    Source = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText(""i45Wck/NSy1KzFGK1YlW8i9IzVMIcfIFc4Iz89JzUhWCMzJTc1Lgoi75pUmYoq4BTgh9OaVFRZUQbiwA"", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type nullable text) meta [Serialized.Text = true]) in type table [Type = _t]),
+    #""Changed Type"" = Table.TransformColumnTypes(Source,{{""Type"", type text}})
+in
+    #""Changed Type"""
+Diameter_TBM,"let
+    Source = List.Numbers(0,10000,0.01),
+    #""Converted to Table"" = Table.FromList(Source, Splitter.SplitByNothing(), null, null, ExtraValues.Error),
+    #""Renamed Columns"" = Table.RenameColumns(#""Converted to Table"",{{""Column1"", ""Diameter""}})
+in
+    #""Renamed Columns"""
+A4A5_Result,"let
+    Source = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText(""i44FAA=="", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type nullable text) meta [Serialized.Text = true]) in type table [#""1"" = _t]),
+    #""Changed Type"" = Table.TransformColumnTypes(Source,{{""1"", type text}})
+in
+    #""Changed Type"""
+Alpha_T,"let
+    Source = List.Numbers(0,10000,0.01),
+    #""Converted to Table"" = Table.FromList(Source, Splitter.SplitByNothing(), null, null, ExtraValues.Error),
+    #""Renamed Columns"" = Table.RenameColumns(#""Converted to Table"",{{""Column1"", ""Alpha_T""}})
+in
+    #""Renamed Columns"""
+y,"let
+    Source = List.Numbers(0,10000,0.01),
+    #""Converted to Table"" = Table.FromList(Source, Splitter.SplitByNothing(), null, null, ExtraValues.Error),
+    #""Renamed Columns"" = Table.RenameColumns(#""Converted to Table"",{{""Column1"", ""y""}})
+in
+    #""Renamed Columns"""
+H,"let
+    Source = List.Numbers(0,10000,0.01),
+    #""Converted to Table"" = Table.FromList(Source, Splitter.SplitByNothing(), null, null, ExtraValues.Error),
+    #""Renamed Columns"" = Table.RenameColumns(#""Converted to Table"",{{""Column1"", ""H""}})
+in
+    #""Renamed Columns"""
+f,"let
+    Source = List.Numbers(0,10000,0.01),
+    #""Converted to Table"" = Table.FromList(Source, Splitter.SplitByNothing(), null, null, ExtraValues.Error),
+    #""Renamed Columns"" = Table.RenameColumns(#""Converted to Table"",{{""Column1"", ""f""}})
+in
+    #""Renamed Columns"""
+opening,"let
+    Source = List.Numbers(0,10000,0.01),
+    #""Converted to Table"" = Table.FromList(Source, Splitter.SplitByNothing(), null, null, ExtraValues.Error),
+    #""Renamed Columns"" = Table.RenameColumns(#""Converted to Table"",{{""Column1"", ""opening""}})
+in
+    #""Renamed Columns"""
+f_deltap,"let
+    Source = List.Numbers(0,10000,0.01),
+    #""Converted to Table"" = Table.FromList(Source, Splitter.SplitByNothing(), null, null, ExtraValues.Error),
+    #""Renamed Columns"" = Table.RenameColumns(#""Converted to Table"",{{""Column1"", ""f_deltap""}})
+in
+    #""Renamed Columns"""
+kq,"let
+    Source = List.Numbers(0,10000,0.01),
+    #""Converted to Table"" = Table.FromList(Source, Splitter.SplitByNothing(), null, null, ExtraValues.Error),
+    #""Renamed Columns"" = Table.RenameColumns(#""Converted to Table"",{{""Column1"", ""kq""}})
+in
+    #""Renamed Columns"""
+tao,"let
+    Source = List.Numbers(0,10000,0.01),
+    #""Converted to Table"" = Table.FromList(Source, Splitter.SplitByNothing(), null, null, ExtraValues.Error),
+    #""Renamed Columns"" = Table.RenameColumns(#""Converted to Table"",{{""Column1"", ""tao""}})
+in
+    #""Renamed Columns"""
+W,"let
+    Source = List.Numbers(0,10000,0.01),
+    #""Converted to Table"" = Table.FromList(Source, Splitter.SplitByNothing(), null, null, ExtraValues.Error),
+    #""Renamed Columns"" = Table.RenameColumns(#""Converted to Table"",{{""Column1"", ""W""}})
+in
+    #""Renamed Columns"""
+Db,"let
+    Source = List.Numbers(0,10000,0.01),
+    #""Converted to Table"" = Table.FromList(Source, Splitter.SplitByNothing(), null, null, ExtraValues.Error),
+    #""Renamed Columns"" = Table.RenameColumns(#""Converted to Table"",{{""Column1"", ""Db""}})
+in
+    #""Renamed Columns"""
+Lb,"let
+    Source = List.Numbers(0,10000,0.01),
+    #""Converted to Table"" = Table.FromList(Source, Splitter.SplitByNothing(), null, null, ExtraValues.Error),
+    #""Renamed Columns"" = Table.RenameColumns(#""Converted to Table"",{{""Column1"", ""Lb""}})
+in
+    #""Renamed Columns"""
+fc,"let
+    Source = List.Numbers(0,10000,0.01),
+    #""Converted to Table"" = Table.FromList(Source, Splitter.SplitByNothing(), null, null, ExtraValues.Error),
+    #""Renamed Columns"" = Table.RenameColumns(#""Converted to Table"",{{""Column1"", ""fc""}})
+in
+    #""Renamed Columns"""
+Nb,"let
+    Source = List.Numbers(0,10000,0.01),
+    #""Converted to Table"" = Table.FromList(Source, Splitter.SplitByNothing(), null, null, ExtraValues.Error),
+    #""Renamed Columns"" = Table.RenameColumns(#""Converted to Table"",{{""Column1"", ""Nb""}})
+in
+    #""Renamed Columns"""
+Rb,"let
+    Source = List.Numbers(0,10000,0.01),
+    #""Converted to Table"" = Table.FromList(Source, Splitter.SplitByNothing(), null, null, ExtraValues.Error),
+    #""Renamed Columns"" = Table.RenameColumns(#""Converted to Table"",{{""Column1"", ""Rb""}})
+in
+    #""Renamed Columns"""
+Alpha_F,"let
+    Source = List.Numbers(0,10000,1),
+    #""Converted to Table"" = Table.FromList(Source, Splitter.SplitByNothing(), null, null, ExtraValues.Error),
+    #""Renamed Columns"" = Table.RenameColumns(#""Converted to Table"",{{""Column1"", ""Alpha_F""}})
+in
+    #""Renamed Columns"""
+Type_TBM_F,"let
+    Source = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText(""i45Wck/NSy1KzFGK1YlW8i9IzVMIcfIFc4Iz89JzUhWCMzJTc1Lgoi75pUmYoq4BTgh9OaVFRZUQbiwA"", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type nullable text) meta [Serialized.Text = true]) in type table [Type = _t])
+in
+    Source"
+K,"let
+    Source = List.Numbers(0,10000,0.01),
+    #""Converted to Table"" = Table.FromList(Source, Splitter.SplitByNothing(), null, null, ExtraValues.Error),
+    #""Renamed Columns"" = Table.RenameColumns(#""Converted to Table"",{{""Column1"", ""K""}})
+in
+    #""Renamed Columns"""
+pq,"let
+    Source = List.Numbers(0,10000,0.01),
+    #""Converted to Table"" = Table.FromList(Source, Splitter.SplitByNothing(), null, null, ExtraValues.Error),
+    #""Renamed Columns"" = Table.RenameColumns(#""Converted to Table"",{{""Column1"", ""pq""}})
+in
+    #""Renamed Columns"""
+H',"let
+    Source = List.Numbers(0,10000,0.01),
+    #""Converted to Table"" = Table.FromList(Source, Splitter.SplitByNothing(), null, null, ExtraValues.Error),
+    #""Renamed Columns"" = Table.RenameColumns(#""Converted to Table"",{{""Column1"", ""H'""}})
+in
+    #""Renamed Columns"""
+pc,"let
+    Source = List.Numbers(0,10000,1),
+    #""Converted to Table"" = Table.FromList(Source, Splitter.SplitByNothing(), null, null, ExtraValues.Error),
+    #""Renamed Columns"" = Table.RenameColumns(#""Converted to Table"",{{""Column1"", ""pc""}})
+in
+    #""Renamed Columns"""
+L,"let
+    Source = List.Numbers(0,10000,0.01),
+    #""Converted to Table"" = Table.FromList(Source, Splitter.SplitByNothing(), null, null, ExtraValues.Error),
+    #""Renamed Columns"" = Table.RenameColumns(#""Converted to Table"",{{""Column1"", ""L""}})
+in
+    #""Renamed Columns"""
+G,"let
+    Source = List.Numbers(0,100000,1),
+    #""Converted to Table"" = Table.FromList(Source, Splitter.SplitByNothing(), null, null, ExtraValues.Error),
+    #""Renamed Columns"" = Table.RenameColumns(#""Converted to Table"",{{""Column1"", ""G""}})
+in
+    #""Renamed Columns"""
+ns,"let
+    Source = List.Numbers(0,10000,0.01),
+    #""Converted to Table"" = Table.FromList(Source, Splitter.SplitByNothing(), null, null, ExtraValues.Error),
+    #""Renamed Columns"" = Table.RenameColumns(#""Converted to Table"",{{""Column1"", ""ns""}})
+in
+    #""Renamed Columns"""
+Ws,"let
+    Source = List.Numbers(0,10000,0.01),
+    #""Converted to Table"" = Table.FromList(Source, Splitter.SplitByNothing(), null, null, ExtraValues.Error),
+    #""Renamed Columns"" = Table.RenameColumns(#""Converted to Table"",{{""Column1"", ""Ws""}})
+in
+    #""Renamed Columns"""
+mus,"let
+    Source = List.Numbers(0,10000,0.01),
+    #""Converted to Table"" = Table.FromList(Source, Splitter.SplitByNothing(), null, null, ExtraValues.Error),
+    #""Renamed Columns"" = Table.RenameColumns(#""Converted to Table"",{{""Column1"", ""mus""}})
+in
+    #""Renamed Columns"""
+hatch,"let
+    Source = List.Numbers(0,10000,0.01),
+    #""Converted to Table"" = Table.FromList(Source, Splitter.SplitByNothing(), null, null, ExtraValues.Error),
+    #""Renamed Columns"" = Table.RenameColumns(#""Converted to Table"",{{""Column1"", ""hatch""}})
+in
+    #""Renamed Columns"""
+mua,"let
+    Source = List.Numbers(0,10000,0.01),
+    #""Converted to Table"" = Table.FromList(Source, Splitter.SplitByNothing(), null, null, ExtraValues.Error),
+    #""Renamed Columns"" = Table.RenameColumns(#""Converted to Table"",{{""Column1"", ""mua""}})
+in
+    #""Renamed Columns"""
+Wa,"let
+    Source = List.Numbers(0,10000,0.01),
+    #""Converted to Table"" = Table.FromList(Source, Splitter.SplitByNothing(), null, null, ExtraValues.Error),
+    #""Renamed Columns"" = Table.RenameColumns(#""Converted to Table"",{{""Column1"", ""Wa""}})
+in
+    #""Renamed Columns"""
+v,"let
+    Source = List.Numbers(0,10000,0.01),
+    #""Converted to Table"" = Table.FromList(Source, Splitter.SplitByNothing(), null, null, ExtraValues.Error),
+    #""Renamed Columns"" = Table.RenameColumns(#""Converted to Table"",{{""Column1"", ""v""}})
+in
+    #""Renamed Columns"""
+nc,"let
+    Source = List.Numbers(0,10000,0.01),
+    #""Converted to Table"" = Table.FromList(Source, Splitter.SplitByNothing(), null, null, ExtraValues.Error),
+    #""Renamed Columns"" = Table.RenameColumns(#""Converted to Table"",{{""Column1"", ""nc""}})
+in
+    #""Renamed Columns"""
+lc,"let
+    Source = List.Numbers(0,10000,0.01),
+    #""Converted to Table"" = Table.FromList(Source, Splitter.SplitByNothing(), null, null, ExtraValues.Error),
+    #""Renamed Columns"" = Table.RenameColumns(#""Converted to Table"",{{""Column1"", ""lc""}})
+in
+    #""Renamed Columns"""
+Soil Type,"let
+    Source = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText(""i45WCk7MS6lUCM7PzFGK1YlWcs5JrFSKjQUA"", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type nullable text) meta [Serialized.Text = true]) in type table [#""列 1"" = _t]),
+    #""Changed Type"" = Table.TransformColumnTypes(Source,{{""列 1"", type text}}),
+    #""Renamed Columns"" = Table.RenameColumns(#""Changed Type"",{{""列 1"", ""Type""}})
+in
+    #""Renamed Columns"""
+c,"let
+    Source = List.Numbers(0,10000,0.01),
+    #""Converted to Table"" = Table.FromList(Source, Splitter.SplitByNothing(), null, null, ExtraValues.Error),
+    #""Renamed Columns"" = Table.RenameColumns(#""Converted to Table"",{{""Column1"", ""c""}})
+in
+    #""Renamed Columns"""
+Torque,"let
+    Source = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText(""i45Wcs0tyCzKTE7MUQjOzyktyczPU4rVwSasoxBSWZAKlnTMS8ypLMHUFFqcWqTgkpqWmQdUFwsA"", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type nullable text) meta [Serialized.Text = true]) in type table [Torque = _t]),
+    #""Changed Type"" = Table.TransformColumnTypes(Source,{{""Torque"", type text}})
+in
+    #""Changed Type"""
+Thrust,"let
+    Source = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText(""i45Wcs0tyCzKTE7MUQjOzyktyczPU4rVwSasoxBSWZAKlnTMS8ypLMHUFFqcWqTgkpqWmQdUFwsA"", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type nullable text) meta [Serialized.Text = true]) in type table [Torque = _t]),
+    #""Changed Type"" = Table.TransformColumnTypes(Source,{{""Torque"", type text}}),
+    #""Renamed Columns"" = Table.RenameColumns(#""Changed Type"",{{""Torque"", ""Thrust""}})
+in
+    #""Renamed Columns"""
+A5_Factor,"let
+    Source = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText(""i45WCstMLskvykzUUXAsLS4pSszJTFSK1YlWCkkszk3MwxQP9VaKjQUA"", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type nullable text) meta [Serialized.Text = true]) in type table [#""列 1"" = _t]),
+    #""Changed Type"" = Table.TransformColumnTypes(Source,{{""列 1"", type text}}),
+    #""Renamed Columns"" = Table.RenameColumns(#""Changed Type"",{{""列 1"", ""Place""}})
+in
+    #""Renamed Columns"""
+TBM_Mass,"let
+    Source = List.Numbers(1,1000000,0.01),
+    #""Converted to Table"" = Table.FromList(Source, Splitter.SplitByNothing(), null, null, ExtraValues.Error),
+    #""Renamed Columns"" = Table.RenameColumns(#""Converted to Table"",{{""Column1"", ""Mass""}})
+in
+    #""Renamed Columns"""
+Mass_Type,"let
+    Source = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText(""i45Wck0sKslQCChKLS4uLUpVcErMScxLTk1RCM7ITM1JUfBNTM7IzEtVitWJVgrOKS0qqsQmE1qcWqTgkpoG5scCAA=="", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type nullable text) meta [Serialized.Text = true]) in type table [Type = _t]),
+    #""Changed Type"" = Table.TransformColumnTypes(Source,{{""Type"", type text}})
+in
+    #""Changed Type"""
+Spoil Removal,"let
+    Source = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText(""i45WCspPTNFRSCwqyUwuzUksSU1RKCkqTc5Wio0FAA=="", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type nullable text) meta [Serialized.Text = true]) in type table [#""列 1"" = _t]),
+    #""Changed Type"" = Table.TransformColumnTypes(Source,{{""列 1"", type text}}),
+    #""Renamed Columns"" = Table.RenameColumns(#""Changed Type"",{{""列 1"", ""Type""}})
+in
+    #""Renamed Columns"""
+Spoil_Distance1,"let
+    Source = List.Numbers(0,100000,0.01),
+    #""Converted to Table"" = Table.FromList(Source, Splitter.SplitByNothing(), null, null, ExtraValues.Error),
+    #""Renamed Columns"" = Table.RenameColumns(#""Converted to Table"",{{""Column1"", ""Distance1""}})
+in
+    #""Renamed Columns"""
+x percent of SCM,"let
+    Source = List.Numbers(0,10000,0.01),
+    #""Converted to Table"" = Table.FromList(Source, Splitter.SplitByNothing(), null, null, ExtraValues.Error),
+    #""Renamed Columns"" = Table.RenameColumns(#""Converted to Table"",{{""Column1"", ""x percent of SCM""}})
+in
+    #""Renamed Columns"""
+carbon reduction of each perfent SCM,"let
+    Source = List.Numbers(0,10000,0.01),
+    #""Converted to Table"" = Table.FromList(Source, Splitter.SplitByNothing(), null, null, ExtraValues.Error),
+    #""Renamed Columns"" = Table.RenameColumns(#""Converted to Table"",{{""Column1"", ""carbon reduction of each perfent SCM""}})
+in
+    #""Renamed Columns"""
+Reduction ECF,"let
+    Source = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText(""i45Wcs7PSy5KLUlVCC4pSs0ryVCK1YlWcnV2UwgtTi1ScElNy8xLVYqNBQA="", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type nullable text) meta [Serialized.Text = true]) in type table [Method = _t]),
+    #""Changed Type"" = Table.TransformColumnTypes(Source,{{""Method"", type text}}),
+    #""Replaced Value"" = Table.ReplaceValue(#""Changed Type"",""Concrete Strenth"",""Concrete Strength"",Replacer.ReplaceText,{""Method""})
+in
+    #""Replaced Value"""
+Concrete Strength,"let
+    Source = List.Numbers(0,10000,0.01),
+    #""Converted to Table"" = Table.FromList(Source, Splitter.SplitByNothing(), null, null, ExtraValues.Error),
+    #""Renamed Columns"" = Table.RenameColumns(#""Converted to Table"",{{""Column1"", ""Concrete Strength""}})
+in
+    #""Renamed Columns"""
+ECF User Define,"let
+    Source = List.Numbers(0,1000000,0.01),
+    #""Converted to Table"" = Table.FromList(Source, Splitter.SplitByNothing(), null, null, ExtraValues.Error),
+    #""Renamed Columns"" = Table.RenameColumns(#""Converted to Table"",{{""Column1"", ""ECF User Define""}})
+in
+    #""Renamed Columns"""
+R_Thickness,"let
+    Source = List.Numbers(0,1000,0.001),
+    #""Converted to Table"" = Table.FromList(Source, Splitter.SplitByNothing(), null, null, ExtraValues.Error),
+    #""Renamed Columns"" = Table.RenameColumns(#""Converted to Table"",{{""Column1"", ""R_Thickness""}})
+in
+    #""Renamed Columns"""
+Steel_Reduction,"let
+    Source = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText(""i45WCkrNzEvTUwhKLMnMV4rViVZydXZTCC1OLVJwSU3LzEtVio0FAA=="", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type nullable text) meta [Serialized.Text = true]) in type table [Steel_Reduction = _t]),
+    #""Changed Type"" = Table.TransformColumnTypes(Source,{{""Steel_Reduction"", type text}})
+in
+    #""Changed Type"""
+R_Steel_Method,"let
+    Source = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText(""i45WCkrNzEvTUwhKLMnMV4rViVZydXZTCC1OLVJwSU3LzEtVio0FAA=="", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type nullable text) meta [Serialized.Text = true]) in type table [Method = _t]),
+    #""Changed Type"" = Table.TransformColumnTypes(Source,{{""Method"", type text}})
+in
+    #""Changed Type"""
+TBM_Mass_Distance,"let
+    Source = List.Numbers(1,1000000,0.01),
+    #""Converted to Table"" = Table.FromList(Source, Splitter.SplitByNothing(), null, null, ExtraValues.Error),
+    #""Renamed Columns"" = Table.RenameColumns(#""Converted to Table"",{{""Column1"", ""Distance""}})
+in
+    #""Renamed Columns"""
+User Define Torque,"let
+    Source = List.Numbers(1,1000000,0.01),
+    #""Converted to Table"" = Table.FromList(Source, Splitter.SplitByNothing(), null, null, ExtraValues.Error),
+    #""Renamed Columns"" = Table.RenameColumns(#""Converted to Table"",{{""Column1"", ""User Define Torque""}})
+in
+    #""Renamed Columns"""
+User Define Thrust,"let
+    Source = List.Numbers(1,1000000,0.01),
+    #""Converted to Table"" = Table.FromList(Source, Splitter.SplitByNothing(), null, null, ExtraValues.Error),
+    #""Renamed Columns"" = Table.RenameColumns(#""Converted to Table"",{{""Column1"", ""User Define Thrust""}})
+in
+    #""Renamed Columns"""
+Rail/Road ECF,"let
+    Source = List.Numbers(0,100000,0.01),
+    #""Converted to Table"" = Table.FromList(Source, Splitter.SplitByNothing(), null, null, ExtraValues.Error),
+    #""Renamed Columns"" = Table.RenameColumns(#""Converted to Table"",{{""Column1"", ""Rail/Road ECF""}})
+in
+    #""Renamed Columns"""
+Grout_ECF,"let
+    Source = List.Numbers(0,100000,0.01),
+    #""Converted to Table"" = Table.FromList(Source, Splitter.SplitByNothing(), null, null, ExtraValues.Error),
+    #""Renamed Columns"" = Table.RenameColumns(#""Converted to Table"",{{""Column1"", ""Grout ECF""}})
+in
+    #""Renamed Columns"""
+Shown Mode,"let
+    Source = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText(""i45W8ssvyk3MyaxKTVFwdVaK1UERccsPRhcqjc/NTwILBiQWpZbkK8XGAgA="", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type nullable text) meta [Serialized.Text = true]) in type table [#""列 1"" = _t]),
+    #""Changed Type"" = Table.TransformColumnTypes(Source,{{""列 1"", type text}}),
+    #""Renamed Columns"" = Table.RenameColumns(#""Changed Type"",{{""列 1"", ""Shown Mode""}})
+in
+    #""Renamed Columns"""
+Blocking Emission,"let
+    Source = List.Numbers(0,200000,0.01),
+    #""Converted to Table"" = Table.FromList(Source, Splitter.SplitByNothing(), null, null, ExtraValues.Error),
+    #""Renamed Columns"" = Table.RenameColumns(#""Converted to Table"",{{""Column1"", ""Blocking Emission""}})
+in
+    #""Renamed Columns"""
+TBM Transport 1,"let
+    Source = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText(""bc89DsIwDAXgq1jMEeJfrFwBxqqDSUyxGhLkOpW4PYVSmiGTpe+94bmqFueIzgD2JNgQeHQUFrWZ/Ja8f2V6IfzeE8vYQvZZvccA2+UeNDOVZNtRI6wPheyDETbHQlTE3eqHwxoDNgZFDiTQ3fk5+zX5FiyKMMm02YCLD+qU7SwclCSgcgzoS0+hDP3kUcmNA7JMuOG/1m8="", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type nullable text) meta [Serialized.Text = true]) in type table [Methods1 = _t]),
+    #""Changed Type"" = Table.TransformColumnTypes(Source,{{""Methods1"", type text}})
+in
+    #""Changed Type"""
+TBM Distance1,"let
+    Source = List.Numbers(0,100000,0.01),
+    #""Converted to Table"" = Table.FromList(Source, Splitter.SplitByNothing(), null, null, ExtraValues.Error),
+    #""Renamed Columns"" = Table.RenameColumns(#""Converted to Table"",{{""Column1"", ""TBMD1""}})
+in
+    #""Renamed Columns"""
+TBM Transport 2,"let
+    Source = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText(""bc89DsIwDAXgq1jMEeJfrFwBxqqDSUyxGhLkOpW4PYVSmiGTpe+94bmqFueIzgD2JNgQeHQUFrWZ/Ja8f2V6IfzeE8vYQvZZvccA2+UeNDOVZNtRI6wPheyDETbHQlTE3eqHwxoDNgZFDiTQ3fk5+zX5FiyKMMm02YCLD+qU7SwclCSgcgzoS0+hDP3kUcmNA7JMuOG/1m8="", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type nullable text) meta [Serialized.Text = true]) in type table [Methods1 = _t]),
+    #""Changed Type"" = Table.TransformColumnTypes(Source,{{""Methods1"", type text}})
+in
+    #""Changed Type"""
+TBM Distance2,"let
+    Source = List.Numbers(0,100000,0.01),
+    #""Converted to Table"" = Table.FromList(Source, Splitter.SplitByNothing(), null, null, ExtraValues.Error),
+    #""Renamed Columns"" = Table.RenameColumns(#""Converted to Table"",{{""Column1"", ""TBMD2""}})
+in
+    #""Renamed Columns"""
+TBM Transport 3,"let
+    Source = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText(""bc89DsIwDAXgq1jMEeJfrFwBxqqDSUyxGhLkOpW4PYVSmiGTpe+94bmqFueIzgD2JNgQeHQUFrWZ/Ja8f2V6IfzeE8vYQvZZvccA2+UeNDOVZNtRI6wPheyDETbHQlTE3eqHwxoDNgZFDiTQ3fk5+zX5FiyKMMm02YCLD+qU7SwclCSgcgzoS0+hDP3kUcmNA7JMuOG/1m8="", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type nullable text) meta [Serialized.Text = true]) in type table [Methods1 = _t]),
+    #""Changed Type"" = Table.TransformColumnTypes(Source,{{""Methods1"", type text}})
+in
+    #""Changed Type"""
+TBM Distance3,"let
+    Source = List.Numbers(0,100000,0.01),
+    #""Converted to Table"" = Table.FromList(Source, Splitter.SplitByNothing(), null, null, ExtraValues.Error),
+    #""Renamed Columns"" = Table.RenameColumns(#""Converted to Table"",{{""Column1"", ""TBMD3""}})
+in
+    #""Renamed Columns"""
+TBM_A4,"let
+    Source = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText(""i44FAA=="", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type nullable text) meta [Serialized.Text = true]) in type table [#""列 1"" = _t]),
+    #""Changed Type"" = Table.TransformColumnTypes(Source,{{""列 1"", type text}}),
+    #""Removed Columns"" = Table.RemoveColumns(#""Changed Type"",{""列 1""})
+in
+    #""Removed Columns"""

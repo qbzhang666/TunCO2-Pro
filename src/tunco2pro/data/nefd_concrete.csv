@@ -1,0 +1,10 @@
+upper_mpa,default_kg_m3,average_kg_m3,nefd_data_rating,source
+10,273,154,Tier 3,"NABERS National material emission factors database v2026.2 (Jul 2026), Concrete in-situ"
+20,371,192,Tier 1,"NABERS National material emission factors database v2026.2 (Jul 2026), Concrete in-situ"
+25,426,211,Tier 1,"NABERS National material emission factors database v2026.2 (Jul 2026), Concrete in-situ"
+32,468,240,Tier 1,"NABERS National material emission factors database v2026.2 (Jul 2026), Concrete in-situ"
+40,556,281,Tier 1,"NABERS National material emission factors database v2026.2 (Jul 2026), Concrete in-situ"
+50,621,326,Tier 1,"NABERS National material emission factors database v2026.2 (Jul 2026), Concrete in-situ"
+65,621,351,Tier 1,"NABERS National material emission factors database v2026.2 (Jul 2026), Concrete in-situ"
+80,690,399,Tier 2,"NABERS National material emission factors database v2026.2 (Jul 2026), Concrete in-situ"
+9999,781,490,Tier 3,"NABERS National material emission factors database v2026.2 (Jul 2026), Concrete in-situ"

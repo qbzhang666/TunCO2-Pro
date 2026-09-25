@@ -1,0 +1,62 @@
+cff-version: 1.2.0
+message: "If you use TunCO2 Pro, please cite the software and the Part 3 paper."
+title: "TunCO2 Pro: embodied carbon and low-carbon lining design for TBM tunnels"
+version: 0.2.0
+date-released: 2026-09-25
+license: MIT
+repository-code: "https://github.com/qbzhang666/TunCO2-Pro"
+authors:
+  - family-names: Zhang
+    given-names: Qianbing
+    affiliation: "Department of Civil and Environmental Engineering, Monash University"
+    email: qianbing.zhang@monash.edu
+references:
+  - type: article
+    title: "Sustainability of underground infrastructure – Part 1: Digitalisation-based carbon assessment and baseline for TBM tunnelling"
+    authors:
+      - family-names: Chen
+        given-names: Xiao
+      - family-names: Huang
+        given-names: M.
+      - family-names: Bai
+        given-names: Y.
+      - family-names: Zhang
+        given-names: Qianbing
+    journal: "Tunnelling and Underground Space Technology"
+    volume: 148
+    year: 2024
+    doi: 10.1016/j.tust.2024.105776
+  - type: article
+    title: "Sustainability of underground infrastructure – Part 2: Digitalisation-based integration and optimisation for low carbon design"
+    authors:
+      - family-names: Chen
+        given-names: Xiao
+      - family-names: Huang
+        given-names: M.
+      - family-names: Xiao
+        given-names: F.
+      - family-names: Bai
+        given-names: Y.
+      - family-names: Zhang
+        given-names: Qianbing
+    journal: "Tunnelling and Underground Space Technology"
+    volume: 159
+    year: 2025
+    doi: 10.1016/j.tust.2025.106479
+  - type: article
+    title: "Sustainability of underground infrastructure – Part 3: TunCO2, an open-source digital toolbox for accounting and optimising decarbonisation in tunnelling"
+    authors:
+      - family-names: Chen
+        given-names: Xiao
+      - family-names: Lei
+        given-names: Q.
+      - family-names: Xiao
+        given-names: F.
+      - family-names: Huang
+        given-names: M.
+      - family-names: Zhang
+        given-names: Qianbing
+    journal: "Tunnelling and Underground Space Technology"
+    volume: 167
+    year: 2026
+    doi: 10.1016/j.tust.2025.107028

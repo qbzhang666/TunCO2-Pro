@@ -1,0 +1,17 @@
+unit,name,ground_kind,rock_quality,unit_weight_kn_m3,cohesion_mpa,friction_deg,modulus_mpa,poisson,permeability_m_s,fines_pct,colour,basis
+FILL,Fill,soil,,19,0.0,28,10,0.30,1e-5,25,#a87024,Indicative generic value - replace with project (GIR) design values
+ALLUV,Alluvial clay,soil,,18,0.015,24,15,0.35,1e-8,65,#c9b27c,Indicative generic value - replace with project (GIR) design values
+CLAY,Stiff clay,soil,,20,0.03,25,40,0.30,1e-9,85,#b89a6a,Indicative generic value - replace with project (GIR) design values
+SAND,Dense sand,soil,,20,0.0,35,60,0.30,1e-4,8,#edd27a,Indicative generic value - replace with project (GIR) design values
+SSAND,Silty sand,soil,,19.5,0.005,32,40,0.30,1e-6,25,#e3cf8f,Indicative generic value - replace with project (GIR) design values
+GRAVEL,Sandy gravel,soil,,21,0.0,38,90,0.28,1e-2,3,#d9b35b,Indicative generic value - replace with project (GIR) design values
+RS,Residual soil,soil,,19,0.02,28,40,0.30,1e-7,50,#e0d6c2,Indicative generic value - replace with project (GIR) design values
+COLL,Colluvium,soil,,20,0.01,32,50,0.30,1e-5,30,#c7a98a,Indicative generic value - replace with project (GIR) design values
+XW,Extremely weathered rock,rock,weak,21,0.05,28,150,0.30,1e-6,,#b8b8ae,Indicative generic value - replace with project (GIR) design values
+MW,Moderately weathered rock,rock,fractured,23,0.30,32,1500,0.25,1e-7,,#9a9d99,Indicative generic value - replace with project (GIR) design values
+FR,Fresh rock,rock,competent,25,1.00,36,6000,0.24,1e-8,,#7d8288,Indicative generic value - replace with project (GIR) design values
+SH,Shale,rock,fractured,24,0.40,28,2500,0.26,1e-8,,#8c8f96,Indicative generic value - replace with project (GIR) design values
+SST,Sandstone,rock,competent,24,0.90,35,6000,0.24,1e-7,,#c2b38f,Indicative generic value - replace with project (GIR) design values
+MSED,Metasediments,rock,fractured,26,0.80,33,8000,0.25,1e-8,,#86857a,Indicative generic value - replace with project (GIR) design values
+GRN,Granite,rock,competent,26,2.50,40,20000,0.22,1e-9,,#a79a9a,Indicative generic value - replace with project (GIR) design values
+FZ,Fault zone,rock,weak,23,0.05,25,500,0.30,1e-5,,#9b5f5f,Indicative generic value - replace with project (GIR) design values

@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<LandXML xmlns="http://www.landxml.org/schema/LandXML-1.2" version="1.2">
+ <Alignments>
+  <Alignment name="Demo line" length="0" staStart="1000">
+   <CoordGeom>
+    <Line><Start>5800000 330000</Start><End>5800400 330000</End></Line>
+    <Curve rot="cw" radius="500"><Start>5800400 330000</Start><Center>5800400 330500</Center><End>5800700 330100</End></Curve>
+   </CoordGeom>
+   <Profile><ProfAlign name="vert"><PVI>1000 -20</PVI><PVI>1800 -32</PVI></ProfAlign></Profile>
+  </Alignment>
+ </Alignments>
+</LandXML>

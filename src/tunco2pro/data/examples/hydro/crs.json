@@ -1,0 +1,11 @@
+{
+ "description": "Fictitious project origin for the example (WGS 84 / UTM zone 54S).",
+ "epsg": 32754,
+ "crs_name": "WGS 84 / UTM zone 54S",
+ "origin": {
+  "easting": 561000.0,
+  "northing": 6205000.0,
+  "height": 700.0,
+  "height_datum": "example datum"
+ }
+}

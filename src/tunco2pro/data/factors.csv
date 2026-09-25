@@ -1,0 +1,61 @@
+set,key,category,name,value,unit,source,nsw_tier,notes
+current,grid.nsw_act,grid,New South Wales and ACT,0.67,kgCO2e/kWh,"NGA Factors 2026 (DCCEEW), Table 1, location-based, scope 2 + scope 3",2,Scope 2 0.6 + scope 3 0.07; use scope 2 only (0.6) if the client asks for operational-control reporting
+current,grid.vic,grid,Victoria,0.85,kgCO2e/kWh,"NGA Factors 2026 (DCCEEW), Table 1, location-based, scope 2 + scope 3",2,Scope 2 0.74 + scope 3 0.11; use scope 2 only (0.74) if the client asks for operational-control reporting
+current,grid.qld,grid,Queensland,0.76,kgCO2e/kWh,"NGA Factors 2026 (DCCEEW), Table 1, location-based, scope 2 + scope 3",2,Scope 2 0.65 + scope 3 0.11; use scope 2 only (0.65) if the client asks for operational-control reporting
+current,grid.sa,grid,South Australia,0.24,kgCO2e/kWh,"NGA Factors 2026 (DCCEEW), Table 1, location-based, scope 2 + scope 3",2,Scope 2 0.21 + scope 3 0.03; use scope 2 only (0.21) if the client asks for operational-control reporting
+current,grid.wa_swis,grid,Western Australia (SWIS),0.55,kgCO2e/kWh,"NGA Factors 2026 (DCCEEW), Table 1, location-based, scope 2 + scope 3",2,Scope 2 0.45 + scope 3 0.1; use scope 2 only (0.45) if the client asks for operational-control reporting
+current,grid.wa_nwis,grid,Western Australia (NWIS),0.65,kgCO2e/kWh,"NGA Factors 2026 (DCCEEW), Table 1, location-based, scope 2 + scope 3",2,Scope 2 0.56 + scope 3 0.09; use scope 2 only (0.56) if the client asks for operational-control reporting
+current,grid.tas,grid,Tasmania,0.26,kgCO2e/kWh,"NGA Factors 2026 (DCCEEW), Table 1, location-based, scope 2 + scope 3",2,Scope 2 0.23 + scope 3 0.03; use scope 2 only (0.23) if the client asks for operational-control reporting
+current,grid.nt_dkis,grid,Northern Territory (DKIS),0.68,kgCO2e/kWh,"NGA Factors 2026 (DCCEEW), Table 1, location-based, scope 2 + scope 3",2,Scope 2 0.55 + scope 3 0.13; use scope 2 only (0.55) if the client asks for operational-control reporting
+current,grid.aus,grid,Australia (national),0.69,kgCO2e/kWh,"NGA Factors 2026 (DCCEEW), Table 1, location-based, scope 2 + scope 3",2,Scope 2 0.59 + scope 3 0.1; use scope 2 only (0.59) if the client asks for operational-control reporting
+current,transport.hgv_avg,transport,"Road, HGV average (average laden)",0.10356,kgCO2e/t.km,"UK DESNZ GHG conversion factors 2026 (flat file, revised), Freighting goods",4,"HGV non-refrigerated all diesel, average HGVs, average laden; No Australian t.km set published; replace with TfNSW ECCL values when available"
+current,transport.hgv_avg_full,transport,"Road, HGV average (fully laden)",0.07488,kgCO2e/t.km,"UK DESNZ GHG conversion factors 2026 (flat file, revised), Freighting goods",4,100% laden; No Australian t.km set published; replace with TfNSW ECCL values when available
+current,transport.artic_avg,transport,"Road, articulated average (average laden)",0.07926,kgCO2e/t.km,"UK DESNZ GHG conversion factors 2026 (flat file, revised), Freighting goods",4,Average artics; No Australian t.km set published; replace with TfNSW ECCL values when available
+current,transport.artic_33,transport,"Road, articulated >33 t (average laden)",0.07835,kgCO2e/t.km,"UK DESNZ GHG conversion factors 2026 (flat file, revised), Freighting goods",4,No Australian t.km set published; replace with TfNSW ECCL values when available
+current,transport.artic_33_full,transport,"Road, articulated >33 t (fully laden)",0.0603,kgCO2e/t.km,"UK DESNZ GHG conversion factors 2026 (flat file, revised), Freighting goods",4,100% laden; No Australian t.km set published; replace with TfNSW ECCL values when available
+current,transport.rigid_avg,transport,"Road, rigid average (average laden)",0.19947,kgCO2e/t.km,"UK DESNZ GHG conversion factors 2026 (flat file, revised), Freighting goods",4,Average rigids; No Australian t.km set published; replace with TfNSW ECCL values when available
+current,transport.rigid_17,transport,"Road, rigid >17 t (average laden)",0.17256,kgCO2e/t.km,"UK DESNZ GHG conversion factors 2026 (flat file, revised), Freighting goods",4,No Australian t.km set published; replace with TfNSW ECCL values when available
+current,transport.rigid_7_17,transport,"Road, rigid 7.5-17 t (average laden)",0.43002,kgCO2e/t.km,"UK DESNZ GHG conversion factors 2026 (flat file, revised), Freighting goods",4,No Australian t.km set published; replace with TfNSW ECCL values when available
+current,transport.rigid_3_7,transport,"Road, rigid 3.5-7.5 t (average laden)",0.54001,kgCO2e/t.km,"UK DESNZ GHG conversion factors 2026 (flat file, revised), Freighting goods",4,No Australian t.km set published; replace with TfNSW ECCL values when available
+current,transport.van,transport,"Road, van <3.5 t (diesel)",0.63511,kgCO2e/t.km,"UK DESNZ GHG conversion factors 2026 (flat file, revised), Freighting goods",4,"Average van, diesel; No Australian t.km set published; replace with TfNSW ECCL values when available"
+current,transport.rail,transport,"Rail, freight train",0.02583,kgCO2e/t.km,"UK DESNZ GHG conversion factors 2026 (flat file, revised), Freighting goods",4,No Australian t.km set published; replace with TfNSW ECCL values when available
+current,transport.sea_container,transport,"Sea, container ship (average)",0.01612,kgCO2e/t.km,"UK DESNZ GHG conversion factors 2026 (flat file, revised), Freighting goods",4,No Australian t.km set published; replace with TfNSW ECCL values when available
+current,transport.sea_bulk,transport,"Sea, bulk carrier (average)",0.00353,kgCO2e/t.km,"UK DESNZ GHG conversion factors 2026 (flat file, revised), Freighting goods",4,No Australian t.km set published; replace with TfNSW ECCL values when available
+current,transport.sea_general,transport,"Sea, general cargo (average)",0.01321,kgCO2e/t.km,"UK DESNZ GHG conversion factors 2026 (flat file, revised), Freighting goods",4,No Australian t.km set published; replace with TfNSW ECCL values when available
+current,transport.air_short,transport,"Air freight, short-haul (with RF)",1.27835,kgCO2e/t.km,"UK DESNZ GHG conversion factors 2026 (flat file, revised), Freighting goods",4,Use for Australian domestic air freight; No Australian t.km set published; replace with TfNSW ECCL values when available
+current,transport.air_long,transport,"Air freight, long-haul (with RF)",0.89939,kgCO2e/t.km,"UK DESNZ GHG conversion factors 2026 (flat file, revised), Freighting goods",4,No Australian t.km set published; replace with TfNSW ECCL values when available
+current,steel.rebar_nefd,steel,Reinforcing steel - NEFD default,3.65,kgCO2e/kg,NABERS National material emission factors database v2026.2 (Jul 2026),2,Uncertainty-adjusted default; average 1.48; use an EPD (tier 1) where available
+current,steel.rebar_nefd_avg,steel,Reinforcing steel - NEFD average,1.48,kgCO2e/kg,NABERS National material emission factors database v2026.2 (Jul 2026),2,Category average (not uncertainty-adjusted)
+current,steel.structural_nefd,steel,"Structural steel, hot rolled - NEFD default",3.85,kgCO2e/kg,NABERS National material emission factors database v2026.2 (Jul 2026),2,Average 2.41
+current,steel.fibre_karawang,steel,"Steel fibre, Karawang plant",1.49,kgCO2e/kg,TunCO2 v1 (Power BI),1,Product EPD carried from v1; check validity date
+current,steel.fibre_petrovice,steel,"Steel fibre, Petrovice plant",0.88,kgCO2e/kg,TunCO2 v1 (Power BI),1,Product EPD carried from v1; check validity date
+current,material.invert_backfill,material,Invert backfill concrete (<=40 MPa),556,kgCO2e/m3,NABERS National material emission factors database v2026.2 (Jul 2026),2,"Concrete in-situ >32 to <=40 MPa, default; average 281"
+current,material.spoil_density,material,Spoil in-situ density,2.8,t/m3,Back-calculated from v1 (0.296 = 2.8 t/m3 x 0.106 kgCO2e/t.km),3,Replace with project ground data
+v1,transport.road_average_laden,transport,"Road, average laden",0.107,kgCO2e/t.km,TunCO2 v1 (Power BI),3,Carried over from v1; confirm against NGA/DEFRA before release
+v1,transport.road_fully_laden,transport,"Road, fully laden",0.0752,kgCO2e/t.km,TunCO2 v1 (Power BI),3,
+v1,transport.sea,transport,Sea,0.0161,kgCO2e/t.km,TunCO2 v1 (Power BI),3,
+v1,transport.air,transport,Air,0.599,kgCO2e/t.km,TunCO2 v1 (Power BI),3,
+v1,transport.rail,transport,Rail,0.0256,kgCO2e/t.km,TunCO2 v1 (Power BI),3,v1 lists Rail twice (0.0256 and 0.0240); DAX SWITCH always returns the first
+v1,transport.road_van_3_5t,transport,"Road, van 3.5 t",1.54,kgCO2e/t.km,TunCO2 v1 (Power BI),3,
+v1,transport.road_truck_3_5_16t,transport,"Road, truck 3.5 to 16 t",0.216,kgCO2e/t.km,TunCO2 v1 (Power BI),3,
+v1,transport.road_truck_16_28t,transport,"Road, truck 16 to 28 t",0.128,kgCO2e/t.km,TunCO2 v1 (Power BI),3,
+v1,transport.road_truck_28t,transport,"Road, truck 28 t",0.0719,kgCO2e/t.km,TunCO2 v1 (Power BI),3,
+v1,transport.road_truck_40t,transport,"Road, truck 40 t",0.0686,kgCO2e/t.km,TunCO2 v1 (Power BI),3,
+v1,transport.sea_container,transport,"Sea, container ship",0.0161,kgCO2e/t.km,TunCO2 v1 (Power BI),3,
+v1,transport.sea_bulk,transport,"Sea, bulk carrier",0.00354,kgCO2e/t.km,TunCO2 v1 (Power BI),3,
+v1,transport.air_domestic,transport,"Air, domestic",1.86,kgCO2e/t.km,TunCO2 v1 (Power BI),3,
+v1,transport.air_international,transport,"Air, international",1.65,kgCO2e/t.km,TunCO2 v1 (Power BI),3,
+v1,transport.road_articulated,transport,"Road, articulated truck",0.106,kgCO2e/t.km,TunCO2 v1 (Power BI),3,
+v1,transport.road_rigid,transport,"Road, rigid truck",0.396,kgCO2e/t.km,TunCO2 v1 (Power BI),3,
+v1,grid.vic,grid,"Victoria, Australia",0.92,kgCO2e/kWh,TunCO2 v1 (Power BI),2,v1 uses 0.92 for TBM energy but 0.86 in the renewable-energy strategy; replace with current NGA factor
+v1,grid.tas,grid,"Tasmania, Australia",0.13,kgCO2e/kWh,TunCO2 v1 (Power BI),2,Replace with current NGA factor
+v1,grid.uk,grid,UK,0.225,kgCO2e/kWh,TunCO2 v1 (Power BI),3,
+v1,steel.hot_rolled,steel,Hot rolled structural steel,2.9,kgCO2e/kg,TunCO2 v1 (Power BI),3,
+v1,steel.fibre_karawang,steel,"Steel fibre, Karawang plant",1.49,kgCO2e/kg,TunCO2 v1 (Power BI),1,Product EPD
+v1,steel.fibre_petrovice,steel,"Steel fibre, Petrovice plant",0.88,kgCO2e/kg,TunCO2 v1 (Power BI),1,Product EPD
+v1,steel.rebar,steel,Steel rebar,1.591,kgCO2e/kg,TunCO2 v1 (Power BI),3,
+v1,steel.rebar_world,steel,"Steel rebar, world average",1.99,kgCO2e/kg,TunCO2 v1 (Power BI),3,
+v1,material.invert_backfill,material,Invert backfill concrete,451.2,kgCO2e/m3,TunCO2 v1 (Power BI),3,Hard-coded in v1 DAX
+v1,material.spoil_removal,material,Spoil removal (articulated truck),0.296,kgCO2e/(m3.km),TunCO2 v1 (Power BI),3,v1 multiplies by 1.3 (bulking); units to confirm with Part 1
+current,fuel.diesel,fuel,Diesel oil (site plant),3.378,kgCO2e/L,"NGA Factors 2026 (DCCEEW), Table 8, diesel oil stationary energy: scope 1 2.710 + scope 3 0.668 kgCO2e/L",2,38.6 GJ/kL; scope 1 70.2 + scope 3 17.3 kgCO2e/GJ
+v1,fuel.diesel,fuel,Diesel oil (site plant),3.378,kgCO2e/L,"NGA Factors 2026 (DCCEEW), Table 8, diesel oil stationary energy: scope 1 2.710 + scope 3 0.668 kgCO2e/L",2,"38.6 GJ/kL; scope 1 70.2 + scope 3 17.3 kgCO2e/GJ; not in v1, added for completeness"

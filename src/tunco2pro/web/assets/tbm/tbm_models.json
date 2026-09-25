@@ -1,0 +1,779 @@
+{
+ "gripper": {
+  "envelope_m": 10.453,
+  "tail_behind_face_m": 14.95,
+  "shield_diameter_m": 10.2,
+  "length_m": 28.94,
+  "triangles": 60016,
+  "source_triangles": 61455,
+  "layers": [
+   {
+    "layer": "MachineStructure",
+    "rgb": [
+     194,
+     199,
+     204
+    ],
+    "triangles": 51882
+   },
+   {
+    "layer": "Railings",
+    "rgb": [
+     194,
+     199,
+     204
+    ],
+    "triangles": 255
+   },
+   {
+    "layer": "RockKit::Cutterhead",
+    "rgb": [
+     120,
+     127,
+     122
+    ],
+    "triangles": 1181
+   },
+   {
+    "layer": "RockKit::DiscCutters",
+    "rgb": [
+     153,
+     162,
+     170
+    ],
+    "triangles": 4764
+   },
+   {
+    "layer": "ServiceTanks",
+    "rgb": [
+     194,
+     199,
+     204
+    ],
+    "triangles": 538
+   },
+   {
+    "layer": "Stairs",
+    "rgb": [
+     194,
+     199,
+     204
+    ],
+    "triangles": 812
+   },
+   {
+    "layer": "TypeKit::Gripper::GripperShoes",
+    "rgb": [
+     70,
+     128,
+     63
+    ],
+    "triangles": 184
+   },
+   {
+    "layer": "TypeKit::Gripper::MainBeam",
+    "rgb": [
+     194,
+     199,
+     204
+    ],
+    "triangles": 12
+   },
+   {
+    "layer": "TypeKit::Gripper::RoofShield",
+    "rgb": [
+     194,
+     199,
+     204
+    ],
+    "triangles": 216
+   },
+   {
+    "layer": "TypeKit::Gripper::SupportLeg",
+    "rgb": [
+     194,
+     199,
+     204
+    ],
+    "triangles": 12
+   },
+   {
+    "layer": "TypeKit::Gripper::ThrustJacks",
+    "rgb": [
+     70,
+     128,
+     63
+    ],
+    "triangles": 160
+   }
+  ],
+  "bytes": 1120248
+ },
+ "single_shield": {
+  "envelope_m": 10.453,
+  "tail_behind_face_m": 14.95,
+  "shield_diameter_m": 10.663,
+  "length_m": 28.94,
+  "triangles": 60055,
+  "source_triangles": 63727,
+  "layers": [
+   {
+    "layer": "MachineStructure",
+    "rgb": [
+     194,
+     199,
+     204
+    ],
+    "triangles": 50032
+   },
+   {
+    "layer": "Railings",
+    "rgb": [
+     194,
+     199,
+     204
+    ],
+    "triangles": 255
+   },
+   {
+    "layer": "RockKit::Cutterhead",
+    "rgb": [
+     120,
+     127,
+     122
+    ],
+    "triangles": 1139
+   },
+   {
+    "layer": "RockKit::Dedusting",
+    "rgb": [
+     240,
+     231,
+     204
+    ],
+    "triangles": 80
+   },
+   {
+    "layer": "RockKit::DiscCutters",
+    "rgb": [
+     153,
+     162,
+     170
+    ],
+    "triangles": 4593
+   },
+   {
+    "layer": "RockKit::MuckBody",
+    "rgb": [
+     181,
+     134,
+     47
+    ],
+    "triangles": 24
+   },
+   {
+    "layer": "RockKit::MuckBuckets",
+    "rgb": [
+     217,
+     164,
+     65
+    ],
+    "triangles": 192
+   },
+   {
+    "layer": "RockKit::MuckChute",
+    "rgb": [
+     217,
+     164,
+     65
+    ],
+    "triangles": 36
+   },
+   {
+    "layer": "RockKit::ProbeDrilling",
+    "rgb": [
+     168,
+     95,
+     68
+    ],
+    "triangles": 208
+   },
+   {
+    "layer": "RockKit::TransferBelt",
+    "rgb": [
+     62,
+     68,
+     72
+    ],
+    "triangles": 268
+   },
+   {
+    "layer": "ServiceTanks",
+    "rgb": [
+     194,
+     199,
+     204
+    ],
+    "triangles": 518
+   },
+   {
+    "layer": "ShieldFrontCollar",
+    "rgb": [
+     227,
+     229,
+     231
+    ],
+    "triangles": 482
+   },
+   {
+    "layer": "ShieldMiddle",
+    "rgb": [
+     220,
+     223,
+     226
+    ],
+    "triangles": 482
+   },
+   {
+    "layer": "ShieldSkin",
+    "rgb": [
+     227,
+     229,
+     231
+    ],
+    "triangles": 482
+   },
+   {
+    "layer": "ShieldTail",
+    "rgb": [
+     213,
+     217,
+     221
+    ],
+    "triangles": 482
+   },
+   {
+    "layer": "Stairs",
+    "rgb": [
+     194,
+     199,
+     204
+    ],
+    "triangles": 782
+   }
+  ],
+  "bytes": 1114092
+ },
+ "double_shield": {
+  "envelope_m": 10.453,
+  "tail_behind_face_m": 14.95,
+  "shield_diameter_m": 10.663,
+  "length_m": 28.94,
+  "triangles": 60018,
+  "source_triangles": 64111,
+  "layers": [
+   {
+    "layer": "MachineStructure",
+    "rgb": [
+     194,
+     199,
+     204
+    ],
+    "triangles": 49733
+   },
+   {
+    "layer": "Railings",
+    "rgb": [
+     194,
+     199,
+     204
+    ],
+    "triangles": 255
+   },
+   {
+    "layer": "RockKit::Cutterhead",
+    "rgb": [
+     120,
+     127,
+     122
+    ],
+    "triangles": 1132
+   },
+   {
+    "layer": "RockKit::DiscCutters",
+    "rgb": [
+     153,
+     162,
+     170
+    ],
+    "triangles": 4566
+   },
+   {
+    "layer": "ServiceTanks",
+    "rgb": [
+     194,
+     199,
+     204
+    ],
+    "triangles": 516
+   },
+   {
+    "layer": "ShieldFrontCollar",
+    "rgb": [
+     227,
+     229,
+     231
+    ],
+    "triangles": 478
+   },
+   {
+    "layer": "ShieldMiddle",
+    "rgb": [
+     220,
+     223,
+     226
+    ],
+    "triangles": 478
+   },
+   {
+    "layer": "ShieldSkin",
+    "rgb": [
+     227,
+     229,
+     231
+    ],
+    "triangles": 478
+   },
+   {
+    "layer": "ShieldTail",
+    "rgb": [
+     213,
+     217,
+     221
+    ],
+    "triangles": 478
+   },
+   {
+    "layer": "Stairs",
+    "rgb": [
+     194,
+     199,
+     204
+    ],
+    "triangles": 778
+   },
+   {
+    "layer": "TypeKit::DoubleShield::GripperShoes",
+    "rgb": [
+     70,
+     128,
+     63
+    ],
+    "triangles": 184
+   },
+   {
+    "layer": "TypeKit::DoubleShield::TelescopicJoint",
+    "rgb": [
+     70,
+     128,
+     63
+    ],
+    "triangles": 942
+   }
+  ],
+  "bytes": 1110324
+ },
+ "epb": {
+  "envelope_m": 10.453,
+  "tail_behind_face_m": 14.79,
+  "shield_diameter_m": 10.663,
+  "length_m": 28.78,
+  "triangles": 64981,
+  "source_triangles": 306985,
+  "layers": [
+   {
+    "layer": "Cutterhead",
+    "rgb": [
+     120,
+     127,
+     122
+    ],
+    "triangles": 47205
+   },
+   {
+    "layer": "MachineStructure",
+    "rgb": [
+     194,
+     199,
+     204
+    ],
+    "triangles": 16297
+   },
+   {
+    "layer": "Railings",
+    "rgb": [
+     194,
+     199,
+     204
+    ],
+    "triangles": 255
+   },
+   {
+    "layer": "ServiceTanks",
+    "rgb": [
+     194,
+     199,
+     204
+    ],
+    "triangles": 106
+   },
+   {
+    "layer": "ShieldFrontCollar",
+    "rgb": [
+     227,
+     229,
+     231
+    ],
+    "triangles": 100
+   },
+   {
+    "layer": "ShieldMiddle",
+    "rgb": [
+     220,
+     223,
+     226
+    ],
+    "triangles": 100
+   },
+   {
+    "layer": "ShieldShell",
+    "rgb": [
+     227,
+     229,
+     231
+    ],
+    "triangles": 550
+   },
+   {
+    "layer": "ShieldSkin",
+    "rgb": [
+     227,
+     229,
+     231
+    ],
+    "triangles": 100
+   },
+   {
+    "layer": "ShieldTail",
+    "rgb": [
+     213,
+     217,
+     221
+    ],
+    "triangles": 100
+   },
+   {
+    "layer": "Stairs",
+    "rgb": [
+     194,
+     199,
+     204
+    ],
+    "triangles": 168
+   }
+  ],
+  "bytes": 1364240
+ },
+ "slurry": {
+  "envelope_m": 10.453,
+  "tail_behind_face_m": 14.79,
+  "shield_diameter_m": 10.663,
+  "length_m": 28.78,
+  "triangles": 65164,
+  "source_triangles": 307211,
+  "layers": [
+   {
+    "layer": "Cutterhead",
+    "rgb": [
+     120,
+     127,
+     122
+    ],
+    "triangles": 47170
+   },
+   {
+    "layer": "MachineStructure",
+    "rgb": [
+     194,
+     199,
+     204
+    ],
+    "triangles": 15979
+   },
+   {
+    "layer": "Railings",
+    "rgb": [
+     194,
+     199,
+     204
+    ],
+    "triangles": 255
+   },
+   {
+    "layer": "ServiceTanks",
+    "rgb": [
+     194,
+     199,
+     204
+    ],
+    "triangles": 106
+   },
+   {
+    "layer": "ShieldFrontCollar",
+    "rgb": [
+     227,
+     229,
+     231
+    ],
+    "triangles": 98
+   },
+   {
+    "layer": "ShieldMiddle",
+    "rgb": [
+     220,
+     223,
+     226
+    ],
+    "triangles": 98
+   },
+   {
+    "layer": "ShieldShell",
+    "rgb": [
+     227,
+     229,
+     231
+    ],
+    "triangles": 550
+   },
+   {
+    "layer": "ShieldSkin",
+    "rgb": [
+     227,
+     229,
+     231
+    ],
+    "triangles": 98
+   },
+   {
+    "layer": "ShieldTail",
+    "rgb": [
+     213,
+     217,
+     221
+    ],
+    "triangles": 98
+   },
+   {
+    "layer": "Stairs",
+    "rgb": [
+     194,
+     199,
+     204
+    ],
+    "triangles": 168
+   },
+   {
+    "layer": "TypeKit::Slurry::FeedLine",
+    "rgb": [
+     78,
+     127,
+     168
+    ],
+    "triangles": 80
+   },
+   {
+    "layer": "TypeKit::Slurry::ReturnLine",
+    "rgb": [
+     110,
+     91,
+     72
+    ],
+    "triangles": 80
+   },
+   {
+    "layer": "TypeKit::Slurry::SlurryLevel",
+    "rgb": [
+     78,
+     127,
+     168
+    ],
+    "triangles": 12
+   },
+   {
+    "layer": "TypeKit::Slurry::StoneCrusher",
+    "rgb": [
+     194,
+     199,
+     204
+    ],
+    "triangles": 12
+   },
+   {
+    "layer": "TypeKit::Slurry::SubmergedWall",
+    "rgb": [
+     194,
+     199,
+     204
+    ],
+    "triangles": 360
+   }
+  ],
+  "bytes": 1372880
+ },
+ "multi_mode": {
+  "envelope_m": 10.453,
+  "tail_behind_face_m": 14.79,
+  "shield_diameter_m": 10.663,
+  "length_m": 28.78,
+  "triangles": 65433,
+  "source_triangles": 307529,
+  "layers": [
+   {
+    "layer": "Cutterhead",
+    "rgb": [
+     120,
+     127,
+     122
+    ],
+    "triangles": 47121
+   },
+   {
+    "layer": "MachineStructure",
+    "rgb": [
+     194,
+     199,
+     204
+    ],
+    "triangles": 16297
+   },
+   {
+    "layer": "Railings",
+    "rgb": [
+     194,
+     199,
+     204
+    ],
+    "triangles": 255
+   },
+   {
+    "layer": "ServiceTanks",
+    "rgb": [
+     194,
+     199,
+     204
+    ],
+    "triangles": 106
+   },
+   {
+    "layer": "ShieldFrontCollar",
+    "rgb": [
+     227,
+     229,
+     231
+    ],
+    "triangles": 98
+   },
+   {
+    "layer": "ShieldMiddle",
+    "rgb": [
+     220,
+     223,
+     226
+    ],
+    "triangles": 98
+   },
+   {
+    "layer": "ShieldShell",
+    "rgb": [
+     227,
+     229,
+     231
+    ],
+    "triangles": 550
+   },
+   {
+    "layer": "ShieldSkin",
+    "rgb": [
+     227,
+     229,
+     231
+    ],
+    "triangles": 98
+   },
+   {
+    "layer": "ShieldTail",
+    "rgb": [
+     213,
+     217,
+     221
+    ],
+    "triangles": 98
+   },
+   {
+    "layer": "Stairs",
+    "rgb": [
+     194,
+     199,
+     204
+    ],
+    "triangles": 168
+   },
+   {
+    "layer": "TypeKit::MultiMode::FeedLine",
+    "rgb": [
+     78,
+     127,
+     168
+    ],
+    "triangles": 80
+   },
+   {
+    "layer": "TypeKit::MultiMode::ReturnLine",
+    "rgb": [
+     110,
+     91,
+     72
+    ],
+    "triangles": 80
+   },
+   {
+    "layer": "TypeKit::MultiMode::SlurryLevel",
+    "rgb": [
+     78,
+     127,
+     168
+    ],
+    "triangles": 12
+   },
+   {
+    "layer": "TypeKit::MultiMode::StoneCrusher",
+    "rgb": [
+     194,
+     199,
+     204
+    ],
+    "triangles": 12
+   },
+   {
+    "layer": "TypeKit::MultiMode::SubmergedWall",
+    "rgb": [
+     194,
+     199,
+     204
+    ],
+    "triangles": 360
+   }
+  ],
+  "bytes": 1377268
+ }
+}

@@ -1,0 +1,1299 @@
+TableName,Name,Expression,DisplayFolder,Description
+Sheet1,LocationSelected,"
+VAR _SelectedL = VALUES(Sheet1[Location])
+VAR _LHighlight = SELECTEDVALUE('Database'[Location])
+VAR _SelectedDB = VALUES(Sheet1[Database])
+VAR _DBHighlight = SELECTEDVALUE('Database'[Database])
+VAR _SelectedType = VALUES(Sheet1[Substitution Type])
+VAR _TypeHighlight = SELECTEDVALUE('Database'[Type])
+VAR _SelectedSubstitute = VALUES(Sheet1[Substitution Content (%)])
+VAR _SubstituteHighlight = SELECTEDVALUE('Database'[Substitute Content])
+
+VAR _FilteredL = ISFILTERED(Sheet1[Location])
+VAR _FilteredDB = ISFILTERED(Sheet1[Database])
+VAR _FilteredType = ISFILTERED(Sheet1[Substitution Type])
+VAR _FilteredSubstitute = ISFILTERED(Sheet1[Substitution Content (%)])
+
+VAR _Result =
+SWITCH(
+    TRUE,
+    -- 没有筛选时，全部显示默认颜色
+    NOT(_FilteredL) && NOT(_FilteredDB) && NOT(_FilteredType) && NOT(_FilteredSubstitute), ""#006000"",
+
+    -- 当前项在筛选列表中
+    (_LHighlight IN _SelectedL || NOT(_FilteredL)) &&
+    (_DBHighlight IN _SelectedDB || NOT(_FilteredDB)) &&
+    (_TypeHighlight IN _SelectedType || NOT(_FilteredType)) &&
+    (_SubstituteHighlight IN _SelectedSubstitute || NOT(_FilteredSubstitute)), ""#006000"",
+    
+    ""#90EE90""
+)
+RETURN _Result
+",,
+Sheet1,Slope_Dark,"
+VAR FilteredTable = FILTER(Sheet1, [LocationSelected] = ""#004000"")
+VAR MeanX = AVERAGEX(FilteredTable, Sheet1[Compressive Strength])
+VAR MeanY = AVERAGEX(FilteredTable, Sheet1[Carbon Emission Factor])
+VAR CovXY = SUMX(FilteredTable, (Sheet1[Compressive Strength] - MeanX) * (Sheet1[Compressive Strength] - MeanY))
+VAR VarX_ = SUMX(FilteredTable, (Sheet1[Compressive Strength] - MeanX) ^ 2)
+RETURN DIVIDE(CovXY, VarX_, 0)",,
+Sheet1,Intercept_Dark,"
+VAR MeanX = AVERAGEX(FILTER(Sheet1, [LocationSelected] = ""#004000""), Sheet1[Compressive Strength])
+VAR MeanY = AVERAGEX(FILTER(Sheet1, [LocationSelected] = ""#004000""), Sheet1[Compressive Strength])
+RETURN MeanY - [Slope_Dark] * MeanX",,
+x_1,x1,"SELECTEDVALUE('x_1'[x_1], 0)",,
+x_2,x2,SELECTEDVALUE('x_2'[x_2]),,
+x_3,x3,SELECTEDVALUE('x_3'[x_3]),,
+x_4,x4,SELECTEDVALUE('x_4'[x_4]),,
+x_5,x5,SELECTEDVALUE('x_5'[x_5]),,
+x_6,x6,SELECTEDVALUE('x_6'[x_6]),,
+x_7,x7,SELECTEDVALUE('x_7'[x_7]),,
+y_1,y1,SELECTEDVALUE('y_1'[y_1]),,
+y_2,y2,SELECTEDVALUE('y_2'[y_2]),,
+y_3,y3,SELECTEDVALUE('y_3'[y_3]),,
+y_4,y4,SELECTEDVALUE('y_4'[y_4]),,
+y_5,y5,SELECTEDVALUE('y_5'[y_5]),,
+y_6,y6,SELECTEDVALUE('y_6'[y_6]),,
+y_7,y7,SELECTEDVALUE('y_7'[y_7]),,
+AllScatterPoints,ScatterX,"
+VAR xVal =
+    SWITCH(
+        SELECTEDVALUE(AllScatterPoints[PointID]),
+        ""Point1"", [x1],
+        ""Point2"", [x2],
+        ""Point3"", [x3],
+        ""Point4"", [x4],
+        ""Point5"", [x5],
+        ""Point6"", [x6],
+        ""Point7"", [x7],
+        BLANK()
+    )
+VAR yVal =
+    SWITCH(
+        SELECTEDVALUE(AllScatterPoints[PointID]),
+        ""Point1"", [y1],
+        ""Point2"", [y2],
+        ""Point3"", [y3],
+        ""Point4"", [y4],
+        ""Point5"", [y5],
+        ""Point6"", [y6],
+        ""Point7"", [y7],
+        BLANK()
+    )
+RETURN
+    IF(
+        xVal = 0 || yVal = 0,
+        BLANK(),
+        xVal
+    )
+",,
+AllScatterPoints,ScatterY,"
+VAR xVal =
+    SWITCH(
+        SELECTEDVALUE(AllScatterPoints[PointID]),
+        ""Point1"", [x1],
+        ""Point2"", [x2],
+        ""Point3"", [x3],
+        ""Point4"", [x4],
+        ""Point5"", [x5],
+        ""Point6"", [x6],
+        ""Point7"", [x7],
+        BLANK()
+    )
+VAR yVal =
+    SWITCH(
+        SELECTEDVALUE(AllScatterPoints[PointID]),
+        ""Point1"", [y1],
+        ""Point2"", [y2],
+        ""Point3"", [y3],
+        ""Point4"", [y4],
+        ""Point5"", [y5],
+        ""Point6"", [y6],
+        ""Point7"", [y7],
+        BLANK()
+    )
+RETURN
+    IF(
+        xVal = 0 || yVal = 0,
+        BLANK(),
+        yVal
+    )",,
+Database,Slope_Database,"
+VAR NumPoints = COUNTROWS('Database')
+VAR X_mean = AVERAGE('Database'[Compressive Strength])
+VAR Y_mean = AVERAGE('Database'[Carbon Emission Factor])
+VAR SumXY = SUMX('Database', ('Database'[Compressive Strength] - X_mean) * ('Database'[Carbon Emission Factor] - Y_mean))
+VAR SumXX = SUMX('Database', ('Database'[Compressive Strength] - X_mean) * ('Database'[Compressive Strength] - X_mean))
+
+RETURN 
+    IF(NumPoints > 1, SumXY / SumXX, BLANK())
+",,
+Database,Intercept_Database,"
+VAR X_mean = AVERAGE('Database'[Compressive Strength])
+VAR Y_mean = AVERAGE('Database'[Carbon Emission Factor])
+RETURN Y_mean - [Slope_Database] * X_mean",,
+Database,TrendValue_Database,[Slope_Database] * [x1] + [Intercept_Database],,
+AllScatterPoints,Slope_Define,"
+VAR CountNonBlank =
+    COUNTROWS(
+        FILTER(
+            { [x1], [x2], [x3],[x4],[x5],[x6],[x7] },
+            [Value] <> 0
+        )
+    )
+
+
+VAR sum_XY = (CountNonBlank) * ([x1]*[y1] + [x2]*[y2] + [x3]*[y3] + [x4]*[y4] + [x5]*[y5] + [x6]*[y6] + [x7]*[y7]) - ([x1]+[x2]+[x3]+[x4]+[x5]+[x6]+[x7])*([y1]+[y2]+[y3]+[y4]+[y5]+[y6]+[y7])
+VAR sum_XX = (CountNonBlank) * ([x1]^2+[x2]^2+[x3]^2+[x4]^2+[x5]^2+[x6]^2+[x7]^2)-([x1]+[x2]+[x3]+[x4]+[x5]+[x6]+[x7])^2
+
+RETURN sum_XY/sum_XX",,
+AllScatterPoints,Intercept_Define,"
+VAR CountNonBlank =
+    COUNTROWS(
+        FILTER(
+            { [x1], [x2], [x3],[x4],[x5],[x6],[x7] },
+            [Value] <> 0
+        )
+    )
+
+VAR mean_X = 
+    DIVIDE([x1] + [x2] + [x3]+[x4]+[x5]+[x6]+[x7], CountNonBlank, BLANK())
+
+VAR mean_Y = 
+    DIVIDE([y1] + [y2] + [y3]+[y4]+[y5]+[y6]+[y7], CountNonBlank, BLANK())
+
+Return mean_Y - [Slope_Define] * mean_X",,
+x_0,x0,"SELECTEDVALUE('x_0'[x_0],0)",,
+EFCc,ECFc_Database,"
+    IF(
+        [x0] = 0,
+        0,
+        [Slope_Database] * [x0] + [Intercept_Database]
+    )",,
+EFCc,ECFc_User,"
+IF (
+    [x2] = 0 && [x3] = 0 && [x4] = 0 && [x5] = 0 && [x6] = 0 && [x7] = 0 &&
+    [y2] = 0 && [y3] = 0 && [y4] = 0 && [y5] = 0 && [y6] = 0 && [y7] = 0,
+    [y1],
+    IF (
+        [x0] = 0,
+        0,
+        IF (
+            ISBLANK([Slope_Define]) || ISBLANK([Intercept_Define]) || 
+            ISERROR([Slope_Define]) || ISERROR([Intercept_Define]),
+            [y1],
+            [x0] * [Slope_Define] + [Intercept_Define]
+        )
+    )
+)",,
+ECFs,ECFs_User_,"SELECTEDVALUE('ECFs'[ECFs_User],0)",,
+Reinf. Ratio,Reinf. Ratio_,SELECTEDVALUE('Reinf. Ratio'[Reinf. Ratio]),,
+Theta,Theta_,SELECTEDVALUE('Theta'[Theta]),,
+Steel Density,Steel Density_,SELECTEDVALUE('Steel Density'[Steel Density]),,
+ECFs,ECFs_Database,"
+VAR SelectedSteel = SELECTEDVALUE('Steel ECF'[Table])
+RETURN 
+    SWITCH(
+        SelectedSteel,
+        ""Hot rolled structural steel"", 2.9,
+        ""Steel fibre, Karawang plant"", 1.49,
+        ""Steel fibre, Petrovice plant"", 0.88,
+        ""Steel rebar"", 1.591,
+        ""Steel rebar, world average"", 1.99,
+        BLANK()
+    )",,
+ECFs,ECFs,"
+VAR SelectedSource = SELECTEDVALUE('Steel ECF_Choose'[Steel ECF])
+RETURN 
+    SWITCH(
+        SelectedSource,
+        ""Database"", [ECFs_Database],
+        ""User Define"", [ECFs_User_],
+        BLANK()
+    )",,
+EFCc,ECFc,"
+VAR Selected = SELECTEDVALUE('Concrete ECF_Choose'[Concrete ECF])
+RETURN 
+    SWITCH(
+        Selected,
+        ""Database"", [ECFc_Database],
+        ""User Define"", [ECFc_User],
+        BLANK()
+    )",,
+Carbon Emission Calculation,Concrete,"
+
+
+IF(
+    CONTAINS('Shown in pie chart', 'Shown in pie chart'[Shown], ""Lining Concrete""), 
+    PI()/4*(([D_i_]+2*[t_])^2-[D_i_]^2)*[ECFc], 
+    BLANK()
+)",,
+Carbon Emission Calculation,Steel,"
+
+IF(
+    CONTAINS('Shown in pie chart', 'Shown in pie chart'[Shown], ""Lining Steel""), 
+    PI()/4*(([D_i_]+2*[t_])^2-[D_i_]^2)*[ECFs]*'Reinf. Ratio'[Reinf. Ratio_]*0.01*'Steel Density'[Steel Density_], 
+    BLANK()
+)",,
+Carbon Emission Calculation,Invert backfill,"
+VAR Selected = SELECTEDVALUE('ThetaChord'[ToC])
+VAR Theta_Value = 
+    IF(
+        Selected = ""Theta"", 
+        [Theta_], 
+        2 * DEGREES(ASIN([Chord_] / (2 * ([D_i_] / 2))))  -- 计算 Theta_
+    )
+RETURN 
+    
+
+IF(
+    CONTAINS('Shown in pie chart', 'Shown in pie chart'[Shown], ""Invert Backfill""), 
+    (PI() * ([D_i_] / 2) ^ 2 * Theta_Value / 360 
+     - ([D_i_] / 2) ^ 2 * SIN(RADIANS(Theta_Value / 2)) * COS(RADIANS(Theta_Value / 2))) 
+    * 451.2, 
+    BLANK()
+)",,
+Carbon Emission Calculation,Grout,"
+
+IF(
+    CONTAINS('Shown in pie chart', 'Shown in pie chart'[Shown], ""Grout""), 
+    PI()/4*([D_tbm_]^2-([D_i_]+2*[t_])^2)*Grout_ECF[Grout_ECF],
+    BLANK()
+)",,
+Carbon Emission Calculation,Fitout,"
+
+IF(
+    CONTAINS('Shown in pie chart', 'Shown in pie chart'[Shown], ""Fitout""), 
+    [Fitout Volume_] * [Fitout_ECF_],
+    BLANK()
+)
+",,
+Carbon Emission Calculation,Road/Rail,"
+IF(
+    CONTAINS('Shown in pie chart', 'Shown in pie chart'[Shown], ""Road/Rail""), 
+    [Rail/Road Volume_]*[Rail/Road_ECF_], 
+    BLANK()
+)",,
+Carbon Emission Calculation,Sum,[Fitout]+[Road/Rail]+[Invert backfill]+[Concrete]+[Steel]+[Grout],,
+D_i,D_i_,MIN(D_i[D_i]),,
+t,t_,MIN(t[t]),,
+Chord,Chord_,MIN(Chord[Chord]),,
+Dtbm,D_tbm_,MIN(Dtbm[D_tbm]),,
+Rail/Road Volume,Rail/Road Volume_,MIN('Rail/Road Volume'[Rail/Road Volume]),,
+Fitout Volume,Fitout Volume_,MIN('Fitout Volume'[Fitout Volume]),,
+Lining_A4,Lining_Selected_TEF_1,"
+VAR SelectedMode = SELECTEDVALUE('Lining_A4_Method1'[Methods1])
+RETURN 
+    SWITCH(
+        SelectedMode,
+        ""Road, average laden"", 0.107,
+        ""Road, fully laden"", 0.0752,
+        ""Sea"", 0.0161,
+        ""Air"", 0.599,
+        ""Rail"", 0.0256,
+        ""Road, van 3.5 t"", 1.54,
+        ""Road, truck 3.5 to 16 t"", 0.216,
+        ""Road, truck 16 to 28 t"", 0.128,
+        ""Road, truck 28 t"", 0.0719,
+        ""Road, truck 40 t"", 0.0686,
+        ""Sea, container ship"", 0.0161,
+        ""Sea, bulk carrier"", 0.00354,
+        ""Air, domestic"", 1.86,
+        ""Air, international"", 1.65,
+        ""Rail"", 0.0240,
+        ""Road, articulated truck"", 0.106,
+        ""Road, rigid truck"", 0.396,
+        BLANK()
+    )
+",,
+Carbon Emission Calculation,Lining_Mass,"
+
+
+
+VAR Lining_Concrete = PI()/4*(([D_i_]+2*[t_])^2-[D_i_]^2)
+VAR Lining_Steel = PI()/4*(([D_i_]+2*[t_])^2-[D_i_]^2)*'Reinf. Ratio'[Reinf. Ratio_]*0.01
+
+
+RETURN
+Lining_Concrete*[Concrete_Density_]+Lining_Steel*[Steel Density_]",,
+Lining_A4,Lining_A4_Carbon_1,[Lining_Mass] * 'Lining_Distance1'[Lining_Distance1_] * [Lining_Selected_TEF_1] * 0.001,,
+Concrete_Density,Concrete_Density_,SELECTEDVALUE('Concrete_Density'[Concrete_Density]),,
+Lining_Distance1,Lining_Distance1_,Min('Lining_Distance1'[Distance1]),,
+Lining_Distance2,Lining_Distance2_,Min('Lining_Distance2'[Distance2]),,
+Lining_Distance3,Lining_Distance3_,Min('Lining_Distance3'[Distance3]),,
+Lining_A4,Lining_Selected_TEF_2,"
+VAR SelectedMode = SELECTEDVALUE('Lining_A4_Method2'[Methods2])
+RETURN 
+    SWITCH(
+        SelectedMode,
+        ""Road, average laden"", 0.107,
+        ""Road, fully laden"", 0.0752,
+        ""Sea"", 0.0161,
+        ""Air"", 0.599,
+        ""Rail"", 0.0256,
+        ""Road, van 3.5 t"", 1.54,
+        ""Road, truck 3.5 to 16 t"", 0.216,
+        ""Road, truck 16 to 28 t"", 0.128,
+        ""Road, truck 28 t"", 0.0719,
+        ""Road, truck 40 t"", 0.0686,
+        ""Sea, container ship"", 0.0161,
+        ""Sea, bulk carrier"", 0.00354,
+        ""Air, domestic"", 1.86,
+        ""Air, international"", 1.65,
+        ""Rail"", 0.0240,
+        ""Road, articulated truck"", 0.106,
+        ""Road, rigid truck"", 0.396,
+        BLANK()
+    )",,
+Lining_A4,Lining_A4_Carbon_2,[Lining_Mass] * Lining_Distance2[Lining_Distance2_] * [Lining_Selected_TEF_2] * 0.001,,
+Lining_A4,Lining_A4_Carbon_3,[Lining_Mass] * 'Lining_Distance3'[Lining_Distance3_] * [Lining_Selected_TEF_3] * 0.001,,
+Lining_A4,Lining_Selected_TEF_3,"
+VAR SelectedMode = SELECTEDVALUE('Lining_A4_Method3'[Methods3])
+RETURN 
+    SWITCH(
+        SelectedMode,
+        ""Road, average laden"", 0.107,
+        ""Road, fully laden"", 0.0752,
+        ""Sea"", 0.0161,
+        ""Air"", 0.599,
+        ""Rail"", 0.0256,
+        ""Road, van 3.5 t"", 1.54,
+        ""Road, truck 3.5 to 16 t"", 0.216,
+        ""Road, truck 16 to 28 t"", 0.128,
+        ""Road, truck 28 t"", 0.0719,
+        ""Road, truck 40 t"", 0.0686,
+        ""Sea, container ship"", 0.0161,
+        ""Sea, bulk carrier"", 0.00354,
+        ""Air, domestic"", 1.86,
+        ""Air, international"", 1.65,
+        ""Rail"", 0.0240,
+        ""Road, articulated truck"", 0.106,
+        ""Road, rigid truck"", 0.396,
+        BLANK()
+    )",,
+Lining_A4,A4: Lining,[Lining_A4_Carbon_1]+[Lining_A4_Carbon_2]+[Lining_A4_Carbon_3],,
+Carbon Emission Calculation,Lining_Steel11,PI()/4*(([D_i_]+2*[t_])^2-[D_i_]^2)*[ECFs]*'Reinf. Ratio'[Reinf. Ratio_]*0.01,,
+Carbon Emission Calculation,Grout_Mass,"
+VAR Grout = PI()/4*([D_tbm_]^2-([D_i_]+2*[t_])^2)
+RETURN
+ Grout*[Concrete_Density_]",,
+Carbon Emission Calculation,Backfill_Mass,"
+VAR Selected = SELECTEDVALUE('ThetaChord'[ToC])
+VAR Theta_Value = 
+    IF(
+        Selected = ""Theta"", 
+        [Theta_], 
+        2 * DEGREES(ASIN([Chord_] / (2 * ([D_i_] / 2))))  -- 计算 Theta_
+    )
+
+VAR Invert_backfill =
+    (PI() * ([D_i_] / 2) ^ 2 * Theta_Value / 360  - ([D_i_] / 2) ^ 2 * SIN(RADIANS(Theta_Value / 2)) * COS(RADIANS(Theta_Value / 2)))
+
+RETURN
+Invert_backfill*[Concrete_Density_]",,
+Fitout_A4,Fitout_Selected_TEF_1,"
+VAR SelectedMode = SELECTEDVALUE('Fitout_A4_Method1'[Methods1])
+RETURN 
+    SWITCH(
+        SelectedMode,
+        ""Road, average laden"", 0.107,
+        ""Road, fully laden"", 0.0752,
+        ""Sea"", 0.0161,
+        ""Air"", 0.599,
+        ""Rail"", 0.0256,
+        ""Road, van 3.5 t"", 1.54,
+        ""Road, truck 3.5 to 16 t"", 0.216,
+        ""Road, truck 16 to 28 t"", 0.128,
+        ""Road, truck 28 t"", 0.0719,
+        ""Road, truck 40 t"", 0.0686,
+        ""Sea, container ship"", 0.0161,
+        ""Sea, bulk carrier"", 0.00354,
+        ""Air, domestic"", 1.86,
+        ""Air, international"", 1.65,
+        ""Rail"", 0.0240,
+        ""Road, articulated truck"", 0.106,
+        ""Road, rigid truck"", 0.396,
+        BLANK()
+    )
+",,
+Fitout_A4,Fitout_Selected_TEF_2,"
+VAR SelectedMode = SELECTEDVALUE('Fitout_A4_Method2'[Methods2])
+RETURN 
+    SWITCH(
+        SelectedMode,
+        ""Road, average laden"", 0.107,
+        ""Road, fully laden"", 0.0752,
+        ""Sea"", 0.0161,
+        ""Air"", 0.599,
+        ""Rail"", 0.0256,
+        ""Road, van 3.5 t"", 1.54,
+        ""Road, truck 3.5 to 16 t"", 0.216,
+        ""Road, truck 16 to 28 t"", 0.128,
+        ""Road, truck 28 t"", 0.0719,
+        ""Road, truck 40 t"", 0.0686,
+        ""Sea, container ship"", 0.0161,
+        ""Sea, bulk carrier"", 0.00354,
+        ""Air, domestic"", 1.86,
+        ""Air, international"", 1.65,
+        ""Rail"", 0.0240,
+        ""Road, articulated truck"", 0.106,
+        ""Road, rigid truck"", 0.396,
+        BLANK()
+    )
+",,
+Fitout_A4,Fitout_Selected_TEF_3,"
+VAR SelectedMode = SELECTEDVALUE('Fitout_A4_Method3'[Methods3])
+RETURN 
+    SWITCH(
+        SelectedMode,
+        ""Road, average laden"", 0.107,
+        ""Road, fully laden"", 0.0752,
+        ""Sea"", 0.0161,
+        ""Air"", 0.599,
+        ""Rail"", 0.0256,
+        ""Road, van 3.5 t"", 1.54,
+        ""Road, truck 3.5 to 16 t"", 0.216,
+        ""Road, truck 16 to 28 t"", 0.128,
+        ""Road, truck 28 t"", 0.0719,
+        ""Road, truck 40 t"", 0.0686,
+        ""Sea, container ship"", 0.0161,
+        ""Sea, bulk carrier"", 0.00354,
+        ""Air, domestic"", 1.86,
+        ""Air, international"", 1.65,
+        ""Rail"", 0.0240,
+        ""Road, articulated truck"", 0.106,
+        ""Road, rigid truck"", 0.396,
+        BLANK()
+    )
+",,
+Fitout_A4,Fitout_A4_Carbon_1,[Fitout Volume_] * [Fitout_Distance1_] * [Fitout_Selected_TEF_1] * 0.001,,
+Fitout_Distance1,Fitout_Distance1_,Min('Fitout_Distance1'[Distance1]),,
+Fitout_Distance2,Fitout_Distance2_,Min('Fitout_Distance2'[Distance2]),,
+Fitout_Distance3,Fitout_Distance3_,Min('Fitout_Distance3'[Distance3]),,
+Fitout_A4,Fitout_A4_Carbon_2,[Fitout Volume_] * [Fitout_Distance2_] * [Fitout_Selected_TEF_2] * 0.001,,
+Fitout_A4,Fitout_A4_Carbon_3,[Fitout Volume_] * [Fitout_Distance3_] * [Fitout_Selected_TEF_3] * 0.001,,
+Grout_Distance1,Grout_Distance1_,Min('Grout_Distance1'[Distance1]),,
+Grout_Distance2,Grout_Distance2_,Min('Grout_Distance2'[Distance2]),,
+Grout_Distance3,Grout_Distance3_,Min('Grout_Distance3'[Distance3]),,
+Grout_A4,Grout_A4_Carbon_1,[Grout_Mass] * [Grout_Distance1_] * [Grout_Selected_TEF_1] * 0.001,,
+Grout_A4,Grout_A4_Carbon_2,[Grout_Mass] * [Grout_Distance2_] * [Grout_Selected_TEF_2] * 0.001,,
+Grout_A4,Grout_A4_Carbon_3,[Grout_Mass] * [Grout_Distance3_] * [Grout_Selected_TEF_3] * 0.001,,
+Grout_A4,Grout_Selected_TEF_1,"
+VAR SelectedMode = SELECTEDVALUE('Grout_A4_Method1'[Methods1])
+RETURN 
+    SWITCH(
+        SelectedMode,
+        ""Road, average laden"", 0.107,
+        ""Road, fully laden"", 0.0752,
+        ""Sea"", 0.0161,
+        ""Air"", 0.599,
+        ""Rail"", 0.0256,
+        ""Road, van 3.5 t"", 1.54,
+        ""Road, truck 3.5 to 16 t"", 0.216,
+        ""Road, truck 16 to 28 t"", 0.128,
+        ""Road, truck 28 t"", 0.0719,
+        ""Road, truck 40 t"", 0.0686,
+        ""Sea, container ship"", 0.0161,
+        ""Sea, bulk carrier"", 0.00354,
+        ""Air, domestic"", 1.86,
+        ""Air, international"", 1.65,
+        ""Rail"", 0.0240,
+        ""Road, articulated truck"", 0.106,
+        ""Road, rigid truck"", 0.396,
+        BLANK()
+    )
+",,
+Grout_A4,Grout_Selected_TEF_2,"
+VAR SelectedMode = SELECTEDVALUE('Grout_A4_Method2'[Methods2])
+RETURN 
+    SWITCH(
+        SelectedMode,
+        ""Road, average laden"", 0.107,
+        ""Road, fully laden"", 0.0752,
+        ""Sea"", 0.0161,
+        ""Air"", 0.599,
+        ""Rail"", 0.0256,
+        ""Road, van 3.5 t"", 1.54,
+        ""Road, truck 3.5 to 16 t"", 0.216,
+        ""Road, truck 16 to 28 t"", 0.128,
+        ""Road, truck 28 t"", 0.0719,
+        ""Road, truck 40 t"", 0.0686,
+        ""Sea, container ship"", 0.0161,
+        ""Sea, bulk carrier"", 0.00354,
+        ""Air, domestic"", 1.86,
+        ""Air, international"", 1.65,
+        ""Rail"", 0.0240,
+        ""Road, articulated truck"", 0.106,
+        ""Road, rigid truck"", 0.396,
+        BLANK()
+    )
+",,
+Grout_A4,Grout_Selected_TEF_3,"
+VAR SelectedMode = SELECTEDVALUE('Grout_A4_Method3'[Methods3])
+RETURN 
+    SWITCH(
+        SelectedMode,
+        ""Road, average laden"", 0.107,
+        ""Road, fully laden"", 0.0752,
+        ""Sea"", 0.0161,
+        ""Air"", 0.599,
+        ""Rail"", 0.0256,
+        ""Road, van 3.5 t"", 1.54,
+        ""Road, truck 3.5 to 16 t"", 0.216,
+        ""Road, truck 16 to 28 t"", 0.128,
+        ""Road, truck 28 t"", 0.0719,
+        ""Road, truck 40 t"", 0.0686,
+        ""Sea, container ship"", 0.0161,
+        ""Sea, bulk carrier"", 0.00354,
+        ""Air, domestic"", 1.86,
+        ""Air, international"", 1.65,
+        ""Rail"", 0.0240,
+        ""Road, articulated truck"", 0.106,
+        ""Road, rigid truck"", 0.396,
+        BLANK()
+    )
+",,
+Backfill_Distance1,Backfill_Distance1_,Min('Backfill_Distance1'[Distance1]),,
+Backfill_Distance2,Backfill_Distance2_,Min('Backfill_Distance2'[Distance2]),,
+Backfill_Distance3,Backfill_Distance3_,Min('Backfill_Distance3'[Distance3]),,
+Backfill_A4,Backfill_Selected_TEF_1,"
+VAR SelectedMode = SELECTEDVALUE('Backfill_A4_Method1'[Methods1])
+RETURN 
+    SWITCH(
+        SelectedMode,
+        ""Road, average laden"", 0.107,
+        ""Road, fully laden"", 0.0752,
+        ""Sea"", 0.0161,
+        ""Air"", 0.599,
+        ""Rail"", 0.0256,
+        ""Road, van 3.5 t"", 1.54,
+        ""Road, truck 3.5 to 16 t"", 0.216,
+        ""Road, truck 16 to 28 t"", 0.128,
+        ""Road, truck 28 t"", 0.0719,
+        ""Road, truck 40 t"", 0.0686,
+        ""Sea, container ship"", 0.0161,
+        ""Sea, bulk carrier"", 0.00354,
+        ""Air, domestic"", 1.86,
+        ""Air, international"", 1.65,
+        ""Rail"", 0.0240,
+        ""Road, articulated truck"", 0.106,
+        ""Road, rigid truck"", 0.396,
+        BLANK()
+    )
+",,
+Backfill_A4,Backfill_Selected_TEF_2,"
+VAR SelectedMode = SELECTEDVALUE('Backfill_A4_Method2'[Methods2])
+RETURN 
+    SWITCH(
+        SelectedMode,
+        ""Road, average laden"", 0.107,
+        ""Road, fully laden"", 0.0752,
+        ""Sea"", 0.0161,
+        ""Air"", 0.599,
+        ""Rail"", 0.0256,
+        ""Road, van 3.5 t"", 1.54,
+        ""Road, truck 3.5 to 16 t"", 0.216,
+        ""Road, truck 16 to 28 t"", 0.128,
+        ""Road, truck 28 t"", 0.0719,
+        ""Road, truck 40 t"", 0.0686,
+        ""Sea, container ship"", 0.0161,
+        ""Sea, bulk carrier"", 0.00354,
+        ""Air, domestic"", 1.86,
+        ""Air, international"", 1.65,
+        ""Rail"", 0.0240,
+        ""Road, articulated truck"", 0.106,
+        ""Road, rigid truck"", 0.396,
+        BLANK()
+    )
+",,
+Backfill_A4,Backfill_Selected_TEF_3,"
+VAR SelectedMode = SELECTEDVALUE('Backfill_A4_Method3'[Methods3])
+RETURN 
+    SWITCH(
+        SelectedMode,
+        ""Road, average laden"", 0.107,
+        ""Road, fully laden"", 0.0752,
+        ""Sea"", 0.0161,
+        ""Air"", 0.599,
+        ""Rail"", 0.0256,
+        ""Road, van 3.5 t"", 1.54,
+        ""Road, truck 3.5 to 16 t"", 0.216,
+        ""Road, truck 16 to 28 t"", 0.128,
+        ""Road, truck 28 t"", 0.0719,
+        ""Road, truck 40 t"", 0.0686,
+        ""Sea, container ship"", 0.0161,
+        ""Sea, bulk carrier"", 0.00354,
+        ""Air, domestic"", 1.86,
+        ""Air, international"", 1.65,
+        ""Rail"", 0.0240,
+        ""Road, articulated truck"", 0.106,
+        ""Road, rigid truck"", 0.396,
+        BLANK()
+    )
+",,
+Backfill_A4,Backfill_A4_Carbon_1,[Backfill_Mass] * [Backfill_Distance1_] * [Backfill_Selected_TEF_1] * 0.001,,
+Backfill_A4,Backfill_A4_Carbon_2,[Backfill_Mass] * [Backfill_Distance2_] * [Backfill_Selected_TEF_2] * 0.001,,
+Backfill_A4,Backfill_A4_Carbon_3,[Backfill_Mass] * [Backfill_Distance3_] * [Backfill_Selected_TEF_3] * 0.001,,
+Rail/Road_Distance1,Rail/Road_Distance1_,Min('Rail/Road_Distance1'[Distance1]),,
+Rail/Road_Distance2,Rail/Road_Distance2_,Min('Rail/Road_Distance2'[Distance2]),,
+Rail/Road_Distance3,Rail/Road_Distance3_,Min('Rail/Road_Distance3'[Distance3]),,
+Rail/Road_A4,Rail/Road_Selected_TEF_1,"
+VAR SelectedMode = SELECTEDVALUE('Rail/Road_A4_Method1'[Methods1])
+RETURN 
+    SWITCH(
+        SelectedMode,
+        ""Road, average laden"", 0.107,
+        ""Road, fully laden"", 0.0752,
+        ""Sea"", 0.0161,
+        ""Air"", 0.599,
+        ""Rail"", 0.0256,
+        ""Road, van 3.5 t"", 1.54,
+        ""Road, truck 3.5 to 16 t"", 0.216,
+        ""Road, truck 16 to 28 t"", 0.128,
+        ""Road, truck 28 t"", 0.0719,
+        ""Road, truck 40 t"", 0.0686,
+        ""Sea, container ship"", 0.0161,
+        ""Sea, bulk carrier"", 0.00354,
+        ""Air, domestic"", 1.86,
+        ""Air, international"", 1.65,
+        ""Rail"", 0.0240,
+        ""Road, articulated truck"", 0.106,
+        ""Road, rigid truck"", 0.396,
+        BLANK()
+    )
+",,
+Rail/Road_A4,Rail/Road_Selected_TEF_2,"
+VAR SelectedMode = SELECTEDVALUE('Rail/Road_A4_Method2'[Methods2])
+RETURN 
+    SWITCH(
+        SelectedMode,
+        ""Road, average laden"", 0.107,
+        ""Road, fully laden"", 0.0752,
+        ""Sea"", 0.0161,
+        ""Air"", 0.599,
+        ""Rail"", 0.0256,
+        ""Road, van 3.5 t"", 1.54,
+        ""Road, truck 3.5 to 16 t"", 0.216,
+        ""Road, truck 16 to 28 t"", 0.128,
+        ""Road, truck 28 t"", 0.0719,
+        ""Road, truck 40 t"", 0.0686,
+        ""Sea, container ship"", 0.0161,
+        ""Sea, bulk carrier"", 0.00354,
+        ""Air, domestic"", 1.86,
+        ""Air, international"", 1.65,
+        ""Rail"", 0.0240,
+        ""Road, articulated truck"", 0.106,
+        ""Road, rigid truck"", 0.396,
+        BLANK()
+    )
+",,
+Rail/Road_A4,Rail/Road_Selected_TEF_3,"
+VAR SelectedMode = SELECTEDVALUE('Rail/Road_A4_Method3'[Methods3])
+RETURN 
+    SWITCH(
+        SelectedMode,
+        ""Road, average laden"", 0.107,
+        ""Road, fully laden"", 0.0752,
+        ""Sea"", 0.0161,
+        ""Air"", 0.599,
+        ""Rail"", 0.0256,
+        ""Road, van 3.5 t"", 1.54,
+        ""Road, truck 3.5 to 16 t"", 0.216,
+        ""Road, truck 16 to 28 t"", 0.128,
+        ""Road, truck 28 t"", 0.0719,
+        ""Road, truck 40 t"", 0.0686,
+        ""Sea, container ship"", 0.0161,
+        ""Sea, bulk carrier"", 0.00354,
+        ""Air, domestic"", 1.86,
+        ""Air, international"", 1.65,
+        ""Rail"", 0.0240,
+        ""Road, articulated truck"", 0.106,
+        ""Road, rigid truck"", 0.396,
+        BLANK()
+    )
+",,
+Rail/Road_A4,Rail/Road_A4_Carbon_1,[Rail/Road Volume_] * [Rail/Road_Distance1_] * [Rail/Road_Selected_TEF_1] * 0.001,,
+Rail/Road_A4,Rail/Road_A4_Carbon_2,[Rail/Road Volume_] * [Rail/Road_Distance2_] * [Rail/Road_Selected_TEF_2] * 0.001,,
+Rail/Road_A4,Rail/Road_A4_Carbon_3,[Rail/Road Volume_] * [Rail/Road_Distance3_] * [Rail/Road_Selected_TEF_3] * 0.001,,
+Rail/Road_A4,A4: Rail/road,[Rail/Road_A4_Carbon_1]+[Rail/Road_A4_Carbon_2]+[Rail/Road_A4_Carbon_3],,
+Grout_A4,A4: Grout,[Grout_A4_Carbon_1]+[Grout_A4_Carbon_2]+[Grout_A4_Carbon_3],,
+Fitout_A4,A4: Fitout,[Fitout_A4_Carbon_1]+[Fitout_A4_Carbon_2]+[Fitout_A4_Carbon_3],,
+Backfill_A4,A4: Backfill,[Backfill_A4_Carbon_1]+[Backfill_A4_Carbon_2]+[Backfill_A4_Carbon_3],,
+A4A5_Result,Empirical Torque_Type,"
+SWITCH(
+    SELECTEDVALUE('Type_TBM'[Type]),
+    ""Double Shield TBM"", 38.12 * [Diameter_TBM_] ^ 2.3546/1000,
+    ""EPB TBM"", 13.438 * [Diameter_TBM_] ^ 3.154/1000,
+    ""Open TBM"", (1089.3*[Diameter_TBM_] - 4188.8)/1000,
+    ""Single Shield TBM"", 187.7 * [Diameter_TBM_] ^ 1.6390/1000,
+    ""Slurry TBM"", 442.51 * EXP(0.2925 * [Diameter_TBM_])/1000,
+    Blank()
+)",,
+Diameter_TBM,Diameter_TBM_,[D_tbm_] ,,
+Alpha_T,Alpha_T_,min(Alpha_T[Alpha_T]),,
+K0,K0_,"SELECTEDVALUE('K0'[K0], 0.6)",,
+y,y_,min('y'[y]),,
+H,H_,min('H'[H]),,
+f_deltap,f_deltap_,min(f_deltap[f_deltap]),,
+f,f_,min(f[f]),,
+opening,opening_,min('opening'[opening]),,
+tao,tao_,min('tao'[tao]),,
+W,W_,min('W'[W]),,
+Db,Db_,min('Db'[Db]),,
+Lb,Lb_,min('Lb'[Lb]),,
+fc,fc_,min('fc'[fc]),,
+Nb,Nb_,min('Nb'[Nb]),,
+Rb,Rb_,min('Rb'[Rb]),,
+A4A5_Result,Analytical Torque,"
+
+VAR k1 = pi()/12*([K0_]*(1+[f_deltap_])*[f_]*[y_]*[H_]*(1-[opening_])+[kq_]*[opening_]*[tao_])
+
+VAR k2 = pi()/4*([K0_]+1)*[f_]*[y_]*[H_]*[W_]
+
+VAR k3 = [y_]*[H_]*[Db_]*[Lb_]*[fc_]*[Rb_]*[Nb_]
+
+RETURN
+
+(k1*[Diameter_TBM_]^3 + k2*[Diameter_TBM_]^2 +k3)/1000",,
+kq,kq_,min('kq'[kq]),,
+A4A5_Result,Empirical Torque,Alpha_T[Alpha_T_] * Diameter_TBM[Diameter_TBM_]^3/1000,,
+Alpha_F,Alpha_F_,min('Alpha_F'[Alpha_F]),,
+A4A5_Result,Empirical Thrust,[Alpha_F_] * [Diameter_TBM_]^2/1000,,
+K,K_,MIN(K[K]),,
+pq,pq_,min('pq'[pq]),,
+hatch,hatch_,min('hatch'[hatch]),,
+H',H'_,MIN('H'''[H']),,
+pc,pc_,min('pc'[pc]),,
+L,L_,min('L'[L]),,
+G,G_,min('G'[G]),,
+ns,ns_,min('ns'[ns]),,
+Ws,Ws_,min('Ws'[Ws]),,
+mus,mus_,min('mus'[mus]),,
+mua,mua_,min('mua'[mua]),,
+Wa,Wa_,min('Wa'[Wa]),,
+nc,nc_,min('nc'[nc]),,
+lc,lc_,min('lc'[lc]),,
+v,v_,min('v'[v]),,
+A4A5_Result,Analytical Thrust,"
+VAR SoilType = SELECTEDVALUE('Soil Type'[Type])
+
+-- k1 计算
+VAR k1_Sandy = 
+    (PI() / 4) * (([K_] * [y_] * [H_] + [K_] * [pq_] + 1000 * 9.8 / 1000 * [H'_]) * (1 - [hatch_]) + [pc_] * [hatch_]) - (1/3) * [f_] * ([y_]-9.8) * [L_] * (2 + [K0_])
+
+VAR k1_Clay = 
+    (PI() / 4) * (([K_] * [y_] * [H_] + [K_] * [pq_] + 1000 * 9.8 / 1000 * [H'_]) * (1 - [hatch_]) + [pc_] * [hatch_])
+
+VAR k1 = 
+    SWITCH(
+        TRUE(),
+        SoilType = ""Sandy Soil"", k1_Sandy,
+        SoilType = ""Clay"", k1_Clay
+    )
+
+-- k2 计算
+VAR k2_Sandy = (PI() / 2) * [f_] * ([y_]-9.8) * (1 + [K0_]) * [H_] * [L_]
+VAR k2_Clay = PI() * [L_] * [c_]
+
+VAR k2 = 
+    SWITCH(
+        TRUE(),
+        SoilType = ""Sandy Soil"", k2_Sandy,
+        SoilType = ""Clay"", k2_Clay
+    )
+
+-- k3 计算
+VAR k3_Sandy = [f_] * [G_] + [ns_] * [Ws_] * [mus_] + [mua_] * [Wa_]
+VAR k3_Clay = [ns_] * [Ws_] * [mus_] + [mua_] * [Wa_]
+
+VAR k3 = 
+    SWITCH(
+        TRUE(),
+        SoilType = ""Sandy Soil"", k3_Sandy,
+        SoilType = ""Clay"", k3_Clay
+    )
+
+-- α3 计算
+VAR alpha3_Sandy = 
+    (PI() / 4) * ([K_] * [y_] * [H_] + [K_] * [pq_]) * (1 - [hatch_]) /
+    ((PI() / 4) * (([K_] * [y_] * [H_] + [K_] * [pq_] + 9.8 * [H'_]) * (1 - [hatch_]) + [pc_] * [hatch_]) - (1/3) * [f_] * ([y_]-9.8) * [L_] * (2 + [K0_]))
+
+-- α4 计算
+VAR alpha4_Sandy = 
+    ((PI() / 4) * 9.8 * [H'_] * (1 - [hatch_]) + [pc_] * [hatch_]) /
+    ((PI() / 4) * (([K_] * ([y_]-9.8) * [H_] + [K_] * [pq_] + 9.8 * [H'_]) * (1 - [hatch_]) + [pc_] * [hatch_]) - (1/3) * [f_] * ([y_]-9.8) * [L_] * (2 + [K0_]))
+
+-- β1 计算
+VAR beta1_Clay = 
+    (([K_] * ([y_]-9.8) * [H_] + [K_] * [pq_]) * (1 - [hatch_])) /
+    (([K_] * ([y_]-9.8) * [H_] + [K_] * [pq_] + 9.8 * [H'_]) * (1 - [hatch_]) + [pc_] * [hatch_])
+
+-- β2 计算
+VAR beta2_Clay = 
+    (9.8 * [H'_] * (1 - [hatch_]) + [pc_] * [hatch_]) /
+    (([K_] * ([y_]-9.8) * [H_] + [K_] * [pq_] + 9.8 * [H'_]) * (1 - [hatch_]) + [pc_] * [hatch_])
+
+-- 选择返回值
+VAR alpha3 = IF(SoilType = ""Sandy Soil"", alpha3_Sandy)
+VAR alpha4 = IF(SoilType = ""Sandy Soil"", alpha4_Sandy)
+VAR beta1  = IF(SoilType = ""Clay"", beta1_Clay)
+VAR beta2  = IF(SoilType = ""Clay"", beta2_Clay)
+
+VAR rc = [v_]/([nc_]*[lc_])
+
+RETURN     
+SWITCH(
+        TRUE(),
+        SoilType = ""Sandy Soil"", (k1 * (alpha3 *rc + alpha4) *[Diameter_TBM_] ^ 2 + k2 * [Diameter_TBM_] +k3)/1000,
+        SoilType = ""Clay"", (k1 * (beta1 *rc + beta2) *[Diameter_TBM_] ^ 2 + k2 * [Diameter_TBM_] +k3)/1000
+    )
+",,
+c,c_,min('c'[c]),,
+A4A5_Result,Empirical Thrust_Type,"
+SWITCH(
+    SELECTEDVALUE('Type_TBM_F'[Type]),
+    ""Double Shield TBM"", (6435.1*[Diameter_TBM_]- 20032+ 2862.8* [Diameter_TBM_] ^ 1.3569)/1000,
+    ""EPB TBM"", (8972.6*exp(0.2208*[Diameter_TBM_]))/1000,
+    ""Open TBM"", (1777.1*[Diameter_TBM_]+377.7)/1000,
+    ""Single Shield TBM"", 1459.8*[Diameter_TBM_]^1.4156/1000,
+    ""Slurry TBM"", 10269*EXP(0.1997*[Diameter_TBM_])/1000,
+    Blank()
+)",,
+A4A5_Result,Energy,"
+VAR Selected_Torque = SELECTEDVALUE(Torque[Torque])
+VAR Selected_Thrust = SELECTEDVALUE(Thrust[Thrust])
+VAR Area = PI()/4*[Diameter_TBM_]^2
+VAR Thrust =
+SWITCH(
+    TRUE(),
+    Selected_Thrust = ""Empirical Solution"", [Empirical Thrust],
+    Selected_Thrust = ""Empirical Solution, Type"", [Empirical Thrust_Type],
+    Selected_Thrust = ""Analytical Solution"", [Analytical Thrust],
+    Selected_Thrust = ""User Define"", [User Define Thrust_],
+    BLANK())
+VAR Torque =
+SWITCH(
+    TRUE(),
+    Selected_Torque = ""Empirical Solution"", [Empirical Torque],
+    Selected_Torque = ""Empirical Solution, Type"", [Empirical Torque_Type],
+    Selected_Torque = ""Analytical Solution"", [Analytical Torque],
+    Selected_Torque = ""User Define"" , [User Define Torque_],
+    BLANK())
+RETURN
+(Thrust*1000+(2*pi()*[nc_]*Torque)/([v_]*0.001)*1000) *0.000277778
+",,
+AllSankeyLinks,SankeyFlow,"
+VAR elementFlow =
+    SWITCH(
+        SELECTEDVALUE(AllSankeyLinks[Target]), 
+        ""Lining"", [Concrete] + [Steel],
+        ""Invert backfill"", [Invert backfill],
+        ""Annulus grout"", [Grout],
+        ""Rail, road, pavement or deck"", [Road/Rail],
+        ""Fit-out"", [Fitout],  
+        ""Material delivery"", [Transport],
+        ""TBM performance"", [TBM_Result]-[TBM Production],
+        ""TBM manufacturing"", [TBM Production],
+        ""Spoil removal"",[Spoil Removal],
+        ""TBM User Define"",[TBM Emission User Define],
+        ""TBM Transportation"",[TBM_Carbon],
+        BLANK()
+    )
+
+VAR materialFlow =
+    SWITCH(
+        SELECTEDVALUE(AllSankeyLinks[Target]), 
+        ""Concrete C40"", [ConcreteC40],
+        ""Concrete User Define"", [Concrete User Define],
+        ""Ready-mix concrete"", [Ready Mix Concrete],
+        ""Steel and other metals"", 
+                SWITCH(
+                SELECTEDVALUE(AllSankeyLinks[Source]),
+                ""TBM manufacturing"", [TBM Production],
+                ""Lining"", [Steel and other metals],
+                BLANK()
+            ),
+        ""Plastics, membranes and roofing"", [Plastics, membranes and roofing],
+        ""Machinery power"", [TBM_Result]-[TBM Production],
+        ""Other resource types"",
+            SWITCH(
+                SELECTEDVALUE(AllSankeyLinks[Source]),
+                ""Material delivery"", [OtherResourceTypesFlow_MaterialDelivery],
+                ""Rail, road, pavement or deck"", [OtherResourceTypesFlow_RoadRail],
+                ""Spoil removal"", [OtherResourceTypesFlow_SpoilRemoval],
+                ""TBM User Define"",[TBM Emission User Define],
+                ""TBM Transportation"",[TBM_Carbon],
+                BLANK()
+            ),
+        BLANK()
+    )
+
+
+RETURN
+    IF(
+        ISBLANK(elementFlow) && ISBLANK(materialFlow),
+        BLANK(),
+        COALESCE(elementFlow, materialFlow)
+    )
+",,
+A4A5_Result,Transport,[A4: Backfill]+[A4: Fitout]+[A4: Grout]+[A4: Lining]+[A4: Rail/road],,
+A4A5_Result,TBM_Result,"
+
+VAR SelectedPlace = SELECTEDVALUE(A5_Factor[Place])
+VAR ECF = 
+SWITCH(
+    TRUE(),
+    SelectedPlace = ""Victoria, Australia"" , 0.92,
+    SelectedPlace = ""Tasmania, Australia"" , 0.13,
+    SelectedPlace = ""UK"" , 0.225,
+    BLANK()
+)
+
+Return
+[Energy] * ECF +[TBM Production] ",,
+A4A5_Result,TBM Production,"
+VAR SelectedType = SELECTEDVALUE(Mass_Type[Type])
+
+RETURN
+SWITCH(
+    TRUE(),
+    SelectedType = ""Earth Pressure Balanced Shield Machine"", 7*[Diameter_TBM_]^2.21*1000/9.8*[ECF_TBM Value]/[TBM_Distance_],
+    SelectedType = ""Slurry Shield Machine"", 6.62*[Diameter_TBM_]^2.18*1000/9.8*[ECF_TBM Value]/[TBM_Distance_],
+    SelectedType = ""User Define"", [TBM_Mass_] * 1000 *[ECF_TBM Value]/[TBM_Distance_],
+    BLANK()
+    )",,
+TBM_Mass,TBM_Mass_,MIN(TBM_Mass[Mass]),,
+A4A5_Result,Spoil Removal,"
+VAR SelectedType = SELECTEDVALUE('Spoil Removal'[Type])
+
+RETURN
+SWITCH(
+    TRUE(),
+    SelectedType = ""Road, articulated truck"", PI()/4*[Diameter_TBM_] ^ 2 * 0.296 *1* [Distance1_] * 1.3,
+    BLANK()
+)",,
+Spoil_Distance1,Distance1_,min('Spoil_Distance1'[Distance1]),,
+AllSankeyLinks,ConcreteC40,[Invert backfill],,
+AllSankeyLinks,Ready Mix Concrete,[Grout],,
+AllSankeyLinks,Concrete User Define,[Concrete],,
+AllSankeyLinks,"Plastics, membranes and roofing",[Fitout],,
+AllSankeyLinks,Steel and other metals,[Steel],,
+AllSankeyLinks,Machinery Power,[TBM_Result],,
+AllSankeyLinks,Other resource types,[Road/Rail]+[Transport]+[Spoil Removal],,
+AllSankeyLinks,OtherResourceTypesFlow_MaterialDelivery,[Transport],,
+AllSankeyLinks,OtherResourceTypesFlow_RoadRail,[Road/Rail],,
+AllSankeyLinks,OtherResourceTypesFlow_SpoilRemoval,[Spoil Removal],,
+SunburstData_1,StrategyValue,"
+VAR categoryValue =
+    SWITCH(
+        SELECTEDVALUE(SunburstData_1[Category]),
+        ""A1-A3"", [Concrete] + [Steel] + [Invert backfill] + [Grout] + [Road/Rail],
+        ""A4"", [Transport],
+        ""A5"", [TBM_Result] + [Spoil Removal],
+        BLANK()
+    )
+
+VAR subcategoryValue =
+    SWITCH(
+        SELECTEDVALUE(SunburstData_1[Subcategory]),
+        ""Lining: Concrete"", [Concrete],
+        ""Steel Rebar"", [Steel],
+        ""Invert Backfill"", [Invert backfill],
+        ""Grout"", [Grout],
+        ""Rail"", [Road/Rail],
+        ""Delivery"", [Transport],
+        ""TBM"", [TBM_Result] - [TBM Production],
+        ""TBMp"", [TBM Production],
+        ""Spoil"", [Spoil Removal],
+        BLANK()
+    )
+
+VAR subsubcategoryValue = 
+    SWITCH(
+        SELECTEDVALUE(SunburstData_1[Subsubcategory]),
+        ""SCM"", [SCM],
+        ""Reduce Strength"", [Reduce Strength],
+        ""Reduce Thickness"", [Reduce Thickness],
+        ""Reinforcement/Fibre Optimisation"", [Reinforcement/Fibre Optimisation],
+        ""Renewable energy"" , [Renewable Energy],
+        ""Other Materials"", [Invert backfill] + [Grout] + [Road/Rail],
+        ""Location optioneering"", [Transport],
+        ""TBM performance optimisation"", [TBM Performance Optimasation],
+        ""Components recycling/repurposing"", [TBM Production],
+        ""Recycling"", [Spoil Removal],
+        ""No Reduction"",[No Reduction],
+        BLANK()
+    )
+
+RETURN
+    IF(
+        NOT(ISBLANK(subsubcategoryValue)), 
+        subsubcategoryValue, 
+        IF(
+            NOT(ISBLANK(subcategoryValue)), 
+            subcategoryValue, 
+            categoryValue
+        )
+    )
+",,
+SunburstData_1,SCM,"
+
+VAR Material_design_SCM = [ECFc] - [x percent of SCM_]*[carbon reduction of each perfent SCM_]
+RETURN
+[Concrete] - [Concrete]/[ECFc] * Material_design_SCM",,
+x percent of SCM,x percent of SCM_,min('x percent of SCM'[x percent of SCM]),,
+carbon reduction of each perfent SCM,carbon reduction of each perfent SCM_,min('carbon reduction of each perfent SCM'[carbon reduction of each perfent SCM]),,
+Concrete Strength,Concrete Strength_,min('Concrete Strength'[Concrete Strength]),,
+ECF User Define,ECF User Define_,"min('ECF User Define'[ECF User Define])
+",,
+SunburstData_1,Reduce Strength,"
+VAR Selectedmethod = SELECTEDVALUE('Reduction ECF'[Method])
+
+VAR Reduction =
+SWITCH(
+    TRUE(),
+    Selectedmethod = ""Concrete Strength"", [Slope_Reduction]* [Concrete Strength_] + [Slope_Intercept],
+    Selectedmethod = ""ECF User Define"", [ECF User Define_],
+    BLANK())
+RETURN
+[Concrete] - [Concrete]/[ECFc] *Reduction",,
+SunburstData_1,Slope_Reduction,"
+VAR Selectedvalue = SELECTEDVALUE('Concrete ECF_Choose'[Concrete ECF])
+RETURN
+SWITCH(
+    TRUE(),
+    Selectedvalue=""Database"", [Slope_Database],
+    Selectedvalue=""User Define"",[Slope_Define],
+    BLANK())",,
+SunburstData_1,Slope_Intercept,"
+VAR Selectedvalue = SELECTEDVALUE('Concrete ECF_Choose'[Concrete ECF])
+RETURN
+SWITCH(
+    TRUE(),
+    Selectedvalue= ""Database"", [Intercept_Database],
+    Selectedvalue=""User Define"",[Intercept_Define],
+    BLANK())",,
+SunburstData_1,Reduce Thickness,PI()/4*(([D_i_]+2*[t_])^2-[D_i_]^2)*([ECFc]+[Reinf. Ratio_]*0.01*[ECFs]*7800) - PI()/4*(([D_i_]+2*[R_Thickness_])^2-[D_i_]^2)*([ECFc]+[Reinf. Ratio_]*0.01*[ECFs]*7800),,
+R_Thickness,R_Thickness_,MIN('R_Thickness'[R_Thickness]),,
+SunburstData_1,Reinforcement/Fibre Optimisation,"PI()/4*(([D_i_]+2*[t_])^2-[D_i_]^2)*([ECFc]+[Reinf. Ratio_]*0.01*[ECFs]*7800) - PI()/4*(([D_i_]+2*[t_])^2-[D_i_]^2)*([ECFc]+[R_Reinf_]*0.01*[Reduction_ECFs_]*7800)
+
+
+",,
+Reduction_ECFs,Reduction_ECFs_,"SELECTEDVALUE('Reduction_ECFs'[Reduction_ECFs],[ECFs])",,
+R_Energy_Factor,R_Energy_Factor_,SELECTEDVALUE('R_Energy_Factor'[R_Energy_Factor]),,
+SunburstData_1,Renewable Energy,"
+
+VAR SelectedPlace = SELECTEDVALUE(A5_Factor[Place])
+VAR ECF = 
+SWITCH(
+    TRUE(),
+    SelectedPlace = ""Victoria, Australia"" , 0.86,
+    SelectedPlace = ""Tasmania, Australia"" , 0.13,
+    SelectedPlace = ""UK"" , 0.225,
+    BLANK()
+)
+
+RETURN
+[TBM_Result] - [TBM_Result] / ECF*[R_Energy_Factor_]",,
+SunburstData_2,SunburstValue_2,"
+    SWITCH(
+        SELECTEDVALUE(SunburstData_2[Subcategory]),
+        ""Lining: Concrete"", [Concrete],
+        ""Steel Rebar"", [Steel],
+        ""Invert Backfill"", [Invert backfill],
+        ""Grout"", [Grout],
+        ""Rail"", [Road/Rail],
+        ""Delivery"", [Transport],
+        ""TBM"", [TBM_Result] - [TBM Production],
+        ""TBMp"", [TBM Production],
+        ""Spoil"", [Spoil Removal],
+        BLANK()
+    )
+",,
+SunburstData_1,A1-A3,"[Concrete] + [Steel] + [Invert backfill] + [Grout] + [Road/Rail]
+",,
+SunburstData_1,A4,[Transport],,
+SunburstData_1,A5,[TBM_Result] + [Spoil Removal]+ [TBM Emission User Define]+[TBM_Carbon],,
+A4A5_Result,TBM Excavation,[TBM_Result] - [TBM Production],,
+SunburstData_1,No Reduction,[Concrete]+[Steel]-[Reduce Thickness]-[Reduce Strength]-[SCM]-[Reinforcement/Fibre Optimisation],,
+SunburstData_1,Other Materials,[Invert backfill]+[Grout]+[Road/Rail],,
+SunburstData_1,TBM Performance Optimasation,[TBM Excavation] + [TBM Emission User Define] + [TBM Transportation] - [Renewable Energy],,
+TBM_Mass_Distance,TBM_Distance_,min('TBM_Mass_Distance'[Distance]),,
+SunburstData_1,Logistics Optimisation,[Transport],,
+SunburstData_1,TBM performance optimisation,[TBM Production],,
+SunburstData_1,Components recycling/repurposing,[TBM Production],,
+SunburstData_1,Spoil Recycling,[Spoil Removal],,
+User Define Torque,User Define Torque_,min('User Define Torque'[User Define Torque]),,
+User Define Thrust,User Define Thrust_,min('User Define Thrust'[User Define Thrust]),,
+A4A5_Result,Excavation,[TBM_Result] - [TBM Production],,
+SunburstData_1,test1,[Reinf. Ratio_]*0.01*[ECFs],,
+R_Reinf,R_Reinf_,"SELECTEDVALUE('R_Reinf'[R_Reinf] , [Reinf. Ratio_])",,
+Fitout_ECF,Fitout_ECF_,SELECTEDVALUE('Fitout_ECF'[Fitout_ECF]),,
+Rail/Road ECF,Rail/Road_ECF_,min('Rail/Road ECF'[Rail/Road ECF]),,
+SunburstData_1,Larger_Than,"
+IF(
+    [Reduce Thickness]+[Reduce Strength]+[SCM] >= [Concrete] || [Reinforcement/Fibre Optimisation] >= [Steel] ||[Renewable Energy] >= [TBM Excavation],
+    ""Please check the data input."",
+    ""Data is reasonable""
+)",,
+AllSankeyLinks,Flow_Adjusted,"[SankeyFlow] * 0.01
+",,
+Summary_A1-A3,A1_A3Value,"
+SWITCH(
+        SELECTEDVALUE('Summary_A1-A3'[Type]), 
+        ""Lining_Concrete"", [Concrete],
+        ""Lining_Steel"",[Steel],
+        ""Invert Backfill"", [Invert backfill],
+        ""Grout"", [Grout],
+        ""Road/Rail"", [Road/Rail],
+        ""Fitout"", [Fitout]
+    )
+",,
+Summary_A4,A4Value,"
+SWITCH(
+        SELECTEDVALUE('Summary_A4'[Type]), 
+        ""Lining"", [A4: Lining],
+        ""Invert Backfill"", [A4: Backfill],
+        ""Grout"", [A4: Grout],
+        ""Road/Rail"", [A4: Rail/road],
+        ""Fitout"", [A4: Fitout]
+    )
+",,
+Summary_A5,A5Value,"
+SWITCH(
+        SELECTEDVALUE('Summary_A5'[Type]), 
+        ""TBM Manufacture"", [TBM Production],
+        ""TBM Excavation"", [TBM_Result]-[TBM Production],
+        ""Spoil Removal"", [Spoil Removal],
+        ""TBM Emission User Define"", [TBM Emission User Define],
+        ""TBM Transportation Emission"", [TBM Transportation]
+    )
+",,
+Grout_ECF,Grout_ECF,MIN(Grout_ECF[Grout ECF]),,
+A4A5_Result,Thrust,"
+VAR Selected_Thrust = SELECTEDVALUE(Thrust[Thrust])
+RETURN
+SWITCH(
+    TRUE(),
+    Selected_Thrust = ""Empirical Solution"", [Empirical Thrust],
+    Selected_Thrust = ""Empirical Solution, Type"", [Empirical Thrust_Type],
+    Selected_Thrust = ""Analytical Solution"", [Analytical Thrust],
+    Selected_Thrust = ""User Define"", [User Define Thrust_],
+    BLANK())",,
+A4A5_Result,Torque,"
+VAR Selected_Torque = SELECTEDVALUE(Torque[Torque])
+RETURN
+SWITCH(
+    TRUE(),
+    Selected_Torque = ""Empirical Solution"", [Empirical Torque],
+    Selected_Torque = ""Empirical Solution, Type"", [Empirical Torque_Type],
+    Selected_Torque = ""Analytical Solution"", [Analytical Torque],
+    Selected_Torque = ""User Define"" , [User Define Torque_],
+    BLANK())",,
+A4A5_Result,A5_Result,[TBM_Result] + [Spoil Removal] + [TBM Emission User Define]+TBM_A4[TBM_Carbon],,
+Blocking Emission,TBM Emission User Define,min([Blocking Emission]),,
+TBM Distance1,TBMD1_,min('TBM Distance1'[TBMD1]),,
+TBM Distance2,TBMD2_,min('TBM Distance2'[TBMD2]),,
+TBM Distance3,TBMD3_,min('TBM Distance3'[TBMD3]),,
+TBM_A4,TBM_TEF_1,"
+VAR SelectedMode = SELECTEDVALUE('TBM Transport 1'[Methods1])
+RETURN 
+    SWITCH(
+        SelectedMode,
+        ""Road, average laden"", 0.107,
+        ""Road, fully laden"", 0.0752,
+        ""Sea"", 0.0161,
+        ""Air"", 0.599,
+        ""Rail"", 0.0256,
+        ""Road, van 3.5 t"", 1.54,
+        ""Road, truck 3.5 to 16 t"", 0.216,
+        ""Road, truck 16 to 28 t"", 0.128,
+        ""Road, truck 28 t"", 0.0719,
+        ""Road, truck 40 t"", 0.0686,
+        ""Sea, container ship"", 0.0161,
+        ""Sea, bulk carrier"", 0.00354,
+        ""Air, domestic"", 1.86,
+        ""Air, international"", 1.65,
+        ""Rail"", 0.0240,
+        ""Road, articulated truck"", 0.106,
+        ""Road, rigid truck"", 0.396,
+        BLANK()
+    )",,
+TBM_A4,TBM_TEF_2,"
+VAR SelectedMode = SELECTEDVALUE('TBM Transport 2'[Methods1])
+RETURN 
+    SWITCH(
+        SelectedMode,
+        ""Road, average laden"", 0.107,
+        ""Road, fully laden"", 0.0752,
+        ""Sea"", 0.0161,
+        ""Air"", 0.599,
+        ""Rail"", 0.0256,
+        ""Road, van 3.5 t"", 1.54,
+        ""Road, truck 3.5 to 16 t"", 0.216,
+        ""Road, truck 16 to 28 t"", 0.128,
+        ""Road, truck 28 t"", 0.0719,
+        ""Road, truck 40 t"", 0.0686,
+        ""Sea, container ship"", 0.0161,
+        ""Sea, bulk carrier"", 0.00354,
+        ""Air, domestic"", 1.86,
+        ""Air, international"", 1.65,
+        ""Rail"", 0.0240,
+        ""Road, articulated truck"", 0.106,
+        ""Road, rigid truck"", 0.396,
+        BLANK()
+    )",,
+TBM_A4,TBM_TEF_3,"
+VAR SelectedMode = SELECTEDVALUE('TBM Transport 3'[Methods1])
+RETURN 
+    SWITCH(
+        SelectedMode,
+        ""Road, average laden"", 0.107,
+        ""Road, fully laden"", 0.0752,
+        ""Sea"", 0.0161,
+        ""Air"", 0.599,
+        ""Rail"", 0.0256,
+        ""Road, van 3.5 t"", 1.54,
+        ""Road, truck 3.5 to 16 t"", 0.216,
+        ""Road, truck 16 to 28 t"", 0.128,
+        ""Road, truck 28 t"", 0.0719,
+        ""Road, truck 40 t"", 0.0686,
+        ""Sea, container ship"", 0.0161,
+        ""Sea, bulk carrier"", 0.00354,
+        ""Air, domestic"", 1.86,
+        ""Air, international"", 1.65,
+        ""Rail"", 0.0240,
+        ""Road, articulated truck"", 0.106,
+        ""Road, rigid truck"", 0.396,
+        BLANK()
+    )",,
+TBM_A4,TBM_A4_Carbon_1,[TBM_Mass_] * [TBMD1_] * [TBM_TEF_1] * 0.001,,
+TBM_A4,TBM_A4_Carbon_2,[TBM_Mass_] * [TBMD2_] * [TBM_TEF_2] * 0.001,,
+TBM_A4,TBM_A4_Carbon_3,[TBM_Mass_] * [TBMD3_] * [TBM_TEF_3] * 0.001,,
+TBM_A4,TBM_Carbon,TBM_A4[TBM_A4_Carbon_1]+TBM_A4[TBM_A4_Carbon_2]+TBM_A4[TBM_A4_Carbon_3],,
+A4A5_Result,TBM Transportation,TBM_A4[TBM_Carbon],,
+ECF_TBM,ECF_TBM Value,SELECTEDVALUE('ECF_TBM'[ECF_TBM]),,
+Pie Chart_1,Pie1Value,"
+SWITCH(
+        SELECTEDVALUE('Pie Chart_1'[Type]), 
+        ""A1-A3"", [A1-A3],
+        ""A4"",[A4],
+        ""A5"", [A5]
+    )",,
+Pie Chart_2,Pie2Value,"
+SWITCH(
+        SELECTEDVALUE('Pie Chart_2'[Type]), 
+        ""Concrete"", [Concrete],
+        ""Steel"",[Steel],
+        ""Invert backfill"", [Invert backfill],
+        ""Grout"", [Grout],	
+        ""Road/Rail"", [Road/Rail],
+        ""Transport"", [Transport],	
+        ""TBM Production"", [TBM Production],
+        ""TBM Excavation"", [TBM Excavation],	
+        ""TBM Emission User Define"", [TBM Emission User Define],
+        ""TBM Transportation"", [TBM Transportation],	
+        ""Spoil_Removal"", [Spoil Removal]
+    )
+
+",,

@@ -1,0 +1,282 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>TunCO2 Pro</title>
+<link rel="icon" href="data:,">
+<link rel="stylesheet" href="/static/vendor/leaflet/leaflet.css">
+<link rel="stylesheet" href="/static/style.css">
+<script type="importmap">
+{ "imports": { "three": "/static/vendor/three/build/three.module.js",
+               "three/addons/": "/static/vendor/three/jsm/" } }
+</script>
+<script src="/static/vendor/echarts.min.js"></script>
+<script src="/static/vendor/leaflet/leaflet.js"></script>
+</head>
+<body>
+<header class="top">
+  <div class="brand"><span class="logo">TunCO<sub>2</sub></span> <span class="pro">Pro</span></div>
+  <input id="projName" class="projname" aria-label="Project name" spellcheck="false">
+  <div class="scen">
+    <label for="scenSel">Scenario</label>
+    <select id="scenSel"></select>
+    <button id="btnSaveScen" title="Save the current inputs and results as a named scenario">Save as scenario</button>
+  </div>
+  <div class="spacer"></div>
+  <div id="status" class="status" role="status" aria-live="polite"><span class="dot"></span><span class="txt">Ready</span></div>
+  <div class="menu">
+    <button id="btnMenu" aria-haspopup="true" aria-expanded="false">File ▾</button>
+    <div class="menu-pop" id="menuPop" hidden>
+      <button data-act="load">Open project (.json)…</button>
+      <button data-act="save">Save project (.json)</button>
+      <button data-act="reset">Reset to default case</button>
+      <hr>
+      <label class="check"><input type="checkbox" id="advanced"> Show advanced parameters</label>
+      <label class="check"><input type="checkbox" id="compat"> v1 compatibility (cross-check)</label>
+      <label class="check"><input type="checkbox" id="autocalc" checked> Recalculate automatically</label>
+    </div>
+  </div>
+  <div class="menu">
+    <button id="btnHelp" aria-haspopup="true" aria-expanded="false">Help ▾</button>
+    <div class="menu-pop" id="helpPop" hidden>
+      <a href="/docs-md/README.md" target="_blank" rel="noopener">User guide (README)</a>
+      <a href="/docs-md/docs/EQUATIONS.md" target="_blank" rel="noopener">Methods and equations</a>
+      <a href="/docs-md/docs/CUTTERHEAD.md" target="_blank" rel="noopener">Cutterhead mechanics</a>
+      <a href="/docs-md/docs/GIS_BIM.md" target="_blank" rel="noopener">GIS to BIM import formats</a>
+      <a href="/docs-md/docs/EXERCISES.md" target="_blank" rel="noopener">Student exercises</a>
+      <a href="/docs-md/CHANGELOG.md" target="_blank" rel="noopener">Change log</a>
+      <a href="/docs" target="_blank" rel="noopener">Web API (OpenAPI)</a>
+      <hr>
+      <a href="https://github.com/qbzhang666/TunCO2-Pro" target="_blank" rel="noopener">Source and releases on GitHub</a>
+      <span class="about" id="about">TunCO2 Pro</span>
+    </div>
+  </div>
+  <input type="file" id="fileIn" accept=".json" hidden>
+</header>
+
+<div class="kpibar" id="kpibar"></div>
+
+<main>
+  <nav class="steps" id="steps" aria-label="Workflow"></nav>
+
+  <section id="pages">
+    <!-- 1 ------------------------------------------------------------ -->
+    <div class="page" data-step="project">
+      <div class="pagehead"><h2>Project and design basis</h2>
+        <p>Define the project, the reporting basis and the tunnel cross-section; everything else builds on these. The usual path is: start from an example or a saved project, check the ground zones and choose the machine (Steps 2 and 3), read the carbon results and warnings (Step 6), search for a lower-carbon lining (Step 5), and export the model and the figures (Step 8).</p></div>
+      <div class="card"><h3>Start from</h3>
+        <div class="examples" id="examples"></div>
+        <div class="actions">
+          <button id="btnStartDefault">Default case (no route)</button>
+          <button id="btnStartOpen">Open a saved project…</button>
+        </div>
+        <p class="note">Examples are synthetic corridors (invented terrain, geology and fictitious coordinates) that show the full workflow; replace them with your own plan line, long section and CRS under Route &amp; ground.</p>
+      </div>
+      <div class="formgrid" data-form="project"></div>
+    </div>
+
+    <!-- 2 ------------------------------------------------------------ -->
+    <div class="page" data-step="route">
+      <div class="pagehead"><h2>Route and ground</h2>
+        <p>Import a georeferenced corridor or draw an alignment, then check the ground zones. Click a zone on the map, table, chart or 3D model to follow it everywhere.</p></div>
+      <div class="grid2 linked">
+        <div class="card"><div class="cardhead"><h3>Plan</h3>
+            <div class="seg" id="mapColour"><button data-c="ground" class="on">Ground</button><button data-c="carbon">Carbon</button><button data-c="fos">FoS</button></div></div>
+          <div id="map"></div><p class="note" id="mapNote"></p></div>
+        <div class="card"><div class="cardhead"><h3>3D</h3><span class="note" id="v3dNote"></span></div>
+          <div class="viewer-slot" data-slot="route"></div></div>
+      </div>
+      <div class="card"><div class="cardhead"><h3>Ground zones</h3>
+          <div class="actions tight"><div class="seg" id="zoneCols" title="Which input columns to show; the results columns are always shown"><button data-c="ground" class="on">Ground</button><button data-c="water">Water and soil</button><button data-c="design">Design overrides</button><button data-c="all">All</button></div>
+            <button id="btnAddZone">+ Zone</button><button id="btnSplitZone" title="Split the selected zone in two">Split selected</button>
+            <button id="btnRouteOpt">Optimise lining in every zone</button></div></div>
+        <div class="tablewrap"><table id="zoneTable" class="edit zones"></table></div>
+        <p class="note" id="zoneNote">Ground parameters from an imported corridor are indicative until replaced with values from the geotechnical interpretative report. Results: C cover to crown, p face support pressure at the axis, FoS lining factor of safety, S maximum surface settlement (red where a limit is exceeded).</p>
+      </div>
+      <div class="grid2">
+        <div class="card"><h3>Upfront carbon along the route (kgCO₂e/m)</h3><div id="routeCarbon" class="chart"></div></div>
+        <div class="card"><h3>Lining factor of safety by zone</h3><div id="routeFos" class="chart"></div></div>
+      </div>
+      <div class="card" id="routeOptCard" hidden><h3>Optimised lining by zone</h3><div class="tablewrap"><table id="routeOptTable"></table></div>
+        <div class="actions"><button id="btnApplyZones" class="primary">Apply optimised designs to the zones</button></div></div>
+      <div class="card warn" id="routeWarn" hidden></div>
+      <details class="card">
+        <summary><h3>Corridor import (GIS → BIM)</h3></summary>
+        <p class="note">Plan line CSV (chainage, easting, northing, ground level), geological long section JSON (strata and tunnel levels by chainage) and the project CRS (JSON: EPSG code and origin). <span id="exFiles"></span>
+          The section is registered to the plan line by matching ground surfaces; zones follow the strata cut by the TBM face.</p>
+        <div class="actions">
+          <label>Plan line CSV <input type="file" id="gisPlan" accept=".csv"></label>
+          <label>Long section JSON <input type="file" id="gisLs" accept=".json"></label>
+          <label>CRS JSON <input type="file" id="gisCrs" accept=".json"></label>
+        </div>
+        <div class="actions">
+          <label>Min. zone length (m) <input id="gisMin" type="number" value="40" class="w70"></label>
+          <label>Groundwater depth (m below surface) <input id="gisGw" type="number" placeholder="none" class="w70"></label>
+          <label>Chainage from / to (m) <input id="gisC0" type="number" placeholder="start" class="w90"> / <input id="gisC1" type="number" placeholder="end" class="w90"></label>
+          <button id="btnGis" class="primary">Import corridor</button>
+        </div>
+        <p class="note" id="gisInfo"></p>
+      </details>
+      <details class="card">
+        <summary><h3>Simple alignment or LandXML</h3></summary>
+        <div class="actions">
+          <label>Length (m) <input id="alLen" type="number" value="1000" class="w90"></label>
+          <label>Curve radius (m) <input id="alR" type="number" placeholder="straight" class="w90"></label>
+          <label>Axis level start / end (m) <input id="alZ0" type="number" value="-25" class="w70"> / <input id="alZ1" type="number" value="-30" class="w70"></label>
+          <button id="btnAl">Generate</button>
+          <button id="btnXml">Import LandXML…</button><input type="file" id="xmlIn" accept=".xml,.landxml" hidden>
+        </div>
+        <p class="note" id="alInfo"></p>
+      </details>
+    </div>
+
+    <!-- 3 ------------------------------------------------------------ -->
+    <div class="page" data-step="tbm">
+      <div class="pagehead"><h2>TBM selection</h2>
+        <p>Which machine suits the ground along the route, and what it costs in upfront carbon. Choose one to carry through the assessment.</p></div>
+      <div class="tbmcards" id="tbmCards"></div>
+      <div class="grid2">
+        <div class="card"><h3 id="tbmTitle">Machine</h3>
+          <div id="tbmViewer"></div>
+          <p class="note" id="tbmModelNote"></p></div>
+        <div class="card"><h3>Characteristics</h3><div class="tablewrap"><table id="tbmInfo" class="kv"></table></div>
+          <div class="actions"><button id="btnUseTbm" class="primary">Use this machine</button><span class="note" id="tbmUsing"></span></div></div>
+      </div>
+      <div class="card"><h3>Ground applicability along the route</h3>
+        <p class="note">After the group's TBM classification chart: rock by rock quality, soil by permeability (EPB unaided below 10⁻⁶ m/s, conditioned to 10⁻⁴; slurry in the clean sands and gravels), and fines content in the overlap (EPB ≥ 15 %, slurry ≤ 40 % finer than 0.06 mm), multi-mode across the divider. Hover a cell for the reason.</p>
+        <div class="tablewrap"><table id="tbmMatrix" class="matrix"></table></div></div>
+      <div class="card"><h3>A5 by machine type (kgCO₂e/m)</h3><div id="tbmCompare" class="chart"></div><p class="note" id="tbmCompareNote"></p></div>
+      <div class="formgrid" data-form="tbm"></div>
+    </div>
+
+    <!-- 4 ------------------------------------------------------------ -->
+    <div class="page" data-step="lining">
+      <div class="pagehead"><h2>Lining and materials</h2>
+        <p>Concrete, reinforcement and the other elements (A1–A3), and how they reach site (A4).</p></div>
+      <div class="formgrid" data-form="lining"></div>
+    </div>
+
+    <!-- 5 ------------------------------------------------------------ -->
+    <div class="page" data-step="design">
+      <div class="pagehead"><h2>Stability and low-carbon design</h2>
+        <p>Check the lining by convergence–confinement and search for designs that meet the criteria with less carbon.</p></div>
+      <div class="grid2">
+        <div class="card"><h3>Ground reaction and support characteristic</h3><div id="grc" class="chart"></div><div class="stat" id="fosStat"></div></div>
+        <div class="formgrid single" data-form="ground"></div>
+      </div>
+      <div class="card"><h3>Optimise: lining carbon vs factor of safety</h3>
+        <div class="optctl">
+          <label>FoS min <input id="fosMin" type="number" step="0.1" value="1.5"></label>
+          <label>t (m) <input id="tLo" type="number" step="0.01" value="0.20">–<input id="tHi" type="number" step="0.01" value="0.45"></label>
+          <label>f'c (MPa) <input id="fLo" type="number" value="30">–<input id="fHi" type="number" value="60"></label>
+          <label>x₀ (m) <input id="xLo" type="number" step="0.5" value="0">–<input id="xHi" type="number" step="0.5" value="6"></label>
+          <label>SLS u<sub>max</sub> (mm) <input id="uMax" type="number" placeholder="none"></label>
+          <label>Algorithm <select id="algo"><option value="nsga3">NSGA-III (carbon, FoS, convergence)</option><option value="nsga2">NSGA-II (carbon, FoS)</option><option value="spea2">SPEA2 (carbon, FoS)</option><option value="moead">MOEA/D (carbon, FoS)</option></select></label>
+          <label class="check"><input type="checkbox" id="grades" checked> Standard grades only</label>
+          <button id="btnOpt" class="primary">Optimise</button>
+        </div>
+        <p class="note" id="optHint">Set the bounds and criteria, then <b>Optimise</b>. Pareto designs appear here; click one to apply it to the project.</p>
+        <div id="optResults" hidden>
+          <div class="grid2">
+            <div id="pareto" class="chart"></div>
+            <div id="parallel" class="chart"></div>
+          </div>
+          <div class="tablewrap"><table id="paretoTable" class="clickable"></table></div>
+        </div>
+      </div>
+      <details class="card">
+        <summary><h3>Parametric study: FoS vs lining carbon (after Part 2)</h3></summary>
+        <div class="actions">
+          <label>D<sub>i</sub> (m) <input id="pDi" value="6.3, 9.0, 14.1" class="w150"></label>
+          <label>D<sub>i</sub>/t <input id="pRatio" value="18, 20, 22, 25" class="w150"></label>
+          <label>Cover (m) <input id="pCover" value="50, 75, 100, 125" class="w150"></label>
+          <label>f'c (MPa) <input id="pFc" type="number" value="25" class="w70"></label>
+          <button id="btnParam">Run</button>
+        </div>
+        <p class="note">Ground from the panel above; in-situ stress = 27 kN/m³ × cover; excavation radius = lining outer radius + 0.15 m.</p>
+        <div id="paramChart" class="chart tall"></div>
+        <div class="tablewrap"><table id="paramTable"></table></div>
+      </details>
+    </div>
+
+    <!-- 6 ------------------------------------------------------------ -->
+    <div class="page" data-step="results">
+      <div class="pagehead"><h2>Carbon results</h2>
+        <p>Upfront embodied carbon, EN 15978 modules A1–A5, with the basis and data-quality tier of every line.</p></div>
+      <div class="grid2">
+        <div class="card"><h3>Carbon flow by element and module</h3><div id="sankey" class="chart tall"></div></div>
+        <div class="card"><h3>Line items (kgCO₂e/m)</h3><div id="items" class="chart tall"></div></div>
+      </div>
+      <div class="card warn" id="warnings" hidden></div>
+      <div class="grid2">
+        <div class="card"><h3>Decarbonisation levers (saving, each on its own)</h3><div id="strat" class="chart"></div>
+          <div class="stat" id="stratCombined"></div><p class="note" id="stratNote"></p></div>
+        <div class="formgrid single" data-form="levers"></div>
+      </div>
+      <details class="card"><summary><h3>Line items: basis and data quality</h3></summary><div class="tablewrap"><table id="itemTable"></table></div></details>
+      <details class="card"><summary><h3>Emission factor library</h3></summary><p class="note" id="libVer"></p><div class="tablewrap"><table id="factorTable"></table></div></details>
+    </div>
+
+    <!-- 7 ------------------------------------------------------------ -->
+    <div class="page" data-step="scenarios">
+      <div class="pagehead"><h2>Scenarios</h2>
+        <p>Save alternatives (machine, strength, supply chain, route) and compare them. The first scenario is the baseline.</p></div>
+      <div class="card"><div class="cardhead"><h3>The four example tunnels, side by side</h3>
+          <div class="actions tight"><div class="seg" id="exBasis"><button data-b="m" class="on">per m</button><button data-b="m3">per m³ excavated</button><button data-b="fu">per track/lane-km</button><button data-b="t">total</button></div>
+            <button id="btnExCompare" class="primary">Compare examples</button><button id="btnExScen" disabled>Save all four as scenarios</button></div></div>
+        <p class="note">Metro vs Road isolates <b>size</b> (EPB at 7.25 m and 15.6 m); Metro vs Railway isolates the <b>machine</b> (EPB vs slurry at 7.25 m);
+          Hydro is a 10.45 m single shield in hard rock at depth. Same factors and methods for all; thrust and torque from the Part 3 type regressions.</p>
+        <div id="exCompareOut" hidden>
+          <div class="grid2"><div id="exChart" class="chart"></div><div id="exA5" class="chart"></div></div>
+          <div class="tablewrap"><table id="exTable"></table></div>
+          <p class="note" id="exNote"></p>
+        </div>
+      </div>
+      <div class="card"><div class="cardhead"><h3>Saved scenarios</h3>
+          <div class="actions tight"><button id="btnSaveScen2" class="primary">Save current as scenario</button>
+            <button id="btnExportScen">Export all…</button><button id="btnImportScen">Import…</button><input type="file" id="scenIn" accept=".json" hidden></div></div>
+        <div class="tablewrap"><table id="scenTable"></table></div>
+        <p class="note" id="scenEmpty">No scenarios yet. Set up a case and choose <b>Save as scenario</b>; change something, save again, and compare here.</p>
+      </div>
+      <div class="grid2">
+        <div class="card"><h3>A1–A5 by scenario (tCO₂e)</h3><div id="scenChart" class="chart"></div></div>
+        <div class="card"><h3>Change against the baseline by element (tCO₂e)</h3><div id="scenDelta" class="chart"></div></div>
+      </div>
+      <div class="card"><h3>What differs between scenarios</h3><div class="tablewrap"><table id="scenDiff"></table></div></div>
+    </div>
+
+    <!-- 8 ------------------------------------------------------------ -->
+    <div class="page" data-step="export">
+      <div class="pagehead"><h2>Model and export</h2>
+        <p>The tunnel model at the chosen level of detail, and every output for reports, BIM, GIS and visualisation.</p></div>
+      <div class="card"><div class="cardhead"><h3>Tunnel model</h3>
+          <div class="actions tight">
+            <label>LoD <select id="lodSel"><option>100</option><option>200</option><option selected>300</option><option>400</option><option>500</option></select></label>
+            <label class="check"><input type="checkbox" id="tbmAtFace" checked> TBM at the face</label>
+            <label title="Only used when no route is defined">Rings <input id="nRings" type="number" value="8" min="1" max="400" class="w70"></label>
+            <button id="btnModel">Rebuild</button></div></div>
+        <p class="note" id="lodNote"></p>
+        <div class="viewer-slot big" data-slot="export"></div>
+      </div>
+      <div class="exports" id="exports"></div>
+      <div class="card"><div class="cardhead"><h3>Figures</h3>
+          <div class="actions tight">
+            <label>Format <select id="figFmt"><option value="pdf">PDF (vector)</option><option value="svg">SVG (vector)</option><option value="png">PNG, 1000 dpi</option></select></label>
+            <button id="btnFigAll">Download all</button></div></div>
+        <p class="note">Publication figures drawn by the engine from the current project (print style, Latin Modern Sans, colour-blind-checked palette): the same charts as on screen, for reports and papers. The route figures need ground zones; the zone-by-zone optimisation and the Pareto set run the optimiser (lining 0.30 to 0.50 m, C40 to C65, lining at the face, required FoS of the project).</p>
+        <div class="exports" id="figures"></div>
+      </div>
+    </div>
+
+    <div class="pager"><button id="btnPrev">← Back</button><div class="spacer"></div><button id="btnNext" class="primary">Next →</button></div>
+  </section>
+</main>
+<dialog id="nameDlg"><form method="dialog"><h3 id="nameTitle">Name</h3><label for="nameIn" class="note" id="nameHint"></label>
+  <input id="nameIn" required><div class="actions"><button value="cancel" formnovalidate>Cancel</button><button value="ok" class="primary">Save</button></div></form></dialog>
+<div id="toasts" aria-live="polite"></div>
+<footer>TunCO2 Pro · MIT licence · Screening-level results; design decisions require a check by a qualified engineer.</footer>
+<script type="module" src="/static/app.js"></script>
+<script type="module" src="/static/viewer.js"></script>
+</body>
+</html>
