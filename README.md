@@ -195,5 +195,6 @@ The method, the baseline and the original toolbox are published in
    Underground Space Technology*, 167, 107028.
    https://doi.org/10.1016/j.tust.2025.107028
 
-The Hydro tunnel example follows Xiao, F. et al. (2025), *Tunnelling and Underground
-Space Technology*, 158, 106404, https://doi.org/10.1016/j.tust.2025.106404.
+The Hydro tunnel example follows 
+1. Xiao, F., Chen, X., Zhu, Y., Xie, P., Salimzadeh, S., & Zhang, Q.B. (2025). Multi-LoD BIM integrated design framework for pressurised tunnel: Hydro-mechanical coupling simulation and sustainability assessment. *Tunnelling and Underground Space Technology*, 158, 106404. https://doi.org/10.1016/j.tust.2025.106404
+
