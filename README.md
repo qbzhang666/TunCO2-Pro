@@ -197,5 +197,5 @@ The method, the baseline and the original toolbox are published in
 
 The Hydro tunnel and resilience and sustainability trade-offs follow: 
 1. Xiao, F., Chen, X., Zhu, Y., Xie, P., Salimzadeh, S., Zhang, Q.B. (2025). Multi-LoD BIM integrated design framework for pressurised tunnel: Hydro-mechanical coupling simulation and sustainability assessment. *Tunnelling and Underground Space Technology*, 158, 106404. https://doi.org/10.1016/j.tust.2025.106404
-2. Zhu, Y., Zhang, Q. B. (2025). Lifecycle resilience and sustainability trade-offs for underground infrastructure under multi-hazard scenarios. *Reliability Engineering & System Safety*, 67, Part A，111797. https://doi.org/100.1016/j.ress.2025.111797
+2. Zhu, Y., Zhang, Q. B. (2025). Lifecycle resilience and sustainability trade-offs for underground infrastructure under multi-hazard scenarios. *Reliability Engineering & System Safety*, 67, Part A, 111797. https://doi.org/100.1016/j.ress.2025.111797
 
