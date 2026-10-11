@@ -223,3 +223,60 @@ Life-cycle modules and closed-form ground response follow:
 3. Vlachopoulos, N., Diederichs, M.S. (2009). Improved longitudinal displacement profiles for convergence confinement analysis of deep tunnels. *Rock Mechanics and Rock Engineering*, 42(2), 131–146. https://doi.org/10.1007/s00603-009-0176-4
 4. Panet, M., Sulem, J. (2022). *Convergence-Confinement Method for Tunnel Design*. Springer Tracts in Civil Engineering. Springer, Cham. https://doi.org/10.1007/978-3-030-93193-3
 
+TBM performance, face support and machine selection follow:
+
+1. Xie, P., Chen, K., Yin, Z., Zhu, Y., Luo, H., Zhang, Q.B. (2024). A BIM-based multi-model framework for advancing TBM performance, Part 1: Real-time prediction of thrust force. *Tunnelling and Underground Space Technology*, 151, 105856. https://doi.org/10.1016/j.tust.2024.105856
+2. Bigdeli, M., Wang, R., Raedle, A., Zhang, Q.B., Hopkins, A., Bragard, C. (2026). TBM face pressure optimization and carbon emission assessment in urban and dense environment, California, USA. In *Connecting Communities Through Underground Infrastructure*, 515–522. CRC Press. https://doi.org/10.1201/9781042001064-64
+3. JSCE (2016). *Standard Specifications for Tunneling-2016: Shield Tunnels*. Japan Society of Civil Engineers, Tokyo.
+4. DAUB (2025). *Recommendations for the selection of tunnel boring machines*. German Tunnelling Committee (version January 2022, revised August 2025).
+
+Settlement screening follows:
+
+1. Peck, R.B. (1969). Deep excavations and tunneling in soft ground. *Proceedings of the 7th International Conference on Soil Mechanics and Foundation Engineering*, Mexico City, State of the Art Volume, 225–290.
+2. O'Reilly, M.P., New, B.M. (1982). Settlements above tunnels in the United Kingdom: their magnitude and prediction. *Tunnelling 82*, Institution of Mining and Metallurgy, London, 173–181.
+3. Rankin, W.J. (1988). Ground movements resulting from urban tunnelling: predictions and effects. *Geological Society Engineering Geology Special Publication*, 5, 79–92.
+4. Mair, R.J., Taylor, R.N. (1997). Bored tunnelling in the urban environment. *Proceedings of the 14th International Conference on Soil Mechanics and Foundation Engineering*, Hamburg, 4, 2353–2385.
+
+Emission factors and data-quality tiers follow:
+
+1. DCCEEW (2026). *Australian National Greenhouse Accounts Factors 2026*. Australian Government Department of Climate Change, Energy, the Environment and Water, Canberra.
+2. NABERS (2026). *National Material Emission Factors Database*, v2026.2 (July 2026). NSW Government, Sydney. https://www.nabers.gov.au/publications/national-emission-factors-database
+3. DESNZ (2026). *Greenhouse gas reporting: conversion factors 2026*. UK Department for Energy Security and Net Zero, London.
+4. Infrastructure NSW (2025). *Embodied Carbon Measurement Technical Guide* (April 2025). NSW Government, Sydney.
+
+### Concrete emission-factor database
+
+The concrete regression (`ecf_mode = "database"`) draws on 236 records of
+embodied carbon against compressive strength from 11 sources in 9 countries,
+compiled and harmonised to kgCO2e/m3 by strength class and binder type in
+Chen et al. (2024):
+
+| Source | Country | Records |
+| --- | --- | ---: |
+| Inventory of Carbon and Energy (ICE) v3.0, Circular Ecology and University of Bath | UK | 100 |
+| CSA Group product EPDs | Canada | 55 |
+| ASTM International product EPDs | USA | 29 |
+| EPiC database (Crawford, Stephan and Prideaux, 2019), University of Melbourne | Australia | 15 |
+| AusLCI, Australian Life Cycle Assessment Society | Australia | 15 |
+| ÖKOBAUDAT, German Federal Ministry for Housing, Urban Development and Building | Germany | 8 |
+| Ready-mix concrete EPDs | Greece | 5 |
+| Gunlake Concrete EPD | Australia | 5 |
+| Ready Mix Industries EPD | Israel | 2 |
+| INIES environmental and health reference data (FDES) | France | 1 |
+| EPD Italy | Italy | 1 |
+
+Our contribution is the compiled dataset itself: the records were screened,
+converted to a common functional unit (1 m3 of concrete) and classified by
+strength and supplementary cementitious material content, which turns
+heterogeneous inventories and EPDs into a single strength-carbon relation that
+can be filtered by region and binder type. TunCO2 Pro keeps the source of every
+record, distributes the ICE groups only as least-squares summary statistics
+(n and sums, `data/concrete_ecf_summary.csv`) so that the published regression
+is reproduced exactly without redistributing ICE values, and lets licensed
+users add record-level data (`TUNCO2PRO_ECF_EXTRA`). Licences and attributions
+are listed in `src/tunco2pro/data/DATA_LICENCES.md`.
+
+1. Crawford, R.H., Stephan, A., Prideaux, F. (2019). *Environmental Performance in Construction (EPiC) Database*. The University of Melbourne, Melbourne.
+2. Hammond, G., Jones, C. (2019). *Inventory of Carbon and Energy (ICE) Database*, v3.0. Circular Ecology and University of Bath. https://circularecology.com/embodied-carbon-footprint-database.html
+3. Australian Life Cycle Assessment Society. *Australian National Life Cycle Inventory Database (AusLCI)*. https://www.auslci.com.au
+4. Federal Ministry for Housing, Urban Development and Building. *ÖKOBAUDAT*. https://www.oekobaudat.de
