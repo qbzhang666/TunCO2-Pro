@@ -1,11 +1,13 @@
 # TunCO2 Pro
 
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.23290499.svg)](https://doi.org/10.5281/zenodo.23290499)
+
 Upfront embodied carbon (EN 15978 A1–A5) and low-carbon lining design for TBM
 tunnels, along a georeferenced route. Successor to the published TunCO2
 toolbox (TUST Parts 1–3; the original research code is at
 github.com/X-Chen1997/TunCO2). Open source under the MIT licence (`LICENSE`).
 Copyright (c) 2026 Qianbing Zhang, Monash University; contact
-qianbing.zhang@monash.edu. To cite the toolbox, see `CITATION.cff` and the
+qianbing.zhang@monash.edu. To cite the toolbox, see `CITATION.cff` (DOI [10.5281/zenodo.23290499](https://doi.org/10.5281/zenodo.23290499)) and the
 references at the end of this file.
 
 TunCO2 Pro is a research and teaching tool. Results are indicative and depend
