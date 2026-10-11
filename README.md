@@ -2,8 +2,17 @@
 
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.23290499.svg)](https://doi.org/10.5281/zenodo.23290499)
 
-Upfront embodied carbon (EN 15978 A1–A5) and low-carbon lining design for TBM
-tunnels, along a georeferenced route. Successor to the published TunCO2
+TunCO2 Pro carries published research on tunnel decarbonisation into a design
+tool for practice. It quantifies the upfront embodied carbon (modules A1–A5) of
+TBM tunnels along a georeferenced route; compares the TBM types used on real
+projects (gripper, single and double shield, EPB, slurry and multi-mode) by
+ground applicability and excavation energy; checks lining stability and surface
+settlement with closed-form analytical solutions; and optimises lining thickness,
+concrete grade and installation distance for carbon and safety together. It
+serves designers, contractors and clients at the option and tender stages, and
+researchers and students who need a transparent, reproducible model.
+
+Successor to the published TunCO2
 toolbox (TUST Parts 1–3; the original research code is at
 github.com/X-Chen1997/TunCO2). Open source under the MIT licence (`LICENSE`).
 Copyright (c) 2026 Qianbing Zhang, Monash University; contact
@@ -206,4 +215,10 @@ The method, the baseline and the original toolbox are published in
 The Hydro tunnel and resilience and sustainability trade-offs follow: 
 1. Xiao, F., Chen, X., Zhu, Y., Xie, P., Salimzadeh, S., Zhang, Q.B. (2025). Multi-LoD BIM integrated design framework for pressurised tunnel: Hydro-mechanical coupling simulation and sustainability assessment. *Tunnelling and Underground Space Technology*, 158, 106404. https://doi.org/10.1016/j.tust.2025.106404
 2. Zhu, Y., Zhang, Q. B. (2026). Lifecycle resilience and sustainability trade-offs for underground infrastructure under multi-hazard scenarios. *Reliability Engineering & System Safety*, 267, Part A, 111797. https://doi.org/10.1016/j.ress.2025.111797
+
+Life-cycle modules and closed-form ground response follow:
+
+1. CEN (2011). EN 15978:2011 Sustainability of construction works: Assessment of environmental performance of buildings: Calculation method. European Committee for Standardization, Brussels.
+2. Carranza-Torres, C., Fairhurst, C. (2000). Application of the convergence-confinement method of tunnel design to rock masses that satisfy the Hoek-Brown failure criterion. *Tunnelling and Underground Space Technology*, 15(2), 187–213. https://doi.org/10.1016/S0886-7798(00)00046-8
+3. Vlachopoulos, N., Diederichs, M.S. (2009). Improved longitudinal displacement profiles for convergence confinement analysis of deep tunnels. *Rock Mechanics and Rock Engineering*, 42(2), 131–146. https://doi.org/10.1007/s00603-009-0176-4
 
