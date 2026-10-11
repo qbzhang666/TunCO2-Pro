@@ -1,0 +1,7 @@
+Location,Database,Type,n,sum_fc,sum_ecf,sum_fc2,sum_fc_ecf,source
+UK,ICE,In Situ,10,222.0,2781.6,6158.0,68812.8,"Least-squares sufficient statistics of the ICE v3.0 records compiled in Chen et al. (2024), TUST 148, 105776; record values not distributed"
+UK,ICE,CEM1 (100% cement),10,222.0,3007.2,6158.0,74400.0,"Least-squares sufficient statistics of the ICE v3.0 records compiled in Chen et al. (2024), TUST 148, 105776; record values not distributed"
+UK,ICE,Portland Limestone Concrete,10,222.0,2774.4,6158.0,66021.6,"Least-squares sufficient statistics of the ICE v3.0 records compiled in Chen et al. (2024), TUST 148, 105776; record values not distributed"
+UK,ICE,Natural pozzolanic ash,10,222.0,2337.6,6158.0,57744.0,"Least-squares sufficient statistics of the ICE v3.0 records compiled in Chen et al. (2024), TUST 148, 105776; record values not distributed"
+UK,ICE,fly ash,30,666.0,7668.0,18474.0,185752.8,"Least-squares sufficient statistics of the ICE v3.0 records compiled in Chen et al. (2024), TUST 148, 105776; record values not distributed"
+UK,ICE,Blast furnace slag,30,666.0,5558.4,18474.0,135158.4,"Least-squares sufficient statistics of the ICE v3.0 records compiled in Chen et al. (2024), TUST 148, 105776; record values not distributed"

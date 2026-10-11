@@ -8,7 +8,10 @@ Sep 2025) and `Opt3D.py` / `Stability.py`. The 218 DAX measures and 116 Power
 Query tables were extracted programmatically and are stored in
 `reference/pbix_dax_measures.csv` and `reference/pbix_power_query.csv`.
 The concrete ECF database (236 records, AU/UK/CA/DE/US/…) is bundled as
-`src/tunco2pro/data/concrete_ecf_database.csv`.
+`src/tunco2pro/data/concrete_ecf_database.csv` (136 records) and
+`src/tunco2pro/data/concrete_ecf_summary.csv` (the 100 ICE records as
+least-squares sufficient statistics per group, since v0.2.1); the regression is
+unchanged.
 
 ## Measure map
 

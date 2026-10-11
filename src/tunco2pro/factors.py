@@ -7,6 +7,7 @@ Measurement Technical Guide, 2025: EF hierarchy tiers 1-4).
 from __future__ import annotations
 
 import csv
+import os
 from dataclasses import dataclass
 from functools import lru_cache
 from importlib import resources
@@ -79,9 +80,13 @@ class Factor:
 
 class FactorLibrary:
     def __init__(self, factors: dict[str, Factor], concrete_db: list[dict], version: str,
-                 factor_set: str = "current", nefd_concrete: list[dict] | None = None):
+                 factor_set: str = "current", nefd_concrete: list[dict] | None = None,
+                 concrete_summary: list[dict] | None = None):
         self._f = factors
         self.concrete_db = concrete_db
+        # Groups distributed only as least-squares sufficient statistics (n, sums), because
+        # the record values may not be redistributed (data/DATA_LICENCES.md).
+        self.concrete_summary = concrete_summary or []
         self.version = version
         self.factor_set = factor_set
         self.nefd_concrete = nefd_concrete or []
@@ -150,27 +155,47 @@ class FactorLibrary:
             f[k] = Factor(k, base.category, base.name, float(v), base.unit,
                           "Project override (user supplied)", 1, "Replaces library value")
         return FactorLibrary(f, self.concrete_db, self.version + " + project overrides",
-                             self.factor_set, self.nefd_concrete)
+                             self.factor_set, self.nefd_concrete, self.concrete_summary)
 
     # --- concrete ECF regression (v1 'Database' page) ----------------------
+    def concrete_groups(self) -> list[dict]:
+        """All (Location, Database, Type) groups available to the regression."""
+        seen = {(r["Location"], r["Database"], r["Type"]) for r in self.concrete_db}
+        out = [{"Location": k[0], "Database": k[1], "Type": k[2]} for k in sorted(seen)]
+        out += [{"Location": g["Location"], "Database": g["Database"], "Type": g["Type"]}
+                for g in self.concrete_summary if (g["Location"], g["Database"], g["Type"]) not in seen]
+        return out
+
     def concrete_regression(self, locations: list[str] | None = None,
                             types: list[str] | None = None) -> tuple[float, float, int]:
         """Least-squares ECF = slope * fc + intercept over the filtered database.
 
-        Mirrors DAX measures Slope_Database / Intercept_Database.
+        Mirrors DAX measures Slope_Database / Intercept_Database. Record-level rows and
+        summary groups (sufficient statistics) combine exactly; a summary group is ignored
+        when the same group is present record by record (a licensed file supplied by the user).
         Returns (slope [kgCO2e/m3/MPa], intercept [kgCO2e/m3], n).
         """
-        rows = self.concrete_db
-        if locations:
-            rows = [r for r in rows if r["Location"] in locations]
-        if types:
-            rows = [r for r in rows if r["Type"] in types]
-        if len(rows) < 2:
+        def keep(r: dict) -> bool:
+            return (not locations or r["Location"] in locations) and (not types or r["Type"] in types)
+
+        rows = [r for r in self.concrete_db if keep(r)]
+        have = {(r["Location"], r["Database"], r["Type"]) for r in self.concrete_db}
+        n = float(len(rows))
+        sx = sum(float(r["Compressive Strength"]) for r in rows)
+        sy = sum(float(r["Carbon Emission Factor"]) for r in rows)
+        sxx = sum(float(r["Compressive Strength"]) ** 2 for r in rows)
+        sxy = sum(float(r["Compressive Strength"]) * float(r["Carbon Emission Factor"]) for r in rows)
+        for g in self.concrete_summary:
+            if keep(g) and (g["Location"], g["Database"], g["Type"]) not in have:
+                n += float(g["n"]); sx += float(g["sum_fc"]); sy += float(g["sum_ecf"])
+                sxx += float(g["sum_fc2"]); sxy += float(g["sum_fc_ecf"])
+        if n < 2:
             raise ValueError("Concrete regression needs at least two records after filtering")
-        x = np.array([float(r["Compressive Strength"]) for r in rows])
-        y = np.array([float(r["Carbon Emission Factor"]) for r in rows])
-        slope = float(((x - x.mean()) * (y - y.mean())).sum() / ((x - x.mean()) ** 2).sum())
-        return slope, float(y.mean() - slope * x.mean()), len(rows)
+        den = sxx - sx * sx / n
+        if den <= 0:
+            raise ValueError("Concrete regression needs at least two distinct strengths after filtering")
+        slope = (sxy - sx * sy / n) / den
+        return float(slope), float(sy / n - slope * sx / n), int(n)
 
 
 def fit_user_points(points: list[tuple[float, float]]) -> tuple[float, float]:
@@ -187,30 +212,45 @@ def _data_path(name: str) -> Path:
     return Path(str(resources.files("tunco2pro") / "data" / name))
 
 
+ECF_EXTRA_ENV = "TUNCO2PRO_ECF_EXTRA"
+
+
+def _read_csv(path: Path) -> list[dict]:
+    with open(path, newline="", encoding="utf-8") as fh:
+        return list(csv.DictReader(fh))
+
+
 @lru_cache(maxsize=8)
-def _load(factor_set: str, factors_csv: str | None, concrete_csv: str | None):
+def _load(factor_set: str, factors_csv: str | None, concrete_csv: str | None, ecf_extra: str | None = None):
     fpath = Path(factors_csv) if factors_csv else _data_path("factors.csv")
     cpath = Path(concrete_csv) if concrete_csv else _data_path("concrete_ecf_database.csv")
     factors: dict[str, Factor] = {}
-    with open(fpath, newline="", encoding="utf-8") as fh:
-        for r in csv.DictReader(fh):
-            if r.get("set", "current") != factor_set:
-                continue
-            factors[r["key"]] = Factor(r["key"], r["category"], r["name"], float(r["value"]),
-                                       r["unit"], r["source"], int(r["nsw_tier"]), r.get("notes", ""))
-    with open(cpath, newline="", encoding="utf-8") as fh:
-        concrete = list(csv.DictReader(fh))
-    nefd = []
-    if factor_set == "current":
-        with open(_data_path("nefd_concrete.csv"), newline="", encoding="utf-8") as fh:
-            nefd = list(csv.DictReader(fh))
-    return factors, concrete, nefd
+    for r in _read_csv(fpath):
+        if r.get("set", "current") != factor_set:
+            continue
+        factors[r["key"]] = Factor(r["key"], r["category"], r["name"], float(r["value"]),
+                                   r["unit"], r["source"], int(r["nsw_tier"]), r.get("notes", ""))
+    concrete = _read_csv(cpath)
+    if ecf_extra:  # licensed record-level data held by the user, e.g. ICE; replaces the same groups
+        extra = _read_csv(Path(ecf_extra))
+        groups = {(r["Location"], r["Database"], r["Type"]) for r in extra}
+        concrete = [r for r in concrete if (r["Location"], r["Database"], r["Type"]) not in groups] + extra
+    summary = [] if concrete_csv else _read_csv(_data_path("concrete_ecf_summary.csv"))
+    nefd = _read_csv(_data_path("nefd_concrete.csv")) if factor_set == "current" else []
+    return factors, concrete, nefd, summary
 
 
 def load_library(factor_set: str = "current", factors_csv: str | None = None,
-                 concrete_csv: str | None = None) -> FactorLibrary:
-    """A fresh library object (cheap; files are cached) for the chosen factor set."""
+                 concrete_csv: str | None = None, ecf_extra: str | None = None) -> FactorLibrary:
+    """A fresh library object (cheap; files are cached) for the chosen factor set.
+
+    ``concrete_csv`` replaces the bundled concrete ECF records (and their summary groups);
+    ``ecf_extra`` (or the environment variable TUNCO2PRO_ECF_EXTRA) adds record-level rows,
+    e.g. ICE data held under the user's own licence, in the same columns as
+    data/concrete_ecf_database.csv.
+    """
     if factor_set not in LIBRARY_VERSIONS:
         raise ValueError(f"factor_set must be one of {list(LIBRARY_VERSIONS)}")
-    factors, concrete, nefd = _load(factor_set, factors_csv, concrete_csv)
-    return FactorLibrary(dict(factors), concrete, LIBRARY_VERSIONS[factor_set], factor_set, nefd)
+    extra = ecf_extra or os.environ.get(ECF_EXTRA_ENV) or None
+    factors, concrete, nefd, summary = _load(factor_set, factors_csv, concrete_csv, extra)
+    return FactorLibrary(dict(factors), concrete, LIBRARY_VERSIONS[factor_set], factor_set, nefd, summary)
