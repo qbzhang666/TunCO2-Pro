@@ -107,8 +107,8 @@ def api_route_plan(req: AssessRequest):
 def factors(factor_set: str = Query("current", pattern="^(current|v1)$")):
     lib = load_library(factor_set)
     return {"version": lib.version, "factor_set": factor_set, "factors": [f.__dict__ for f in lib.all()],
-            "concrete_locations": sorted({r["Location"] for r in lib.concrete_db}),
-            "concrete_types": sorted({r["Type"] for r in lib.concrete_db})}
+            "concrete_locations": sorted({g["Location"] for g in lib.concrete_groups()}),
+            "concrete_types": sorted({g["Type"] for g in lib.concrete_groups()})}
 
 
 @app.post("/api/assess")
