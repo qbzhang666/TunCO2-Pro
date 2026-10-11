@@ -221,4 +221,5 @@ Life-cycle modules and closed-form ground response follow:
 1. CEN (2011). EN 15978:2011 Sustainability of construction works: Assessment of environmental performance of buildings: Calculation method. European Committee for Standardization, Brussels.
 2. Carranza-Torres, C., Fairhurst, C. (2000). Application of the convergence-confinement method of tunnel design to rock masses that satisfy the Hoek-Brown failure criterion. *Tunnelling and Underground Space Technology*, 15(2), 187–213. https://doi.org/10.1016/S0886-7798(00)00046-8
 3. Vlachopoulos, N., Diederichs, M.S. (2009). Improved longitudinal displacement profiles for convergence confinement analysis of deep tunnels. *Rock Mechanics and Rock Engineering*, 42(2), 131–146. https://doi.org/10.1007/s00603-009-0176-4
+4. Panet, M., Sulem, J. (2022). *Convergence-Confinement Method for Tunnel Design*. Springer Tracts in Civil Engineering. Springer, Cham. https://doi.org/10.1007/978-3-030-93193-3
 
