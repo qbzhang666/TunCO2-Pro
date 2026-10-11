@@ -10,8 +10,8 @@ identifiers:
     value: 10.5281/zenodo.23290499
     description: "Concept DOI, all versions"
   - type: doi
-    value: 10.5281/zenodo.23290500
-    description: "Version 0.2.0"
+    value: 10.5281/zenodo.23291783
+    description: "Version 0.2.1"
 repository-code: "https://github.com/qbzhang666/TunCO2-Pro"
 authors:
   - family-names: Zhang
