@@ -4,9 +4,15 @@ Upfront embodied carbon (EN 15978 A1–A5) and low-carbon lining design for TBM
 tunnels, along a georeferenced route. Successor to the published TunCO2
 toolbox (TUST Parts 1–3; the original research code is at
 github.com/X-Chen1997/TunCO2). Open source under the MIT licence (`LICENSE`).
-Copyright (c) 2026 Professor Qianbing Zhang, Monash University; contact
+Copyright (c) 2026 Qianbing Zhang, Monash University; contact
 qianbing.zhang@monash.edu. To cite the toolbox, see `CITATION.cff` and the
 references at the end of this file.
+
+TunCO2 Pro is a research and teaching tool. Results are indicative and depend
+on the input data and emission factors; they do not replace project-specific
+assessment, verified EPDs or professional engineering judgement. The bundled
+ground parameters and reference tunnels are generic or synthetic and do not
+represent any real project.
 
 TunCO2 Pro is the worked toolbox of Chapter 7, *Digitisation for
 Sustainability*, of the textbook *Digital Underground Engineering*; the
@@ -25,7 +31,7 @@ commercial software is required.
 private Python environment in the folder (`.venv`, a few minutes), installs the
 package and opens the app in the default browser; later starts take seconds,
 and the launcher picks a free port if 8000 is in use. `Run-Tests.bat` runs the
-test suite. The `.venv` folder is marked as ignored by Dropbox; delete it to
+test suite. If the folder is synced by Dropbox, `.venv` is excluded from syncing; delete it to
 rebuild.
 
 **Any platform**, from a terminal in the unpacked folder:
@@ -197,5 +203,5 @@ The method, the baseline and the original toolbox are published in
 
 The Hydro tunnel and resilience and sustainability trade-offs follow: 
 1. Xiao, F., Chen, X., Zhu, Y., Xie, P., Salimzadeh, S., Zhang, Q.B. (2025). Multi-LoD BIM integrated design framework for pressurised tunnel: Hydro-mechanical coupling simulation and sustainability assessment. *Tunnelling and Underground Space Technology*, 158, 106404. https://doi.org/10.1016/j.tust.2025.106404
-2. Zhu, Y., Zhang, Q. B. (2025). Lifecycle resilience and sustainability trade-offs for underground infrastructure under multi-hazard scenarios. *Reliability Engineering & System Safety*, 67, Part A, 111797. https://doi.org/100.1016/j.ress.2025.111797
+2. Zhu, Y., Zhang, Q. B. (2026). Lifecycle resilience and sustainability trade-offs for underground infrastructure under multi-hazard scenarios. *Reliability Engineering & System Safety*, 267, Part A, 111797. https://doi.org/10.1016/j.ress.2025.111797
 
