@@ -1,5 +1,17 @@
 # Changelog
 
+## 0.2.1 (unreleased)
+
+- Concrete ECF database: the 100 ICE records are no longer distributed record by
+  record, because the ICE terms do not permit redistribution. Each ICE group is
+  bundled as least-squares sufficient statistics (n and sums) in
+  `data/concrete_ecf_summary.csv`, which reproduce the v0.2.0 regressions
+  exactly for any location and type filter (`tests/test_ecf_summary.py`).
+  Users who hold an ICE licence can add record-level rows with
+  `load_library(ecf_extra=...)` or the environment variable
+  `TUNCO2PRO_ECF_EXTRA`; they replace the summary of the same groups.
+- `data/DATA_LICENCES.md`: sources, licences and attributions of the bundled data.
+
 ## 0.2.0 (September 2026)
 
 - First push to github.com/qbzhang666/TunCO2-Pro: copyright, `CITATION.cff`,
