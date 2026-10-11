@@ -4,6 +4,14 @@ title: "TunCO2 Pro: embodied carbon and low-carbon lining design for TBM tunnels
 version: 0.2.0
 date-released: 2026-09-25
 license: MIT
+doi: 10.5281/zenodo.23290499
+identifiers:
+  - type: doi
+    value: 10.5281/zenodo.23290499
+    description: "Concept DOI, all versions"
+  - type: doi
+    value: 10.5281/zenodo.23290500
+    description: "Version 0.2.0"
 repository-code: "https://github.com/qbzhang666/TunCO2-Pro"
 authors:
   - family-names: Zhang
