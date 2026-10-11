@@ -1,6 +1,6 @@
 # Changelog
 
-## 0.2.1 (unreleased)
+## 0.2.1 (October 2026)
 
 - Concrete ECF database: the 100 ICE records are no longer distributed record by
   record, because the ICE terms do not permit redistribution. Each ICE group is
